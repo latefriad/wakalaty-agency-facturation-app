@@ -47,8 +47,6 @@ async function login({ email, password }) {
     throw Object.assign(new Error("Identifiants incorrects"), { status: 401 });
   }
 
-  if (!user.isActive) {
-    throw Object.assign(new Error("Compte désactivé"), { status: 403 });
   }
 
   const valid = await comparePassword(password, user.password);
