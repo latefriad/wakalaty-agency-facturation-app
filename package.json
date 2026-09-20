@@ -1,0 +1,19 @@
+{
+  "name": "facturation-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm --prefix agence-facturation run start",
+    "dev": "npm --prefix agence-facturation run start",
+    "build": "npm --prefix agence-facturation run build",
+    "test": "npm --prefix backend test",
+    "backend": "npm --prefix backend start",
+    "docker:up": "docker compose -f backend/docker-compose.yml up --build",
+    "docker:down": "docker compose -f backend/docker-compose.yml down"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

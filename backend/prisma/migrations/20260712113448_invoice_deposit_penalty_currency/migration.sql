@@ -1,0 +1,10 @@
+-- CreateEnum
+CREATE TYPE "DepositType" AS ENUM ('FIXED', 'PERCENT');
+
+-- AlterTable
+ALTER TABLE "invoices" ADD COLUMN     "currency" TEXT NOT NULL DEFAULT 'DZD',
+ADD COLUMN     "depositAmount" DOUBLE PRECISION NOT NULL DEFAULT 0,
+ADD COLUMN     "depositType" "DepositType",
+ADD COLUMN     "depositValue" DOUBLE PRECISION,
+ADD COLUMN     "exchangeRate" DOUBLE PRECISION NOT NULL DEFAULT 1,
+ADD COLUMN     "penaltyRate" DOUBLE PRECISION NOT NULL DEFAULT 0;

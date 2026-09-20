@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #f1f5f9;
+  color: #1e293b;
+  /* La direction (rtl/ltr) est pilotée par l'attribut dir de <html>, posé
+     selon la langue. Ne pas la figer ici, sinon le mode fr/en reste en RTL
+     et la marge du contenu tombe du mauvais côté (volet qui recouvre la page). */
+}
+
+
+/* ─── Mode sombre ───────────────────────────────────────────
+   L'app est stylée inline (couleurs claires en dur) : on inverse tout le
+   rendu, puis on ré-inverse ce qui doit garder ses couleurs réelles
+   (images, vidéos, logos). Emojis légèrement teintés : compromis assumé. */
+html[data-theme="dark"] {
+  background: #0b1220;
+  color-scheme: dark;
+}
+html[data-theme="dark"] body {
+  filter: invert(0.92) hue-rotate(180deg);
+  background: #0e1526;
+}
+html[data-theme="dark"] img,
+html[data-theme="dark"] video,
+html[data-theme="dark"] iframe,
+html[data-theme="dark"] .no-invert {
+  filter: invert(1.087) hue-rotate(180deg);
+}

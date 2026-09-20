@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manuel d'utilisation — Wakalaty</title>
+<style>
+  :root {
+    --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --faint:#94a3b8;
+    --ground:#f7f9fc; --surface:#fff; --surface-2:#f1f5f9;
+    --border:#e2e8f0; --border-strong:#cbd5e1;
+    --accent:#2563eb; --accent-soft:#dbeafe; --accent-ink:#1d4ed8;
+    --good:#059669; --good-bg:#d1fae5; --warn:#d97706; --warn-bg:#fef3c7; --crit:#dc2626; --crit-bg:#fee2e2;
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+    --radius:14px;
+    --mono:ui-monospace,"SF Mono","Menlo","Cascadia Code",monospace;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --ar:"Noto Sans Arabic","Geeza Pro","Segoe UI",Tahoma,var(--sans);
+    --measure:68ch;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --ink:#e6edf6;--ink-soft:#c4d0de;--muted:#93a2b5;--faint:#64748b;
+    --ground:#0b1220;--surface:#111a2e;--surface-2:#16223c;--border:#223049;--border-strong:#33455f;
+    --accent:#60a5fa;--accent-soft:#17284a;--accent-ink:#93c5fd;
+    --good:#34d399;--good-bg:#0e3328;--warn:#fbbf24;--warn-bg:#3a2c0b;--crit:#f87171;--crit-bg:#3a1519;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }}
+  :root[data-theme="light"]{--ink:#0f172a;--ink-soft:#334155;--muted:#64748b;--faint:#94a3b8;--ground:#f7f9fc;--surface:#fff;--surface-2:#f1f5f9;--border:#e2e8f0;--border-strong:#cbd5e1;--accent:#2563eb;--accent-soft:#dbeafe;--accent-ink:#1d4ed8;--good:#059669;--good-bg:#d1fae5;--warn:#d97706;--warn-bg:#fef3c7;--crit:#dc2626;--crit-bg:#fee2e2;}
+  :root[data-theme="dark"]{--ink:#e6edf6;--ink-soft:#c4d0de;--muted:#93a2b5;--faint:#64748b;--ground:#0b1220;--surface:#111a2e;--surface-2:#16223c;--border:#223049;--border-strong:#33455f;--accent:#60a5fa;--accent-soft:#17284a;--accent-ink:#93c5fd;--good:#34d399;--good-bg:#0e3328;--warn:#fbbf24;--warn-bg:#3a2c0b;--crit:#f87171;--crit-bg:#3a1519;}
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased;font-size:16px;}
+  [lang="ar"]{font-family:var(--ar);line-height:1.85;}
+
+  /* Language bar */
+  .langbar{position:sticky;top:0;z-index:50;display:flex;justify-content:flex-end;gap:8px;padding:10px clamp(16px,4vw,40px);background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+  .langbar button{font-family:var(--sans);border:1px solid var(--border);background:var(--surface);color:var(--ink-soft);padding:6px 16px;border-radius:999px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;}
+  .langbar button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .langbar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .layout{display:grid;grid-template-columns:288px minmax(0,1fr);max-width:1240px;margin:0 auto;}
+  .doc[hidden]{display:none;}
+
+  .toc{position:sticky;top:52px;align-self:start;height:calc(100vh - 52px);overflow-y:auto;padding:32px 20px 40px 28px;border-inline-end:1px solid var(--border);}
+  [dir="rtl"] .toc{padding:32px 28px 40px 20px;}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+  .brand-mark{width:34px;height:34px;border-radius:9px;flex:none;background:linear-gradient(140deg,var(--accent),#7c3aed);display:grid;place-items:center;color:#fff;font-size:17px;}
+  .brand-name{font-weight:800;font-size:18px;letter-spacing:-.02em;}
+  .brand-sub{color:var(--faint);font-size:11px;letter-spacing:.09em;text-transform:uppercase;margin:0 0 22px;margin-inline-start:44px;}
+  [lang="ar"] .brand-sub{letter-spacing:normal;}
+  .toc-group{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:20px 0 8px;}
+  [lang="ar"] .toc-group{letter-spacing:normal;}
+  .toc a{display:block;padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink-soft);font-size:14px;transition:background .15s,color .15s;}
+  .toc a:hover{background:var(--surface-2);color:var(--ink);}
+  .toc a:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+
+  main{padding:40px clamp(24px,5vw,72px) 96px;min-width:0;}
+  .hero{padding:20px 0 8px;border-bottom:1px solid var(--border);margin-bottom:40px;}
+  .eyebrow{color:var(--accent-ink);font-weight:700;font-size:13px;letter-spacing:.04em;}
+  h1{font-size:clamp(30px,5vw,44px);line-height:1.12;letter-spacing:-.03em;margin:10px 0 12px;text-wrap:balance;font-weight:850;}
+  [lang="ar"] h1{letter-spacing:normal;line-height:1.3;}
+  .lede{font-size:18px;color:var(--muted);max-width:var(--measure);margin:0 0 8px;}
+  section{scroll-margin-top:60px;padding:40px 0;border-bottom:1px solid var(--border);}
+  section>h2{font-size:26px;letter-spacing:-.02em;margin:0 0 4px;font-weight:800;display:flex;align-items:center;gap:12px;text-wrap:balance;}
+  [lang="ar"] section>h2{letter-spacing:normal;}
+  .sec-icon{font-size:24px;}
+  .sec-tag{font-size:12px;font-weight:700;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);padding:3px 9px;border-radius:999px;}
+  section p,section li{max-width:var(--measure);}
+  h3{font-size:16px;margin:26px 0 8px;letter-spacing:-.01em;}
+  p{margin:0 0 14px;color:var(--ink-soft);}
+  a{color:var(--accent-ink);}
+  strong{color:var(--ink);font-weight:650;}
+
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:14px 0;max-width:var(--measure);}
+  ol.steps>li{position:relative;padding-block:4px 14px;padding-inline-start:44px;counter-increment:s;color:var(--ink-soft);}
+  ol.steps>li::before{content:counter(s);position:absolute;inset-inline-start:0;top:2px;width:28px;height:28px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);font-weight:800;font-size:14px;display:grid;place-items:center;font-variant-numeric:tabular-nums;font-family:var(--sans);}
+  ul.plain{padding:0;padding-inline-start:20px;margin:12px 0;}
+  ul.plain li{margin:6px 0;color:var(--ink-soft);}
+
+  .tip{display:flex;gap:12px;background:var(--surface);border:1px solid var(--border);border-inline-start:3px solid var(--accent);border-radius:10px;padding:14px 16px;margin:18px 0;box-shadow:var(--shadow);max-width:var(--measure);}
+  .tip.warn{border-inline-start-color:var(--warn);}
+  .tip .ti{font-size:18px;flex:none;}
+  .tip p{margin:0;font-size:14.5px;max-width:none;}
+  .tip .t-title{font-weight:700;color:var(--ink);display:block;margin-bottom:2px;font-size:14px;}
+
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;font-family:var(--mono);white-space:nowrap;}
+  [lang="ar"] .pill{font-family:var(--ar);}
+  .p-good{color:var(--good);background:var(--good-bg);}
+  .p-warn{color:var(--warn);background:var(--warn-bg);}
+  .p-crit{color:var(--crit);background:var(--crit-bg);}
+  .p-accent{color:var(--accent-ink);background:var(--accent-soft);}
+  code,.kbd{font-family:var(--mono);font-size:.88em;background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:1px 6px;color:var(--ink);direction:ltr;display:inline-block;}
+
+  .table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin:18px 0;box-shadow:var(--shadow);}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:460px;}
+  th,td{text-align:start;padding:12px 16px;border-bottom:1px solid var(--border);vertical-align:top;}
+  thead th{background:var(--surface-2);color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
+  [lang="ar"] thead th{letter-spacing:normal;}
+  tbody tr:last-child td{border-bottom:none;}
+  td.center,th.center{text-align:center;}
+  .tick{color:var(--good);font-weight:800;}
+  .num{font-variant-numeric:tabular-nums;font-family:var(--mono);}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin:8px 0 4px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--shadow);text-decoration:none;}
+  .card .ci{font-size:20px;}
+  .card .ct{font-weight:700;margin:6px 0 3px;font-size:15px;color:var(--ink);}
+  .card .cd{font-size:13px;color:var(--muted);margin:0;}
+
+  .faq details{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:10px 0;box-shadow:var(--shadow);overflow:hidden;}
+  .faq summary{cursor:pointer;padding:16px 20px;font-weight:650;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center;font-size:15.5px;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";color:var(--accent);font-size:22px;font-weight:400;line-height:1;flex:none;transition:transform .2s;}
+  .faq details[open] summary::after{transform:rotate(45deg);}
+  .faq .a{padding:0 20px 18px;color:var(--ink-soft);font-size:15px;}
+  .faq .a p{max-width:none;}
+  .faq .a p:last-child{margin-bottom:0;}
+
+  footer{padding:32px clamp(24px,5vw,72px);color:var(--faint);font-size:13px;}
+  footer strong{color:var(--muted);}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  @media (max-width:900px){
+    .layout{grid-template-columns:1fr;}
+    .toc{position:static;height:auto;border-inline-end:none;border-bottom:1px solid var(--border);}
+  }
+</style>
+</head>
+<body>
+<div class="langbar">
+  <button id="btn-ar" aria-pressed="true" onclick="setLang('ar')">🇩🇿 العربية</button>
+  <button id="btn-fr" aria-pressed="false" onclick="setLang('fr')">🇫🇷 Français</button>
+</div>
+
+<!-- ═══════════════════ ARABE ═══════════════════ -->
+<div class="doc" id="doc-ar" lang="ar" dir="rtl">
+<div class="layout">
+  <aside class="toc">
+    <div class="brand"><div class="brand-mark">🏢</div><div class="brand-name">Wakalaty</div></div>
+    <p class="brand-sub">دليل الاستخدام</p>
+    <div class="toc-group">البداية</div>
+    <a href="#ar-intro">مرحباً</a>
+    <a href="#ar-start">الخطوات الأولى</a>
+    <a href="#ar-dash">لوحة التحكم</a>
+    <div class="toc-group">الفوترة</div>
+    <a href="#ar-clients">العملاء</a>
+    <a href="#ar-invoices">الفواتير</a>
+    <a href="#ar-quotes">عروض الأسعار</a>
+    <a href="#ar-recurring">الفواتير المتكررة</a>
+    <a href="#ar-expenses">المصاريف والميزانية</a>
+    <a href="#ar-suppliers">الموردون</a>
+    <a href="#ar-portal">بوابة العميل</a>
+    <div class="toc-group">النشاط</div>
+    <a href="#ar-contracts">العقود</a>
+    <a href="#ar-services">الخدمات والأرباح</a>
+    <a href="#ar-ai">اقتراحات الذكاء الاصطناعي</a>
+    <a href="#ar-tasks">المهام</a>
+    <a href="#ar-employees">الموظفون</a>
+    <a href="#ar-portfolio">البورتفوليو</a>
+    <div class="toc-group">الحساب</div>
+    <a href="#ar-profile">ملف الوكالة</a>
+    <a href="#ar-users">المستخدمون والأدوار</a>
+    <a href="#ar-sub">الاشتراك والباقات</a>
+    <a href="#ar-license">ترخيص التفعيل</a>
+    <a href="#ar-prefs">اللغة والمظهر</a>
+    <div class="toc-group">المساعدة</div>
+    <a href="#ar-faq">الأسئلة الشائعة</a>
+  </aside>
+
+  <main>
+    <header class="hero" id="ar-intro">
+      <span class="eyebrow">دليل المستخدم</span>
+      <h1>أدر وكالتك مع Wakalaty</h1>
+      <p class="lede">يجمع Wakalaty عملاءك وفواتيرك وعروض أسعارك وعقودك ومهامك وفريقك في مساحة واحدة. يشرح هذا الدليل، خدمةً خدمة، كيفية استخدامه يومياً، ثم يجيب عن الأسئلة الأكثر تكراراً.</p>
+      <p class="lede" style="font-size:15px">متاح بـ<strong>العربية والفرنسية والإنجليزية</strong>، على الحاسوب والجهاز اللوحي والهاتف.</p>
+    </header>
+
+    <section style="border-bottom:none;padding-top:8px">
+      <h2><span class="sec-icon">🧭</span> لمحة سريعة</h2>
+      <p>كل قائمة على الجانب تقابل خدمة. إليك الأساسيات:</p>
+      <div class="cards">
+        <a class="card" href="#ar-dash"><div class="ci">📊</div><div class="ct">لوحة التحكم</div><p class="cd">المداخيل والمتأخرات وأفضل العملاء.</p></a>
+        <a class="card" href="#ar-clients"><div class="ci">👥</div><div class="ct">العملاء</div><p class="cd">دفتر عناوينك.</p></a>
+        <a class="card" href="#ar-invoices"><div class="ci">🧾</div><div class="ct">الفواتير والعروض</div><p class="cd">إنشاء وإرسال وتحصيل.</p></a>
+        <a class="card" href="#ar-contracts"><div class="ci">📄</div><div class="ct">العقود</div><p class="cd">مستندات وكراسات الشروط.</p></a>
+        <a class="card" href="#ar-services"><div class="ci">⚙️</div><div class="ct">الخدمات</div><p class="cd">الأسعار والتكاليف والأرباح.</p></a>
+        <a class="card" href="#ar-tasks"><div class="ci">📋</div><div class="ct">المهام</div><p class="cd">عمل الفريق.</p></a>
+        <a class="card" href="#ar-employees"><div class="ci">👤</div><div class="ct">الموظفون</div><p class="cd">الرواتب والعمولات.</p></a>
+        <a class="card" href="#ar-sub"><div class="ci">💳</div><div class="ct">الاشتراك</div><p class="cd">باقتك وتطورها.</p></a>
+      </div>
+    </section>
+
+    <section id="ar-start">
+      <h2><span class="sec-icon">🚀</span> الخطوات الأولى</h2>
+      <p>يبدأ كل شيء بإنشاء وكالتك. أول حساب يُنشأ يكون <strong>مديراً</strong>: هو أنت، المالك.</p>
+      <h3>إنشاء وكالتك</h3>
+      <ol class="steps">
+        <li>في الصفحة الرئيسية، اضغط على <strong>«ابدأ مجاناً»</strong>.</li>
+        <li>أدخل اسم الوكالة واسمك وبريدك الإلكتروني وكلمة مرور.</li>
+        <li>أكّد: تُنشأ مساحتك فوراً بالباقة <span class="pill p-accent">مجاني</span>.</li>
+      </ol>
+      <h3>الترحيب في 4 خطوات</h3>
+      <p>عند أول تسجيل دخول، يخصّص مسار قصير مساحتك: نوع الوكالة، حجم الفريق، الأهداف، و<strong>لون</strong> واجهتك. يمكنك تعديل كل شيء لاحقاً من الإعدادات، أو الضغط على <strong>«تخطي هذه الخطوة»</strong>.</p>
+      <div class="tip"><span class="ti">💡</span><p><span class="t-title">تسجيل الدخول لاحقاً</span>انتقل إلى صفحة <strong>الدخول</strong>، وأدخل بريدك وكلمة مرورك. تبقى جلستك مفتوحة عدة أيام؛ استخدم <strong>تسجيل الخروج</strong> (أسفل القائمة) على حاسوب مشترك.</p></div>
+    </section>
+
+    <section id="ar-dash">
+      <h2><span class="sec-icon">📊</span> لوحة التحكم المالية</h2>
+      <p>صفحتك الرئيسية هي قمرة قيادة مالية حقيقية، تُحسب لحظياً من فواتيرك ومدفوعاتك ومصاريفك. صفِّ الصفحة كاملة حسب الفترة (شهر، فصل، سنة، 12 شهراً أو تواريخ حرة) وصدِّر التقرير إلى <strong>Excel</strong> أو <strong>PDF</strong> (زر 🖨️).</p>
+      <ul class="plain">
+        <li><strong>الخزينة الحالية</strong> — الرقم الرئيسي: رصيدك الافتتاحي (يُضبط في ملف الوكالة) + كل ما حُصِّل − كل ما صُرف.</li>
+        <li><strong>المحصَّل</strong> — المال المستلم فعلاً خلال الفترة، بما فيه التسبيقات والدفعات الجزئية. لا يُخلط أبداً مع <strong>المفوتَر</strong> (المستندات الصادرة) المعروض على حدة.</li>
+        <li><strong>المصاريف والربح الصافي</strong> — الربح = المحصَّل − مصاريف الفترة، مع الهامش % وتوزيع المصاريف حسب الفئة.</li>
+        <li><strong>المستحقات</strong> — المتبقي الحقيقي على العملاء، وأعمارها (غير مستحقة، 1-30، 31-60، +60 يوماً)، و<strong>DSO</strong> (متوسط أيام التحصيل)، وقائمة أولويات التذكير.</li>
+        <li><strong>الميزانية مقابل الفعلي</strong> — أهدافك الشهرية مقارنةً بالأرقام الحقيقية (تُضبط من صفحة <a href="#ar-expenses">المصاريف</a>).</li>
+        <li><strong>توقعات الخزينة</strong> — على 3 أشهر: الفواتير المنتظرة حسب آجالها − المصاريف المتوقعة (ميزانية، متوسط أو فواتير موردين). الرصيد المتوقع السالب يظهر بالأحمر ⚠️.</li>
+        <li><strong>مردودية العملاء</strong> — المحصَّل والمتبقي والربح لكل عميل، لكشف العملاء الخاسرين.</li>
+      </ul>
+      <div class="tip"><span class="ti">📈</span><p><span class="t-title">أرقام دقيقة</span>«المحصَّل» و«المفوتَر» لا يُخلطان أبداً، والعملات (دينار/يورو/دولار) تُحوَّل بسعر الصرف المثبَّت على كل مستند، وكل شيء يُحسب في الخادم على كامل بياناتك.</p></div>
+      <div class="tip warn"><span class="ti">🔐</span><p><span class="t-title">وصول مقيَّد</span>لوحة التحكم المالية لا يراها إلا <strong>المدير</strong> و<strong>المحاسب</strong>.</p></div>
+    </section>
+
+    <section id="ar-clients">
+      <h2><span class="sec-icon">👥</span> العملاء</h2>
+      <p>دفتر عملائك. يمكن ربط كل عميل بعد ذلك بفواتير وعروض أسعار وعقود.</p>
+      <h3>إضافة عميل</h3>
+      <ol class="steps">
+        <li>قائمة <strong>العملاء</strong> ← زر <strong>«إضافة عميل»</strong>.</li>
+        <li>أدخل <strong>الاسم</strong> على الأقل؛ الشركة والبريد والهاتف والعنوان اختيارية لكنها مفيدة.</li>
+        <li>يمكنك تحديد <strong>نسبة ضريبة افتراضية</strong>: ستُملأ تلقائياً على فواتير هذا العميل.</li>
+        <li>احفظ.</li>
+      </ol>
+      <p>استخدم <strong>شريط البحث</strong> للعثور على عميل بالاسم أو الشركة أو البريد. القوائم مقسّمة إلى صفحات: استعمل الأسهم في الأسفل للتنقّل.</p>
+      <div class="tip warn"><span class="ti">⚠️</span><p><span class="t-title">بريد العميل مهم</span>لـ<strong>إرسال فاتورة بالبريد</strong> أو تزويده برابط للاطلاع، يجب أن يكون للعميل بريد إلكتروني مسجّل.</p></div>
+    </section>
+
+    <section id="ar-invoices">
+      <h2><span class="sec-icon">🧾</span> الفواتير <span class="sec-tag">قلب التطبيق</span></h2>
+      <p>أنشئ فواتير احترافية، تابع دفعها، أرسلها، واحتفظ بترقيم قانوني متسلسل.</p>
+      <h3>إنشاء فاتورة</h3>
+      <ol class="steps">
+        <li>قائمة <strong>الفواتير</strong> ← تبويب <strong>الفواتير</strong> ← <strong>«فاتورة جديدة»</strong>.</li>
+        <li>اختر <strong>العميل</strong>.</li>
+        <li>أضف <strong>سطراً</strong> أو أكثر (الوصف + السعر). يمكنك الاختيار من خدماتك المسجّلة.</li>
+        <li>حدّد <strong>نسبة الضريبة</strong> (عامة أو لكل سطر) و<strong>تاريخ الاستحقاق</strong>.</li>
+        <li>اختر <strong>قالباً</strong>، ثم <strong>إنشاء</strong>.</li>
+      </ol>
+      <p>يُحسب الإجمالي (قبل الضريبة، الضريبة، بعد الضريبة) تلقائياً. ويُمنح الرقم وحده: <code>FAC-2026-00001</code> ثم <code>-00002</code>… سلسلة <strong>متصلة سنوياً</strong>، كما تتطلب الفوترة القانونية. هذا الرقم غير قابل للتعديل أبداً.</p>
+      <h3>فهم الحالات</h3>
+      <p>تحمل كل فاتورة حالة، مرئية بلمحة عبر لونها:</p>
+      <ul class="plain">
+        <li><span class="pill p-warn">في الانتظار</span> — صادرة، لم تُدفع بعد.</li>
+        <li><span class="pill p-crit">متأخرة</span> — تجاوز تاريخ الاستحقاق والمبلغ لم يُسدَّد. تُحسب تلقائياً.</li>
+        <li><span class="pill p-good">مدفوعة</span> — سُدّدت بالكامل.</li>
+        <li><span class="pill p-crit">ملغاة</span> — لم تعد الفاتورة محسوبة (لكن رقمها يبقى محجوزاً).</li>
+      </ul>
+      <h3>تسجيل دفعة (ولو جزئية)</h3>
+      <ol class="steps">
+        <li>على سطر فاتورة، اضغط <strong>«💰 دفعة»</strong>.</li>
+        <li>أدخل المبلغ المستلم — قد يكون <strong>جزئياً</strong>.</li>
+        <li>يظهر المبلغ المتبقي تحت الفاتورة. وبمجرد أن يبلغ المجموع الإجمالي، تتحول الفاتورة إلى <span class="pill p-good">مدفوعة</span> تلقائياً.</li>
+      </ol>
+      <h3>PDF والطباعة والإرسال</h3>
+      <p>اضغط أيقونة <strong>👁️</strong> على فاتورة للمعاينة. من هناك يمكنك:</p>
+      <ul class="plain">
+        <li><strong>⬇️ تحميل PDF</strong> — ملف حقيقي للحفظ أو الإرفاق.</li>
+        <li><strong>🖨️ طباعة</strong> — طباعة مباشرة.</li>
+        <li>تغيير <strong>القالب</strong> فوراً.</li>
+      </ul>
+      <p>على سطر الفاتورة زرّان مفيدان: <strong>✉️</strong> لـ<strong>إرسالها بالبريد</strong> للعميل (مع رابط اطّلاع)، و<strong>🔗</strong> لـ<strong>نسخ رابط</strong> بوابة العميل وإرساله بالوسيلة التي تريدها.</p>
+      <h3>التصدير المحاسبي</h3>
+      <p>زر <strong>📥 CSV</strong> (أعلى القائمة) يحمّل ملفاً بكل فواتيرك — الرقم، التواريخ، قبل الضريبة، الضريبة، بعد الضريبة، المدفوع، الحالة — جاهزاً للاستعمال في Excel أو من طرف محاسبك.</p>
+      <div class="tip"><span class="ti">🔁</span><p><span class="t-title">تحويل فاتورة إلى اشتراك</span>زر <strong>🔁</strong> على فاتورة يجعلها <strong>متكررة</strong> — مفيد لعميل يُفوتر كل شهر. راجع <a href="#ar-recurring">الفواتير المتكررة</a>.</p></div>
+    </section>
+
+    <section id="ar-quotes">
+      <h2><span class="sec-icon">📝</span> عروض الأسعار</h2>
+      <p>عرض السعر هو اقتراح مالي يُرسل قبل الطلب. يعمل كالفاتورة، لكن بترقيم خاص (<code>DEV-2026-00001</code>) ولا يُحتسب كمدخول.</p>
+      <ol class="steps">
+        <li>قائمة <strong>الفواتير</strong> ← تبويب <strong>عروض الأسعار</strong> ← <strong>«عرض سعر جديد»</strong>.</li>
+        <li>أدخل العميل والسطور، تماماً كفاتورة.</li>
+        <li>عند قبول العميل، اضغط <strong>«⇄ فاتورة»</strong>: تُنشأ فاتورة من العرض، برقم فاتورة حقيقي.</li>
+      </ol>
+      <div class="tip"><span class="ti">🔒</span><p><span class="t-title">إمكانية التتبّع</span>تحتفظ الفاتورة الناتجة عن عرض برابط إلى عرضها الأصلي، ولا يمكن تحويل العرض إلا <strong>مرة واحدة</strong> — لا ازدواج ممكن.</p></div>
+    </section>
+
+    <section id="ar-recurring">
+      <h2><span class="sec-icon">🔁</span> الفواتير المتكررة</h2>
+      <p>للعملاء الذين يُفوترون بانتظام (إدارة شهرية لشبكات التواصل، اشتراك…)، يُنشئ Wakalaty الفواتير <strong>وحده</strong>، بالوتيرة المختارة.</p>
+      <ol class="steps">
+        <li>على فاتورة موجودة، اضغط <strong>🔁</strong>.</li>
+        <li>اختر الوتيرة: <strong>1</strong> = شهري، <strong>3</strong> = فصلي، <strong>12</strong> = سنوي.</li>
+        <li>يظهر التكرار في تبويب <strong>«المتكررة»</strong>، مع تاريخ إصداره القادم.</li>
+      </ol>
+      <p>عند كل استحقاق تُنشأ فاتورة جديدة تلقائياً (بالرقم والضريبة). يمكنك <strong>إيقاف</strong> (⏸️) ثم <strong>استئناف</strong> (▶️) تكرار، أو حذفه، في أي وقت.</p>
+    </section>
+
+    <section id="ar-expenses">
+      <h2><span class="sec-icon">💸</span> المصاريف والميزانية</h2>
+      <p>سجّل هنا كل مصاريف الوكالة (إيجار، رواتب مدفوعة، إعلانات، اشتراكات…): هذا ما يجعل لوحة التحكم تعرض <strong>ربحاً حقيقياً</strong> وخزينة صحيحة.</p>
+      <ol class="steps">
+        <li>قائمة <strong>المصاريف</strong> ← <strong>«إضافة مصروف»</strong>.</li>
+        <li>اختر <strong>الفئة</strong> (رواتب، إيجار، إعلانات…) والمبلغ والعملة (وسعر صرفها إلى الدينار) والتاريخ.</li>
+        <li>أرفق عند الحاجة <strong>مستنداً</strong> (PDF أو صورة، 📎): يُخزَّن بشكل خاص ويمكن تنزيله في أي وقت.</li>
+      </ol>
+      <h3>الميزانية الشهرية 🎯</h3>
+      <p>زر <strong>«ميزانية الشهر»</strong> يتيح تحديد هدف تحصيل وسقوف مصاريف لكل فئة، شهراً بشهر. تقارن لوحة التحكم بعدها المخطَّط بالفعلي وتُبرز التجاوزات بالأحمر.</p>
+      <div class="tip"><span class="ti">💡</span><p><span class="t-title">الموردون</span>فواتير الموردين المدفوعة تُنشئ مصروفها تلقائياً — لا حاجة لإدخال مزدوج (راجع <a href="#ar-suppliers">الموردون</a>).</p></div>
+    </section>
+
+    <section id="ar-suppliers">
+      <h2><span class="sec-icon">🚚</span> الموردون وجدول الاستحقاقات</h2>
+      <p>تابع ما <strong>تدين به</strong> الوكالة لمورّديها (مطبعة، وكالة إعلانات، مؤجّر…) ومتى يجب الدفع.</p>
+      <ol class="steps">
+        <li>أنشئ <strong>المورد</strong> (الاسم، معلومات الاتصال).</li>
+        <li>أضف <strong>فواتيره</strong>: المبلغ والعملة والفئة والأجل. تظهر في جدول الاستحقاقات مرتبة حسب الأولوية (المتأخرة بالأحمر).</li>
+        <li>عند التسديد اضغط <strong>«دفع»</strong>: تصبح الفاتورة مدفوعة ويُنشأ <strong>المصروف المقابل تلقائياً</strong> — الخزينة والربح محدَّثان دون إدخال مزدوج.</li>
+      </ol>
+      <div class="tip"><span class="ti">📅</span><p><span class="t-title">التوقعات</span>فواتير الموردين غير المدفوعة تغذي توقعات الخزينة على 3 أشهر وبطاقة «مستحقات الموردين» في لوحة التحكم.</p></div>
+      <div class="tip warn"><span class="ti">⚠️</span><p><span class="t-title">التزام ≠ مصروف</span>ما دامت فاتورة المورد غير مدفوعة فهي لا تمسّ الخزينة ولا الربح: إنها التزام. والفاتورة المدفوعة لا يمكن تعديلها.</p></div>
+    </section>
+
+    <section id="ar-portal">
+      <h2><span class="sec-icon">🌐</span> بوابة العميل</h2>
+      <p>لكل فاتورة <strong>رابط عام فريد</strong>. يفتحه عميلك في متصفحه — <strong>دون إنشاء حساب</strong> — للاطلاع على الفاتورة، ورؤية المتبقي، وتحميلها PDF أو طباعتها.</p>
+      <ol class="steps">
+        <li>اضغط <strong>🔗</strong> على سطر فاتورة لنسخ رابطها.</li>
+        <li>أرسله لعميلك (بريد، واتساب…). زر <strong>✉️</strong> يرسله مباشرة بالبريد مع الرابط.</li>
+      </ol>
+      <div class="tip"><span class="ti">🛡️</span><p><span class="t-title">آمن بالتصميم</span>يحتوي الرابط على معرّف يستحيل تخمينه، ولا يكشف إلا المستند المعني — أبداً بقية حسابك.</p></div>
+    </section>
+
+    <section id="ar-contracts">
+      <h2><span class="sec-icon">📄</span> العقود</h2>
+      <p>حرّر واطبع عقوداً وكراسات شروط لعملائك (تسويق، إعلان، موقع…).</p>
+      <ol class="steps">
+        <li>قائمة <strong>العقود</strong> ← <strong>«إنشاء عقد»</strong>.</li>
+        <li>اختر النوع والعميل والتواريخ والمبلغ.</li>
+        <li>أضف شروطك في الملاحظات، أو استخدم التوليد المساعد للبنود.</li>
+        <li>احفظ، ثم <strong>معاينة</strong> للطباعة أو توليد PDF.</li>
+      </ol>
+      <p>يستعيد المستند تلقائياً معلومات وكالتك (الاسم، العنوان، الرقم الجبائي) والعميل.</p>
+    </section>
+
+    <section id="ar-services">
+      <h2><span class="sec-icon">⚙️</span> الخدمات والأرباح</h2>
+      <p>كتالوج خدماتك مع <strong>ربحيتها</strong>. لكل خدمة، تتابع سعر البيع والتكاليف، وبالتالي <strong>الربح الصافي</strong>.</p>
+      <ol class="steps">
+        <li>قائمة <strong>الخدمات والأرباح</strong> ← <strong>«إضافة خدمة»</strong>.</li>
+        <li>الاسم والنوع و<strong>سعر البيع</strong>.</li>
+        <li>أضف <strong>التكاليف</strong> (مناولة، أدوات، إعلان…): يُحسب الهامش وحده.</li>
+        <li>يمكنك تعيين <strong>فريلانسر</strong> وتحديد <strong>عمولته</strong> (نسبة أو مبلغ ثابت).</li>
+      </ol>
+      <p>هذه الخدمات قابلة لإعادة الاستعمال كسطور فاتورة، ما يسرّع إنشاء مستنداتك.</p>
+    </section>
+
+    <section id="ar-ai">
+      <h2><span class="sec-icon">🤖</span> اقتراحات الخدمات (ذكاء اصطناعي)</h2>
+      <p>تنقصك أفكار لإثراء كتالوجك؟ تولّد هذه الصفحة قائمة <strong>خدمات رقمية جاهزة</strong> (إدارة شبكات، إعلان، إنشاء موقع…) بسعر مقترح ووصف.</p>
+      <ol class="steps">
+        <li>قائمة <strong>عروض الخدمات</strong> ← <strong>«توليد اقتراحات»</strong>.</li>
+        <li>تصفّح الاقتراحات، وصفّها حسب التصنيف.</li>
+        <li>اختر ما يناسبك وأضفه إلى كتالوجك بنقرة.</li>
+      </ol>
+    </section>
+
+    <section id="ar-tasks">
+      <h2><span class="sec-icon">📋</span> المهام</h2>
+      <p>نظّم عمل الفريق وتابعه عبر <strong>ثلاثة عروض متزامنة</strong> — <strong>كانبان</strong> و<strong>قائمة</strong> و<strong>تقويم</strong> — تبدّل بينها من أعلى الصفحة. لكل مهمة نوع، وأولوية، وتاريخ بدء واستحقاق، وحالة، ويمكن ربطها بموظف وبعميل.</p>
+      <ol class="steps">
+        <li>قائمة <strong>المهام</strong> ← <strong>إضافة مهمة</strong>: عنوان، وصف، نوع، <strong>أولوية</strong>، <strong>تاريخ بدء</strong> و<strong>استحقاق</strong>.</li>
+        <li>كلّف بها <strong>موظفاً</strong>، واربطها عند الحاجة بـ<strong>عميل</strong>.</li>
+        <li>ادفع العمل قُدُماً بـ<strong>السحب والإفلات</strong> بين الأعمدة: <span class="pill p-warn">قيد الانتظار</span> ← <span class="pill p-accent">قيد التنفيذ</span> ← <span class="pill p-good">منجزة</span> (أو من القائمة المنسدلة على البطاقة).</li>
+      </ol>
+      <p>المهمة التي يتجاوز استحقاقها تاريخ اليوم تتحوّل تلقائياً إلى <span class="pill p-crit">متأخرة</span> — يُحتسب ذلك باستمرار (لا يُخزَّن)، فتأجيل الاستحقاق يُخرجها من التأخّر. بطاقة <strong>«متأخرة»</strong> في الأعلى تُصفّي العرض بنقرة واحدة.</p>
+      <div class="tip"><span class="ti">🧑‍💼</span><p><span class="t-title">عرض «عملي»</span>يجد الموظف المتصل في مساحته <strong>مهامه</strong> هو، لكل العملاء، موزّعةً على <em>متأخرة</em> و<em>اليوم</em> و<em>قادمة</em>. يمكنه تحريك <strong>حالة</strong> مهامه (سحب وإفلات)، لكن <strong>المدير</strong> وحده ينشئ المهام أو يعدّل محتواها أو يعيد إسنادها أو يحذفها.</p></div>
+      <div class="tip"><span class="ti">🏢</span><p><span class="t-title">كل مهام عميل</span>من بطاقة العميل، تفتح لسان <strong>المهام</strong> قائمةً مُصفّاة بكل مهامه — لرؤية ما يجري لهذا العميل دفعةً واحدة.</p></div>
+    </section>
+
+    <section id="ar-employees">
+      <h2><span class="sec-icon">👤</span> الموظفون (الموارد البشرية)</h2>
+      <p>وحدة موارد بشرية خفيفة ومتكاملة: بطاقات كاملة، إجازات، تسجيل حضور، مستندات وهيكل تنظيمي.</p>
+      <h3>بطاقة الموظف</h3>
+      <ul class="plain">
+        <li><strong>موظف دائم</strong> (راتب شهري وحالة دفع) أو <strong>فريلانسر</strong> (عمولات تُتابَع تلقائياً).</li>
+        <li>المنصب و<strong>تاريخ التوظيف</strong> و<strong>نوع العقد</strong> (CDI، CDD، تربص…) و<strong>المسؤول المباشر</strong> — وعرض «الهيكل التنظيمي» 🌳 يرسم التسلسل.</li>
+        <li><strong>المستندات</strong> 📎: عقود، وثائق هوية، شهادات — تُخزَّن بشكل خاص ولا يراها إلا المدير والموظف المعني.</li>
+      </ul>
+      <h3>دعوة موظف</h3>
+      <p>زر <strong>«دعوة»</strong> ✉️ يرسل رابطاً آمناً (صالح 72 ساعة، للاستعمال مرة واحدة): الموظف يختار <strong>كلمة مروره بنفسه</strong>. دون بريد مُعدّ، يُنسخ الرابط لمشاركته عبر واتساب. ويُربط حسابه ببطاقته تلقائياً.</p>
+      <h3>الإجازات</h3>
+      <p>يطلب الموظف إجازته من بوابته (رصيد 30 يوم عمل في السنة، قابل للتعديل). أنت — أو مسؤوله المباشر — توافق أو ترفض من صفحة الموظفين: الموافقة تخصم من الرصيد تلقائياً. نهاية الأسبوع (الجمعة/السبت) لا تُحتسب.</p>
+      <h3>تسجيل الحضور</h3>
+      <p>يسجّل الموظف حضوره وانصرافه من بوابته؛ والتوقيت توقيت <strong>الخادم</strong> (لا تلاعب بالتواريخ). وتعرض صفحة الموظفين «حضور اليوم».</p>
+      <h3>مغادرة موظف</h3>
+      <p>استعمل <strong>«تعطيل»</strong> بدل الحذف: يُقطع الوصول فوراً مع الاحتفاظ بكل السجل (مهام، إجازات، مستندات). ويمكن إعادة التفعيل في أي وقت.</p>
+      <div class="tip warn"><span class="ti">🔐</span><p><span class="t-title">بيانات حساسة</span>الرواتب والعمولات لا يراها إلا <strong>المدير</strong> — وأبداً موظف آخر. كل اطلاع أو تعديل على راتب يُسجَّل في سجل تدقيق. وكل موظف يرى بطاقته هو فقط في بوابته.</p></div>
+      <p>إنشاء <em>بطاقة</em> موظف يختلف عن إنشاء <em>حساب</em> دخول: راجع <a href="#ar-users">المستخدمون والأدوار</a> — أو استعمل الدعوة ✉️ ببساطة.</p>
+    </section>
+
+    <section id="ar-portfolio">
+      <h2><span class="sec-icon">📁</span> البورتفوليو</h2>
+      <p>واجهة عرض لإنجازاتك: أضف مشاريعك (عنوان، تصنيف، عميل، وصف، صورة، رابط). طريقة بسيطة لحفظ أفضل مراجعك وتقديمها.</p>
+    </section>
+
+    <section id="ar-profile">
+      <h2><span class="sec-icon">🏢</span> ملف الوكالة</h2>
+      <p>في <strong>الإعدادات ← الوكالة</strong>، خصّص الهوية التي تظهر على مستنداتك:</p>
+      <ul class="plain">
+        <li><strong>الشعار والاسم والعبارة</strong> — تظهر أعلى فواتيرك وعقودك.</li>
+        <li><strong>الألوان</strong> — اللون الرئيسي يكسو واجهتك.</li>
+        <li><strong>معلومات الاتصال</strong> — الهاتف، العنوان، الموقع.</li>
+        <li><strong>المعلومات الجبائية</strong> — الرقم الجبائي، الحساب البنكي (مفيدة على المستندات).</li>
+        <li><strong>العملة</strong> — الدينار الجزائري (DZD) افتراضياً، قابلة للتغيير.</li>
+      </ul>
+    </section>
+
+    <section id="ar-users">
+      <h2><span class="sec-icon">👥</span> المستخدمون والأدوار</h2>
+      <p>بصفتك مديراً، أنشئ حسابات دخول لمتعاونيك، لكل منها <strong>دور</strong> يحدّد ما يمكنه رؤيته وفعله. انتقل إلى <strong>الإعدادات ← المستخدمون</strong>.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>الدور</th><th>الصلاحيات</th></tr></thead>
+        <tbody>
+          <tr><td><strong>مدير</strong></td><td>كل شيء: الفوترة، العملاء، الموظفون، الإعدادات، الاشتراك، الترخيص، إدارة المستخدمين.</td></tr>
+          <tr><td><strong>محاسب</strong></td><td>لوحة التحكم والعملاء والفواتير (إنشاء وتحصيل). لا وصول للرواتب ولا للإعدادات.</td></tr>
+          <tr><td><strong>موظف</strong></td><td>مساحته الشخصية: مهامه المسندة، وإن كان فريلانسر، عمولاته.</td></tr>
+        </tbody>
+      </table></div>
+      <ol class="steps">
+        <li><strong>الإعدادات ← المستخدمون</strong> ← أدخل الاسم والبريد وكلمة المرور والدور.</li>
+        <li>يسجّل المتعاون الدخول بعد ذلك بهذا البريد وكلمة المرور.</li>
+        <li>يمكنك <strong>تعطيل</strong> حساب في أي وقت: يُمنع الدخول فوراً.</li>
+      </ol>
+      <div class="tip"><span class="ti">🔗</span><p><span class="t-title">ربط الموظف بحسابه</span>لكي يرى الموظف مهامه المسندة (عرض «عملي»)، يجب أن يحمل <strong>حسابه</strong> و<strong>بطاقته</strong> نفس <strong>البريد الإلكتروني</strong>: عندها يتم الربط تلقائياً، سواء أنشأت الحساب أو البطاقة أولاً. لذا استخدم البريد نفسه في الجهتين.</p></div>
+    </section>
+
+    <section id="ar-sub">
+      <h2><span class="sec-icon">💳</span> الاشتراك والباقات</h2>
+      <p>يقدّم Wakalaty ثلاث باقات. الباقة المجانية مثالية للبداية؛ انتقل إلى الأعلى عندما ينمو نشاطك.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>الميزة</th><th class="center">مجاني</th><th class="center">احترافي</th><th class="center">مؤسسي</th></tr></thead>
+        <tbody>
+          <tr><td>العملاء</td><td class="center num">3</td><td class="center tick">غير محدود</td><td class="center tick">غير محدود</td></tr>
+          <tr><td>فواتير / شهر</td><td class="center num">10</td><td class="center tick">غير محدود</td><td class="center tick">غير محدود</td></tr>
+          <tr><td>الموظفون</td><td class="center num">1</td><td class="center num">10</td><td class="center tick">غير محدود</td></tr>
+          <tr><td>المهام</td><td class="center num">5</td><td class="center tick">غير محدود</td><td class="center tick">غير محدود</td></tr>
+          <tr><td>العقود</td><td class="center num">2</td><td class="center tick">غير محدود</td><td class="center tick">غير محدود</td></tr>
+        </tbody>
+      </table></div>
+      <h3>تغيير الباقة</h3>
+      <p>في <strong>الإعدادات ← الاشتراك</strong>، اختر باقة وأرسل إثبات دفعك (مرجع CCP / BaridiMob). تُراجَع طلبك بعد ذلك من <strong>فريق Wakalaty</strong>، عادةً خلال 24 ساعة. وبعد الموافقة، تصبح باقتك الجديدة فعّالة.</p>
+      <div class="tip"><span class="ti">🔑</span><p><span class="t-title">تفعيل فوري بالترخيص</span>إن اشتريت <strong>مفتاح ترخيص</strong>، يكون التفعيل فورياً دون مراجعة. راجع <a href="#ar-license">ترخيص التفعيل</a>.</p></div>
+    </section>
+
+    <section id="ar-license">
+      <h2><span class="sec-icon">🔑</span> ترخيص التفعيل</h2>
+      <p>يفتح مفتاح الترخيص باقتك <strong>فوراً</strong>. تستلمه عند شرائك، بالشكل <code>WKLY-XXXX-XXXX-XXXX-XXXX</code>.</p>
+      <ol class="steps">
+        <li>سجّل الدخول بصفتك <strong>مديراً</strong>.</li>
+        <li><strong>الإعدادات ← الترخيص</strong>.</li>
+        <li>الصق المفتاح، ثم <strong>تفعيل</strong>. تُفتح باقتك على الفور.</li>
+      </ol>
+      <p>تُظهر لك بطاقة الحالة دائماً وضع ترخيصك: <span class="pill p-good">نشط</span>، <span class="pill p-warn">منتهٍ</span> أو <span class="pill p-crit">ملغى</span>، مع تاريخ انتهائه.</p>
+      <div class="tip warn"><span class="ti">⏳</span><p><span class="t-title">التجديد</span>قرب الانتهاء، يُنبّهك شريط. تمنحك <strong>مهلة سماح</strong> قصيرة وقتاً للتجديد قبل أي إيقاف. للتجديد أو تغيير المفتاح، يكفي إدخال مفتاح جديد في المكان نفسه.</p></div>
+    </section>
+
+    <section id="ar-prefs">
+      <h2><span class="sec-icon">🌍</span> اللغة والمظهر</h2>
+      <p>أسفل القائمة الجانبية، إعدادان شخصيان، محفوظان على جهازك:</p>
+      <ul class="plain">
+        <li><strong>الأعلام</strong> 🇩🇿 🇫🇷 🇬🇧 تبدّل الواجهة بين العربية والفرنسية والإنجليزية. يتكيّف اتجاه القراءة تلقائياً (تُعرض العربية من اليمين إلى اليسار).</li>
+        <li>زر <strong>🌙 / ☀️</strong> يبدّل بين المظهر الداكن والفاتح.</li>
+      </ul>
+    </section>
+
+    <section id="ar-faq" class="faq">
+      <h2><span class="sec-icon">❓</span> الأسئلة الشائعة</h2>
+      <p>إجابات عن أكثر ما يسأله مستخدمونا. اضغط على سؤال لعرضه.</p>
+
+      <h3 style="margin-top:22px">الفوترة</h3>
+      <details><summary>ما الفرق بين عرض السعر والفاتورة؟</summary><div class="a"><p><strong>عرض السعر</strong> اقتراح مالي يُرسل <em>قبل</em> الطلب؛ لا يُحتسب كمدخول ويحمل رقماً <code>DEV-…</code>. أما <strong>الفاتورة</strong> فتثبت بيعاً مستحقاً أو مدفوعاً وتحمل رقماً <code>FAC-…</code>. عند قبول العميل عرضاً، تحوّله إلى فاتورة بنقرة من تبويب عروض الأسعار.</p></div></details>
+      <details><summary>هل يمكنني تحصيل دفعة على عدة مرات؟</summary><div class="a"><p>نعم. اضغط <strong>💰 دفعة</strong> على الفاتورة وأدخل المبلغ المستلم، ولو جزئياً. يظهر المتبقي تحت الفاتورة، وبمجرد أن يبلغ مجموع الدفعات الإجمالي، تتحول الفاتورة إلى <span class="pill p-good">مدفوعة</span> تلقائياً.</p></div></details>
+      <details><summary>تظهر فاتورة «متأخرة» — ماذا أفعل؟</summary><div class="a"><p>تظهر هذه الحالة عندما يمرّ تاريخ الاستحقاق دون دفع. تُحسب تلقائياً. ذكّر العميل: أرسل له الفاتورة بالبريد (زر <strong>✉️</strong>) أو زوّده برابط الاطّلاع (<strong>🔗</strong>). إن كان البريد مفعّلاً من مزوّدك، تنطلق <strong>تذكيرات تلقائية</strong> أيضاً بعد أيام من الاستحقاق.</p></div></details>
+      <details><summary>هل يمكنني تعديل رقم فاتورة؟</summary><div class="a"><p>لا، وهذا مقصود: يجب أن يكون الترقيم <strong>متصلاً وغير قابل للتعديل</strong> ليكون مطابقاً. تُمنح الأرقام تلقائياً بالترتيب (<code>FAC-2026-00001</code>, <code>-00002</code>…)، وتُصفّر كل سنة. حتى الفاتورة الملغاة تحتفظ برقمها الذي لن يُعاد استعماله.</p></div></details>
+      <details><summary>كيف أتعامل مع الضريبة؟</summary><div class="a"><p>يمكنك تحديد <strong>نسبة افتراضية لكل عميل</strong> (في بطاقته)، أو <strong>نسبة عامة</strong> على الفاتورة، أو حتى <strong>نسبة لكل سطر</strong> إن كانت خدماتك تُخضع لنسب مختلفة. يُعاد حساب مبلغ الضريبة والإجمالي بعد الضريبة تلقائياً.</p></div></details>
+      <details><summary>كيف أرسل فاتورة لمحاسبي؟</summary><div class="a"><p>خياران: زر <strong>📥 CSV</strong> أعلى قائمة الفواتير يصدّر كل شيء (الأرقام، التواريخ، قبل الضريبة، الضريبة، بعد الضريبة، المدفوع، الحالة) في ملف يقرؤه Excel أو برنامج محاسبة؛ أو حمّل كل فاتورة بصيغة <strong>PDF</strong> من معاينتها.</p></div></details>
+      <details><summary>هل يستطيع عميلي رؤية فاتورته دون حساب؟</summary><div class="a"><p>نعم. لكل فاتورة <strong>رابط عام</strong> (زر <strong>🔗</strong>). يفتحه عميلك في متصفحه للاطّلاع أو التحميل أو الطباعة — دون تسجيل. لا يكشف الرابط إلا هذه الفاتورة.</p></div></details>
+
+      <h3 style="margin-top:26px">الحساب والفريق</h3>
+      <details><summary>نسيت كلمة المرور. كيف أستعيدها؟</summary><div class="a"><p>إن كنت متصلاً، غيّرها في أي وقت من <strong>الإعدادات ← كلمة المرور</strong>. إن لم تعد تستطيع الدخول، لا توجد بعد إعادة تعيين ذاتية: <strong>تواصل مع دعم Wakalaty</strong> لاستعادة وصولك. احرص على استعمال كلمة مرور تحفظها في مكان آمن.</p></div></details>
+      <details><summary>ما الفرق بين «الموظف» و«المحاسب»؟</summary><div class="a"><p>هما <strong>دوران</strong> مختلفان. يصل <strong>المحاسب</strong> إلى لوحة التحكم والعملاء والفواتير (يمكنه الإنشاء والتحصيل)، لكن ليس إلى الرواتب ولا الإعدادات. أما <strong>الموظف</strong> فلا يرى إلا مساحته الشخصية: مهامه وعمولاته. <strong>المدير</strong> وحده يصل إلى كل شيء.</p></div></details>
+      <details><summary>هل إنشاء بطاقة موظف يُنشئ حساب دخول؟</summary><div class="a"><p>لا، هما أمران منفصلان. <strong>بطاقة الموظف</strong> (قائمة الموظفين) للمتابعة الإدارية: المنصب، الراتب، العمولات. لمنح <strong>وصول للتطبيق</strong> لهذا الشخص، أنشئ له <strong>حساباً</strong> في <strong>الإعدادات ← المستخدمون</strong> بالدور المطلوب.</p></div></details>
+      <details><summary>كيف أسحب الوصول من متعاون يغادر؟</summary><div class="a"><p>في <strong>الإعدادات ← المستخدمون</strong>، <strong>عطّل</strong> حسابه. يُمنع دخوله فوراً، دون حذف البيانات التي أنشأها. يمكنك إعادة تفعيله لاحقاً عند الحاجة.</p></div></details>
+
+      <h3 style="margin-top:26px">الباقة والترخيص</h3>
+      <details><summary>كيف أنتقل إلى باقة أعلى؟</summary><div class="a"><p>طريقتان. إن كان لديك <strong>مفتاح ترخيص</strong>، فعّله في <strong>الإعدادات ← الترخيص</strong>: فوري. وإلا، في <strong>الإعدادات ← الاشتراك</strong>، اختر الباقة وأرسل إثبات دفعك (CCP / BaridiMob)؛ يُراجَع الطلب من الفريق، عادةً خلال 24 ساعة.</p></div></details>
+      <details><summary>حسابي محظور برسالة عن الترخيص — لماذا؟</summary><div class="a"><p>هذا يعني أن الترخيص المرتبط بوكالتك <strong>منتهٍ أو موقوف أو ملغى</strong>. يبقى لك دائماً وصول إلى <strong>إعداداتك</strong> للتسوية. انتقل إلى <strong>الإعدادات ← الترخيص</strong> لرؤية الحالة الدقيقة وإدخال مفتاح صالح، أو تواصل مع مزوّدك للتجديد.</p></div></details>
+      <details><summary>ماذا يحدث عند انتهاء ترخيصي؟</summary><div class="a"><p>يُنبّهك شريط قرب الانتهاء. تمنحك <strong>مهلة سماح</strong> قصيرة (بضعة أيام) وقتاً للتجديد دون انقطاع. بعد هذه المهلة دون تجديد، يُوقف الوصول للوظائف — لكن بياناتك تبقى سليمة ويعود الوصول فور إدخال مفتاح صالح.</p></div></details>
+      <details><summary>أين أرى مفتاح ترخيصي؟</summary><div class="a"><p>لأسباب أمنية، يُعرض المفتاح الكامل <strong>مرة واحدة فقط</strong>، لحظة توليده من مزوّدك. احفظه بعناية. داخل التطبيق، لا ترى إلا بدايته (<code>WKLY-XXXX-••••</code>) وحالته. في حال الضياع، يمكن لمزوّدك إصدار مفتاح جديد لك.</p></div></details>
+
+      <h3 style="margin-top:26px">عام</h3>
+      <details><summary>هل بياناتي آمنة؟</summary><div class="a"><p>نعم. كل وكالة <strong>معزولة</strong>: لا تصل إلا إلى بياناتك، أبداً إلى بيانات وكالة أخرى. كلمات المرور مشفّرة، والاتصالات محمية بـHTTPS، والوصول مضبوط حسب الأدوار.</p></div></details>
+      <details><summary>هل يعمل التطبيق على الهاتف؟</summary><div class="a"><p>نعم، تتكيّف الواجهة مع الهاتف والجهاز اللوحي والحاسوب. لا حاجة لأي تثبيت: كل شيء في المتصفح.</p></div></details>
+      <details><summary>هل يمكنني استعمال Wakalaty بالعربية أو الإنجليزية؟</summary><div class="a"><p>نعم. أسفل القائمة، الأعلام 🇩🇿 🇫🇷 🇬🇧 تبدّل الواجهة فوراً بين <strong>العربية</strong> و<strong>الفرنسية</strong> و<strong>الإنجليزية</strong>. بالعربية، يتحوّل العرض من اليمين إلى اليسار. ويُحفظ اختيارك.</p></div></details>
+      <details><summary>هل يمكنني حذف عميل له فواتير؟</summary><div class="a"><p>ممكن، لكن انتبه: حذف عميل يزيل أيضاً المستندات المرتبطة به. إن أردت الاحتفاظ بتاريخ الفوترة، يُفضّل <strong>عدم</strong> حذفه والاكتفاء بالتوقف عن إنشاء مستندات جديدة باسمه.</p></div></details>
+      <details><summary>كيف أرسل فاتورة بالبريد إذا لم يحدث شيء؟</summary><div class="a"><p>تأكّد أولاً أن <strong>للعميل بريداً إلكترونياً</strong> في بطاقته. يعتمد إرسال البريد أيضاً على إعداد من جهة الخادم يوفّره مزوّدك؛ إن لم يكن مفعّلاً، استخدم زر <strong>🔗</strong> لنسخ رابط الفاتورة وإرساله بنفسك.</p></div></details>
+    </section>
+
+    <footer><p><strong>Wakalaty</strong> — دليل استخدام العميل. قد تتطور الوظائف الموصوفة مع التحديثات. سؤال بلا إجابة هنا؟ تواصل مع مزوّد Wakalaty.</p></footer>
+  </main>
+</div>
+</div>
+
+<!-- ═══════════════════ FRANÇAIS ═══════════════════ -->
+<div class="doc" id="doc-fr" lang="fr" dir="ltr" hidden>
+<div class="layout">
+  <aside class="toc">
+    <div class="brand"><div class="brand-mark">🏢</div><div class="brand-name">Wakalaty</div></div>
+    <p class="brand-sub">Manuel d'utilisation</p>
+    <div class="toc-group">Démarrer</div>
+    <a href="#fr-intro">Bienvenue</a>
+    <a href="#fr-start">Premiers pas</a>
+    <a href="#fr-dash">Tableau de bord</a>
+    <div class="toc-group">Facturation</div>
+    <a href="#fr-clients">Clients</a>
+    <a href="#fr-invoices">Factures</a>
+    <a href="#fr-quotes">Devis</a>
+    <a href="#fr-recurring">Factures récurrentes</a>
+    <a href="#fr-expenses">Dépenses &amp; budget</a>
+    <a href="#fr-suppliers">Fournisseurs</a>
+    <a href="#fr-portal">Portail client</a>
+    <div class="toc-group">Activité</div>
+    <a href="#fr-contracts">Contrats</a>
+    <a href="#fr-services">Services &amp; marges</a>
+    <a href="#fr-ai">Propositions IA</a>
+    <a href="#fr-tasks">Tâches</a>
+    <a href="#fr-employees">Employés</a>
+    <a href="#fr-portfolio">Portfolio</a>
+    <div class="toc-group">Compte</div>
+    <a href="#fr-profile">Profil de l'agence</a>
+    <a href="#fr-users">Utilisateurs &amp; rôles</a>
+    <a href="#fr-sub">Abonnement &amp; plans</a>
+    <a href="#fr-license">Licence d'activation</a>
+    <a href="#fr-prefs">Langue &amp; thème</a>
+    <div class="toc-group">Aide</div>
+    <a href="#fr-faq">Foire aux questions</a>
+  </aside>
+
+  <main>
+    <header class="hero" id="fr-intro">
+      <span class="eyebrow">Guide de l'utilisateur</span>
+      <h1>Piloter votre agence avec Wakalaty</h1>
+      <p class="lede">Wakalaty réunit vos clients, factures, devis, contrats, tâches et équipe dans un seul espace. Ce manuel explique, service par service, comment vous en servir au quotidien — puis répond aux questions les plus fréquentes.</p>
+      <p class="lede" style="font-size:15px">Disponible en <strong>arabe, français et anglais</strong>, sur ordinateur, tablette et téléphone.</p>
+    </header>
+
+    <section style="border-bottom:none;padding-top:8px">
+      <h2><span class="sec-icon">🧭</span> En un coup d'œil</h2>
+      <p>Chaque menu de gauche correspond à un service. Voici l'essentiel :</p>
+      <div class="cards">
+        <a class="card" href="#fr-dash"><div class="ci">📊</div><div class="ct">Tableau de bord</div><p class="cd">Revenus, impayés, meilleurs clients.</p></a>
+        <a class="card" href="#fr-clients"><div class="ci">👥</div><div class="ct">Clients</div><p class="cd">Votre carnet d'adresses.</p></a>
+        <a class="card" href="#fr-invoices"><div class="ci">🧾</div><div class="ct">Factures &amp; devis</div><p class="cd">Créer, envoyer, encaisser.</p></a>
+        <a class="card" href="#fr-contracts"><div class="ci">📄</div><div class="ct">Contrats</div><p class="cd">Documents et cahiers des charges.</p></a>
+        <a class="card" href="#fr-services"><div class="ci">⚙️</div><div class="ct">Services</div><p class="cd">Prix, coûts et marges.</p></a>
+        <a class="card" href="#fr-tasks"><div class="ci">📋</div><div class="ct">Tâches</div><p class="cd">Le travail de l'équipe.</p></a>
+        <a class="card" href="#fr-employees"><div class="ci">👤</div><div class="ct">Employés</div><p class="cd">Salaires et commissions.</p></a>
+        <a class="card" href="#fr-sub"><div class="ci">💳</div><div class="ct">Abonnement</div><p class="cd">Votre offre et son évolution.</p></a>
+      </div>
+    </section>
+
+    <section id="fr-start">
+      <h2><span class="sec-icon">🚀</span> Premiers pas</h2>
+      <p>Tout commence par la création de votre agence. Le premier compte créé est <strong>administrateur</strong> : c'est vous, le propriétaire.</p>
+      <h3>Créer votre agence</h3>
+      <ol class="steps">
+        <li>Sur la page d'accueil, cliquez sur <strong>« Commencer gratuitement »</strong>.</li>
+        <li>Renseignez le nom de l'agence, votre nom, votre e-mail et un mot de passe.</li>
+        <li>Validez : votre espace est créé immédiatement, en plan <span class="pill p-accent">Gratuit</span>.</li>
+      </ol>
+      <h3>La bienvenue en 4 étapes</h3>
+      <p>À la première connexion, un court parcours personnalise votre espace : type d'agence, taille de l'équipe, objectifs, et la <strong>couleur</strong> de votre interface. Vous pouvez tout modifier ensuite dans les réglages, ou cliquer sur <strong>« Passer cette étape »</strong>.</p>
+      <div class="tip"><span class="ti">💡</span><p><span class="t-title">Se connecter par la suite</span>Rendez-vous sur la page <strong>Connexion</strong>, saisissez votre e-mail et mot de passe. Votre session reste ouverte plusieurs jours ; utilisez <strong>Déconnexion</strong> (en bas du menu) sur un ordinateur partagé.</p></div>
+    </section>
+
+    <section id="fr-dash">
+      <h2><span class="sec-icon">📊</span> Tableau de bord financier</h2>
+      <p>Votre page d'accueil est un véritable cockpit financier, calculé en temps réel à partir de vos factures, paiements et dépenses. Filtrez toute la page par période (mois, trimestre, année, 12 mois ou dates libres) et exportez le rapport en <strong>Excel</strong> ou en <strong>PDF</strong> (bouton 🖨️).</p>
+      <ul class="plain">
+        <li><strong>Trésorerie actuelle</strong> — le chiffre titre : votre solde initial (réglé dans le profil de l'agence) + tout ce qui est encaissé − tout ce qui est dépensé.</li>
+        <li><strong>Encaissé</strong> — l'argent réellement reçu sur la période, acomptes et paiements partiels compris. À ne pas confondre avec le <strong>Facturé</strong> (documents émis), affiché séparément.</li>
+        <li><strong>Dépenses &amp; bénéfice net</strong> — le bénéfice = encaissé − dépenses de la période, avec la marge en % et la répartition des dépenses par catégorie.</li>
+        <li><strong>Créances</strong> — l'encours client réel (reste à payer), son ancienneté (à échoir, 1-30 j, 31-60 j, 60 j+), le <strong>DSO</strong> (délai moyen d'encaissement) et les relances prioritaires.</li>
+        <li><strong>Budget vs réel</strong> — vos objectifs mensuels comparés au réalisé (à définir depuis la page <a href="#fr-expenses">Dépenses</a>).</li>
+        <li><strong>Prévision de trésorerie</strong> — à 3 mois : factures clients attendues par échéance − dépenses prévues (budget, moyenne ou factures fournisseurs). Un solde projeté négatif s'affiche en rouge ⚠️.</li>
+        <li><strong>Rentabilité par client</strong> — encaissé, encours et profit par client, pour repérer les clients à perte.</li>
+      </ul>
+      <div class="tip"><span class="ti">📈</span><p><span class="t-title">Chiffres exacts</span>« Encaissé » et « Facturé » ne sont jamais mélangés, les devises (DZD/EUR/USD) sont converties au taux figé sur chaque document, et tout est calculé côté serveur sur l'ensemble de vos données.</p></div>
+      <div class="tip warn"><span class="ti">🔐</span><p><span class="t-title">Accès réservé</span>Le tableau de bord financier n'est visible que par l'<strong>administrateur</strong> et le <strong>comptable</strong>.</p></div>
+    </section>
+
+    <section id="fr-clients">
+      <h2><span class="sec-icon">👥</span> Clients</h2>
+      <p>Votre carnet de clients. Chaque client peut ensuite être rattaché à des factures, des devis et des contrats.</p>
+      <h3>Ajouter un client</h3>
+      <ol class="steps">
+        <li>Menu <strong>Clients</strong> → bouton <strong>« Ajouter un client »</strong>.</li>
+        <li>Renseignez au minimum le <strong>nom</strong> ; société, e-mail, téléphone et adresse sont optionnels mais utiles.</li>
+        <li>Vous pouvez fixer un <strong>taux de TVA par défaut</strong> : il sera pré-rempli sur les factures de ce client.</li>
+        <li>Enregistrez.</li>
+      </ol>
+      <p>Utilisez la <strong>barre de recherche</strong> pour retrouver un client par nom, société ou e-mail. Les listes sont paginées : servez-vous des flèches en bas pour naviguer.</p>
+      <div class="tip warn"><span class="ti">⚠️</span><p><span class="t-title">L'e-mail du client compte</span>Pour <strong>envoyer une facture par e-mail</strong> ou lui transmettre un lien de consultation, le client doit avoir une adresse e-mail renseignée.</p></div>
+    </section>
+
+    <section id="fr-invoices">
+      <h2><span class="sec-icon">🧾</span> Factures <span class="sec-tag">le cœur de l'app</span></h2>
+      <p>Créez des factures professionnelles, suivez leur paiement, envoyez-les, et gardez une numérotation légale continue.</p>
+      <h3>Créer une facture</h3>
+      <ol class="steps">
+        <li>Menu <strong>Factures</strong> → onglet <strong>Factures</strong> → <strong>« Nouvelle facture »</strong>.</li>
+        <li>Choisissez le <strong>client</strong>.</li>
+        <li>Ajoutez une ou plusieurs <strong>lignes</strong> (désignation + prix). Vous pouvez piocher dans vos services enregistrés.</li>
+        <li>Indiquez le <strong>taux de TVA</strong> (global, ou par ligne) et une <strong>date d'échéance</strong>.</li>
+        <li>Choisissez un <strong>modèle</strong> visuel, puis <strong>Créer</strong>.</li>
+      </ol>
+      <p>Le total (HT, TVA, TTC) est calculé automatiquement. Le numéro est attribué tout seul : <code>FAC-2026-00001</code>, puis <code>-00002</code>, etc. — une suite <strong>continue par année</strong>, comme l'exige une facturation légale. Ce numéro n'est jamais modifiable.</p>
+      <h3>Comprendre les statuts</h3>
+      <ul class="plain">
+        <li><span class="pill p-warn">En attente</span> — émise, pas encore payée.</li>
+        <li><span class="pill p-crit">En retard</span> — l'échéance est dépassée et le solde n'est pas réglé. Calculé automatiquement.</li>
+        <li><span class="pill p-good">Payée</span> — réglée intégralement.</li>
+        <li><span class="pill p-crit">Annulée</span> — la facture ne compte plus (son numéro reste néanmoins réservé).</li>
+      </ul>
+      <h3>Enregistrer un paiement (même partiel)</h3>
+      <ol class="steps">
+        <li>Sur la ligne d'une facture, cliquez sur <strong>« 💰 Paiement »</strong>.</li>
+        <li>Saisissez le montant reçu — il peut être <strong>partiel</strong>.</li>
+        <li>Le solde restant s'affiche sous la facture. Dès que le cumul atteint le total, la facture passe <span class="pill p-good">Payée</span> automatiquement.</li>
+      </ol>
+      <h3>PDF, impression et envoi</h3>
+      <p>Cliquez sur l'icône <strong>👁️</strong> d'une facture pour l'aperçu. De là vous pouvez :</p>
+      <ul class="plain">
+        <li><strong>⬇️ Télécharger PDF</strong> — un vrai fichier PDF à conserver ou joindre.</li>
+        <li><strong>🖨️ Imprimer</strong> — impression directe.</li>
+        <li>Changer de <strong>modèle</strong> visuel à la volée.</li>
+      </ul>
+      <p>Sur la ligne d'une facture, deux boutons pratiques : <strong>✉️</strong> pour l'<strong>envoyer par e-mail</strong> au client (avec un lien de consultation), et <strong>🔗</strong> pour <strong>copier le lien</strong> du portail client.</p>
+      <h3>Export comptable</h3>
+      <p>Le bouton <strong>📥 CSV</strong> (en haut de la liste) télécharge un fichier de toutes vos factures — numéro, dates, HT, TVA, TTC, montant payé, statut — directement exploitable dans Excel ou par votre comptable.</p>
+      <div class="tip"><span class="ti">🔁</span><p><span class="t-title">Transformer une facture en abonnement</span>Le bouton <strong>🔁</strong> sur une facture la rend <strong>récurrente</strong>. Voir <a href="#fr-recurring">Factures récurrentes</a>.</p></div>
+    </section>
+
+    <section id="fr-quotes">
+      <h2><span class="sec-icon">📝</span> Devis</h2>
+      <p>Un devis est une proposition de prix envoyée avant la commande. Il fonctionne comme une facture, mais avec sa propre numérotation (<code>DEV-2026-00001</code>) et ne compte pas comme un revenu.</p>
+      <ol class="steps">
+        <li>Menu <strong>Factures</strong> → onglet <strong>Devis</strong> → <strong>« Nouveau devis »</strong>.</li>
+        <li>Renseignez client et lignes, exactement comme une facture.</li>
+        <li>Quand le client accepte, cliquez sur <strong>« ⇄ Facturer »</strong> : une facture est créée à partir du devis.</li>
+      </ol>
+      <div class="tip"><span class="ti">🔒</span><p><span class="t-title">Traçabilité</span>La facture issue d'un devis garde le lien vers son devis d'origine, et un devis ne peut être converti qu'<strong>une seule fois</strong>.</p></div>
+    </section>
+
+    <section id="fr-recurring">
+      <h2><span class="sec-icon">🔁</span> Factures récurrentes</h2>
+      <p>Pour les clients facturés régulièrement, Wakalaty génère les factures <strong>toute seule</strong>, à la fréquence choisie.</p>
+      <ol class="steps">
+        <li>Sur une facture existante, cliquez sur <strong>🔁</strong>.</li>
+        <li>Choisissez la fréquence : <strong>1</strong> = mensuel, <strong>3</strong> = trimestriel, <strong>12</strong> = annuel.</li>
+        <li>La récurrence apparaît dans l'onglet <strong>« Récurrentes »</strong>, avec sa prochaine date d'émission.</li>
+      </ol>
+      <p>Chaque échéance, une nouvelle facture est créée automatiquement. Vous pouvez <strong>suspendre</strong> (⏸️) puis <strong>reprendre</strong> (▶️) une récurrence, ou la supprimer, à tout moment.</p>
+    </section>
+
+    <section id="fr-expenses">
+      <h2><span class="sec-icon">💸</span> Dépenses &amp; budget</h2>
+      <p>Saisissez ici toutes les charges de l'agence (loyer, salaires versés, publicité, abonnements…) : c'est ce qui permet au tableau de bord d'afficher un <strong>bénéfice réel</strong> et une trésorerie juste.</p>
+      <ol class="steps">
+        <li>Menu <strong>Dépenses</strong> → <strong>« Ajouter une dépense »</strong>.</li>
+        <li>Choisissez une <strong>catégorie</strong> (Salaires, Loyer, Publicité…), le montant, la devise (et son taux vers le dinar) et la date.</li>
+        <li>Joignez si besoin un <strong>justificatif</strong> (PDF ou photo, 📎) : il est stocké de façon privée et téléchargeable à tout moment.</li>
+      </ol>
+      <h3>Budget mensuel 🎯</h3>
+      <p>Le bouton <strong>« Budget du mois »</strong> permet de fixer, mois par mois, un objectif d'encaissements et des plafonds de dépenses par catégorie. Le tableau de bord compare ensuite le prévu au réalisé et signale les dépassements en rouge.</p>
+      <div class="tip"><span class="ti">💡</span><p><span class="t-title">Fournisseurs</span>Les factures fournisseurs payées créent leur dépense automatiquement — pas de double saisie (voir <a href="#fr-suppliers">Fournisseurs</a>).</p></div>
+    </section>
+
+    <section id="fr-suppliers">
+      <h2><span class="sec-icon">🚚</span> Fournisseurs &amp; échéancier</h2>
+      <p>Suivez ce que l'agence <strong>doit</strong> à ses fournisseurs (imprimeur, régie publicitaire, bailleur…) et quand le payer.</p>
+      <ol class="steps">
+        <li>Créez le <strong>fournisseur</strong> (nom, contact).</li>
+        <li>Ajoutez ses <strong>factures</strong> : montant, devise, catégorie, échéance. Elles apparaissent dans l'échéancier, triées par urgence (retards en rouge).</li>
+        <li>Au règlement, cliquez <strong>« Payer »</strong> : la facture passe payée et la <strong>dépense correspondante est créée automatiquement</strong> — trésorerie et bénéfice sont à jour, sans double saisie.</li>
+      </ol>
+      <div class="tip"><span class="ti">📅</span><p><span class="t-title">Prévision</span>Les factures fournisseurs à payer alimentent la prévision de trésorerie à 3 mois du tableau de bord, ainsi que la carte « À payer fournisseurs ».</p></div>
+      <div class="tip warn"><span class="ti">⚠️</span><p><span class="t-title">Engagement ≠ dépense</span>Tant qu'une facture fournisseur n'est pas payée, elle ne touche ni la trésorerie ni le bénéfice : c'est un engagement. Une facture payée n'est plus modifiable.</p></div>
+    </section>
+
+    <section id="fr-portal">
+      <h2><span class="sec-icon">🌐</span> Portail client</h2>
+      <p>Chaque facture dispose d'un <strong>lien public unique</strong>. Votre client l'ouvre dans son navigateur — <strong>sans créer de compte</strong> — pour consulter la facture, voir le solde restant, la télécharger ou l'imprimer.</p>
+      <ol class="steps">
+        <li>Cliquez sur <strong>🔗</strong> sur la ligne d'une facture pour copier son lien.</li>
+        <li>Envoyez-le à votre client. Le bouton <strong>✉️</strong> l'envoie directement par e-mail avec ce lien inclus.</li>
+      </ol>
+      <div class="tip"><span class="ti">🛡️</span><p><span class="t-title">Sûr par conception</span>Le lien contient un identifiant impossible à deviner, et n'expose que le document concerné.</p></div>
+    </section>
+
+    <section id="fr-contracts">
+      <h2><span class="sec-icon">📄</span> Contrats</h2>
+      <p>Rédigez et imprimez des contrats et cahiers des charges pour vos clients (marketing, publicité, site web…).</p>
+      <ol class="steps">
+        <li>Menu <strong>Contrats</strong> → <strong>« Créer un contrat »</strong>.</li>
+        <li>Choisissez le type, le client, les dates et le montant.</li>
+        <li>Ajoutez vos conditions dans les notes, ou utilisez la génération assistée de clauses.</li>
+        <li>Enregistrez, puis <strong>Aperçu</strong> pour imprimer ou générer le PDF.</li>
+      </ol>
+      <p>Le document reprend automatiquement les informations de votre agence et du client.</p>
+    </section>
+
+    <section id="fr-services">
+      <h2><span class="sec-icon">⚙️</span> Services &amp; marges</h2>
+      <p>Catalogue de vos prestations, avec leur <strong>rentabilité</strong>. Pour chaque service, vous suivez le prix de vente, les coûts, et donc la <strong>marge nette</strong>.</p>
+      <ol class="steps">
+        <li>Menu <strong>Services et profits</strong> → <strong>« Ajouter un service »</strong>.</li>
+        <li>Nom, type et <strong>prix de vente</strong>.</li>
+        <li>Ajoutez les <strong>coûts</strong> : la marge se calcule seule.</li>
+        <li>Vous pouvez assigner un <strong>freelance</strong> et définir sa <strong>commission</strong> (% ou montant fixe).</li>
+      </ol>
+      <p>Ces services sont réutilisables comme lignes de facture, ce qui accélère la création de vos documents.</p>
+    </section>
+
+    <section id="fr-ai">
+      <h2><span class="sec-icon">🤖</span> Propositions de services (IA)</h2>
+      <p>À court d'idées ? Cette page génère une liste de <strong>services digitaux prêts à l'emploi</strong>, avec un prix suggéré et une description.</p>
+      <ol class="steps">
+        <li>Menu <strong>Propositions de services</strong> → <strong>« Générer des suggestions »</strong>.</li>
+        <li>Parcourez les propositions, filtrez par catégorie.</li>
+        <li>Sélectionnez celles qui vous conviennent et ajoutez-les à votre catalogue en un clic.</li>
+      </ol>
+    </section>
+
+    <section id="fr-tasks">
+      <h2><span class="sec-icon">📋</span> Tâches</h2>
+      <p>Organisez le travail de l'équipe et suivez-le sous <strong>trois vues synchronisées</strong> — <strong>Kanban</strong>, <strong>Liste</strong> et <strong>Calendrier</strong> — que vous basculez en haut de la page. Chaque tâche a un type, une priorité, une date de début et d'échéance, un statut, et peut être rattachée à un employé et à un client.</p>
+      <ol class="steps">
+        <li>Menu <strong>Tâches</strong> → <strong>Ajouter une tâche</strong> : titre, description, type, <strong>priorité</strong>, <strong>date de début</strong> et <strong>échéance</strong>.</li>
+        <li>Assignez-la à un <strong>employé</strong> et, si utile, rattachez-la à un <strong>client</strong>.</li>
+        <li>Faites avancer le travail en <strong>glissant-déposant</strong> la carte d'une colonne à l'autre : <span class="pill p-warn">À faire</span> → <span class="pill p-accent">En cours</span> → <span class="pill p-good">Terminée</span> (ou via le menu déroulant de la carte).</li>
+      </ol>
+      <p>Une tâche dont l'échéance est passée bascule automatiquement en <span class="pill p-crit">En retard</span> — c'est calculé en continu (jamais figé), donc repousser l'échéance la fait ressortir du retard. La tuile <strong>« En retard »</strong> en haut filtre la vue d'un seul clic.</p>
+      <div class="tip"><span class="ti">🧑‍💼</span><p><span class="t-title">Vue « Mon travail »</span>Un employé connecté retrouve dans son espace <strong>ses</strong> tâches, tous clients confondus, réparties en <em>en retard</em>, <em>aujourd'hui</em> et <em>à venir</em>. Il peut faire avancer le <strong>statut</strong> de ses propres tâches (glisser-déposer), mais seul l'<strong>administrateur</strong> crée, modifie le contenu, réassigne ou supprime une tâche.</p></div>
+      <div class="tip"><span class="ti">🏢</span><p><span class="t-title">Toutes les tâches d'un client</span>Depuis la fiche d'un client, l'onglet <strong>Tâches</strong> ouvre la liste filtrée de toutes ses tâches — pratique pour voir d'un coup ce qui est en cours pour ce client.</p></div>
+    </section>
+
+    <section id="fr-employees">
+      <h2><span class="sec-icon">👤</span> Employés (RH)</h2>
+      <p>Un vrai module RH léger : fiches complètes, congés, pointage, documents et hiérarchie.</p>
+      <h3>La fiche employé</h3>
+      <ul class="plain">
+        <li><strong>Salarié</strong> (salaire mensuel, statut de paiement) ou <strong>freelance</strong> (commissions suivies automatiquement).</li>
+        <li>Poste, <strong>date d'embauche</strong>, <strong>type de contrat</strong> (CDI, CDD, stage…) et <strong>manager</strong> direct — la vue « Organigramme » 🌳 dessine la hiérarchie.</li>
+        <li><strong>Documents</strong> 📎 : contrats, pièces d'identité, attestations — stockés de façon privée, visibles uniquement par l'admin et l'employé concerné.</li>
+      </ul>
+      <h3>Inviter un employé</h3>
+      <p>Le bouton <strong>« Inviter »</strong> ✉️ envoie un lien sécurisé (valable 72 h, à usage unique) : l'employé choisit <strong>lui-même son mot de passe</strong>. Sans e-mail configuré, le lien est copié pour être partagé par WhatsApp. Son compte est automatiquement relié à sa fiche.</p>
+      <h3>Congés</h3>
+      <p>L'employé demande un congé depuis son portail (solde de 30 jours ouvrables/an, ajustable). Vous — ou son manager direct — approuvez ou refusez depuis la page Employés : l'approbation décompte le solde automatiquement. Le week-end (vendredi/samedi) n'est pas compté.</p>
+      <h3>Pointage</h3>
+      <p>L'employé pointe son arrivée et son départ depuis son portail ; l'heure est celle du <strong>serveur</strong> (pas d'antidatage possible). La page Employés affiche « Présence aujourd'hui ».</p>
+      <h3>Départ d'un employé</h3>
+      <p>Utilisez <strong>« Désactiver »</strong> plutôt que supprimer : l'accès est coupé immédiatement, mais tout l'historique (tâches, congés, documents) est conservé. Réactivable à tout moment.</p>
+      <div class="tip warn"><span class="ti">🔐</span><p><span class="t-title">Données sensibles</span>Salaires et commissions ne sont visibles que par l'<strong>administrateur</strong> — jamais par un autre employé. Chaque consultation ou modification d'un salaire est consignée dans un journal d'audit. Chaque employé ne voit que sa propre fiche sur son portail.</p></div>
+      <p>Créer une <em>fiche</em> employé est différent de créer un <em>compte</em> de connexion : voir <a href="#fr-users">Utilisateurs &amp; rôles</a> — ou passez simplement par l'invitation ✉️.</p>
+    </section>
+
+    <section id="fr-portfolio">
+      <h2><span class="sec-icon">📁</span> Portfolio</h2>
+      <p>Vitrine de vos réalisations : ajoutez vos projets (titre, catégorie, client, description, image, lien). Un moyen simple de présenter vos meilleures références.</p>
+    </section>
+
+    <section id="fr-profile">
+      <h2><span class="sec-icon">🏢</span> Profil de l'agence</h2>
+      <p>Dans <strong>Réglages → Agence</strong>, personnalisez l'identité qui apparaît sur vos documents :</p>
+      <ul class="plain">
+        <li><strong>Logo, nom, slogan</strong> — repris en tête de vos factures et contrats.</li>
+        <li><strong>Couleurs</strong> — la couleur principale habille votre interface.</li>
+        <li><strong>Coordonnées</strong> — téléphone, adresse, site web.</li>
+        <li><strong>Informations fiscales</strong> — identifiant fiscal, compte bancaire.</li>
+        <li><strong>Devise</strong> — le dinar algérien (DZD) par défaut, modifiable.</li>
+      </ul>
+    </section>
+
+    <section id="fr-users">
+      <h2><span class="sec-icon">👥</span> Utilisateurs &amp; rôles</h2>
+      <p>En tant qu'administrateur, créez des comptes pour vos collaborateurs, chacun avec un <strong>rôle</strong>. Rendez-vous dans <strong>Réglages → Utilisateurs</strong>.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Rôle</th><th>Accès</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Administrateur</strong></td><td>Tout : facturation, clients, employés, réglages, abonnement, licence, gestion des utilisateurs.</td></tr>
+          <tr><td><strong>Comptable</strong></td><td>Tableau de bord, clients et factures (créer et encaisser). Pas d'accès aux salaires ni aux réglages.</td></tr>
+          <tr><td><strong>Employé</strong></td><td>Son espace personnel : ses tâches assignées et, s'il est freelance, ses commissions.</td></tr>
+        </tbody>
+      </table></div>
+      <ol class="steps">
+        <li><strong>Réglages → Utilisateurs</strong> → renseignez nom, e-mail, mot de passe et rôle.</li>
+        <li>Le collaborateur se connecte ensuite avec cet e-mail et ce mot de passe.</li>
+        <li>Vous pouvez <strong>désactiver</strong> un compte à tout moment : la connexion est aussitôt bloquée.</li>
+      </ol>
+      <div class="tip"><span class="ti">🔗</span><p><span class="t-title">Relier un employé à son compte</span>Pour qu'un employé voie ses tâches assignées (vue « Mon travail »), son <strong>compte</strong> et sa <strong>fiche employé</strong> doivent porter le <strong>même e-mail</strong> : la liaison se fait alors automatiquement, que vous créiez le compte ou la fiche en premier. Utilisez donc le même e-mail des deux côtés.</p></div>
+    </section>
+
+    <section id="fr-sub">
+      <h2><span class="sec-icon">💳</span> Abonnement &amp; plans</h2>
+      <p>Wakalaty propose trois offres. Le plan gratuit est parfait pour démarrer ; passez au niveau supérieur quand votre activité grandit.</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Fonction</th><th class="center">Gratuit</th><th class="center">Pro</th><th class="center">Business</th></tr></thead>
+        <tbody>
+          <tr><td>Clients</td><td class="center num">3</td><td class="center tick">illimité</td><td class="center tick">illimité</td></tr>
+          <tr><td>Factures / mois</td><td class="center num">10</td><td class="center tick">illimité</td><td class="center tick">illimité</td></tr>
+          <tr><td>Employés</td><td class="center num">1</td><td class="center num">10</td><td class="center tick">illimité</td></tr>
+          <tr><td>Tâches</td><td class="center num">5</td><td class="center tick">illimité</td><td class="center tick">illimité</td></tr>
+          <tr><td>Contrats</td><td class="center num">2</td><td class="center tick">illimité</td><td class="center tick">illimité</td></tr>
+        </tbody>
+      </table></div>
+      <h3>Changer d'offre</h3>
+      <p>Dans <strong>Réglages → Abonnement</strong>, choisissez une offre et transmettez votre preuve de paiement (CCP / BaridiMob). Votre demande est <strong>validée par l'équipe Wakalaty</strong>, en général sous 24 h.</p>
+      <div class="tip"><span class="ti">🔑</span><p><span class="t-title">Activation instantanée par licence</span>Si vous avez acheté une <strong>clé de licence</strong>, l'activation est immédiate. Voir <a href="#fr-license">Licence d'activation</a>.</p></div>
+    </section>
+
+    <section id="fr-license">
+      <h2><span class="sec-icon">🔑</span> Licence d'activation</h2>
+      <p>Une clé de licence débloque votre offre <strong>instantanément</strong>. Vous la recevez lors de votre achat, sous la forme <code>WKLY-XXXX-XXXX-XXXX-XXXX</code>.</p>
+      <ol class="steps">
+        <li>Connectez-vous en tant qu'<strong>administrateur</strong>.</li>
+        <li><strong>Réglages → Licence</strong>.</li>
+        <li>Collez la clé, puis <strong>Activer</strong>. Votre offre est débloquée aussitôt.</li>
+      </ol>
+      <p>La carte d'état indique le statut de votre licence : <span class="pill p-good">Active</span>, <span class="pill p-warn">Expirée</span> ou <span class="pill p-crit">Révoquée</span>, ainsi que sa date d'expiration.</p>
+      <div class="tip warn"><span class="ti">⏳</span><p><span class="t-title">Renouvellement</span>À l'approche de l'expiration, un bandeau vous prévient. Une courte <strong>période de tolérance</strong> vous laisse le temps de renouveler avant tout blocage. Pour renouveler, saisissez une nouvelle clé au même endroit.</p></div>
+    </section>
+
+    <section id="fr-prefs">
+      <h2><span class="sec-icon">🌍</span> Langue &amp; thème</h2>
+      <p>En bas du menu latéral, deux réglages personnels, mémorisés sur votre appareil :</p>
+      <ul class="plain">
+        <li>Les <strong>drapeaux</strong> 🇩🇿 🇫🇷 🇬🇧 basculent l'interface entre arabe, français et anglais. Le sens de lecture s'adapte automatiquement.</li>
+        <li>Le bouton <strong>🌙 / ☀️</strong> alterne entre mode sombre et mode clair.</li>
+      </ul>
+    </section>
+
+    <section id="fr-faq" class="faq">
+      <h2><span class="sec-icon">❓</span> Foire aux questions</h2>
+      <p>Les réponses aux questions les plus fréquentes. Cliquez sur une question pour la déplier.</p>
+
+      <h3 style="margin-top:22px">Facturation</h3>
+      <details><summary>Quelle est la différence entre un devis et une facture ?</summary><div class="a"><p>Un <strong>devis</strong> est une proposition de prix envoyée <em>avant</em> la commande ; il n'est pas comptabilisé comme un revenu et porte un numéro <code>DEV-…</code>. Une <strong>facture</strong> constate une vente due ou payée et porte un numéro <code>FAC-…</code>. Quand un client accepte un devis, vous le convertissez en facture en un clic.</p></div></details>
+      <details><summary>Puis-je encaisser un paiement en plusieurs fois ?</summary><div class="a"><p>Oui. Cliquez sur <strong>💰 Paiement</strong> et saisissez le montant reçu, même partiel. Le solde restant s'affiche, et dès que le cumul atteint le total, la facture bascule automatiquement en <span class="pill p-good">Payée</span>.</p></div></details>
+      <details><summary>Une facture s'affiche « En retard » — que faire ?</summary><div class="a"><p>Ce statut apparaît quand l'échéance est passée sans paiement. Relancez le client : envoyez-lui la facture par e-mail (<strong>✉️</strong>) ou son lien de consultation (<strong>🔗</strong>). Si l'e-mail est configuré par votre fournisseur, des <strong>relances automatiques</strong> partent aussi quelques jours après l'échéance.</p></div></details>
+      <details><summary>Puis-je modifier le numéro d'une facture ?</summary><div class="a"><p>Non, et c'est volontaire : la numérotation doit être <strong>continue et non modifiable</strong> pour être conforme. Les numéros sont attribués dans l'ordre, remis à zéro chaque année. Même une facture annulée conserve son numéro.</p></div></details>
+      <details><summary>Comment gérer la TVA ?</summary><div class="a"><p>Vous pouvez fixer un <strong>taux par défaut par client</strong>, un <strong>taux global</strong> sur la facture, ou un <strong>taux par ligne</strong>. Le montant de TVA et le TTC sont recalculés automatiquement.</p></div></details>
+      <details><summary>Comment transmettre une facture à mon comptable ?</summary><div class="a"><p>Le bouton <strong>📥 CSV</strong> exporte tout dans un fichier lisible par Excel ou un logiciel comptable ; ou téléchargez chaque facture en <strong>PDF</strong>.</p></div></details>
+      <details><summary>Mon client peut-il voir sa facture sans compte ?</summary><div class="a"><p>Oui. Chaque facture a un <strong>lien public</strong> (bouton <strong>🔗</strong>) que votre client ouvre pour consulter, télécharger ou imprimer — sans inscription.</p></div></details>
+
+      <h3 style="margin-top:26px">Compte &amp; équipe</h3>
+      <details><summary>J'ai oublié mon mot de passe. Comment le récupérer ?</summary><div class="a"><p>Si vous êtes connecté, changez-le dans <strong>Réglages → Mot de passe</strong>. Si vous ne parvenez plus à vous connecter, il n'existe pas encore de réinitialisation en libre-service : <strong>contactez le support Wakalaty</strong>.</p></div></details>
+      <details><summary>Différence entre un « employé » et un « comptable » ?</summary><div class="a"><p>Deux <strong>rôles</strong>. Le <strong>comptable</strong> accède au tableau de bord, aux clients et aux factures, mais pas aux salaires ni aux réglages. L'<strong>employé</strong> ne voit que son espace : ses tâches et commissions. Seul l'<strong>administrateur</strong> a accès à tout.</p></div></details>
+      <details><summary>Créer une fiche employé crée-t-il un compte de connexion ?</summary><div class="a"><p>Non. Une <strong>fiche employé</strong> sert au suivi RH. Pour donner un <strong>accès à l'application</strong>, créez un <strong>compte</strong> dans <strong>Réglages → Utilisateurs</strong>.</p></div></details>
+      <details><summary>Comment retirer l'accès à un collaborateur qui part ?</summary><div class="a"><p>Dans <strong>Réglages → Utilisateurs</strong>, <strong>désactivez</strong> son compte. Sa connexion est immédiatement bloquée, sans supprimer ses données.</p></div></details>
+
+      <h3 style="margin-top:26px">Offre &amp; licence</h3>
+      <details><summary>Comment passer à une offre supérieure ?</summary><div class="a"><p>Si vous avez une <strong>clé de licence</strong>, activez-la dans <strong>Réglages → Licence</strong> (immédiat). Sinon, dans <strong>Réglages → Abonnement</strong>, transmettez votre preuve de paiement ; la demande est validée sous 24 h.</p></div></details>
+      <details><summary>Mon compte est bloqué avec un message sur la licence — pourquoi ?</summary><div class="a"><p>La licence de votre agence est <strong>expirée, suspendue ou révoquée</strong>. Vous gardez accès à vos <strong>réglages</strong> pour régulariser : allez dans <strong>Réglages → Licence</strong> pour voir l'état et saisir une clé valide, ou contactez votre fournisseur.</p></div></details>
+      <details><summary>Que se passe-t-il quand ma licence expire ?</summary><div class="a"><p>Un bandeau vous avertit. Une courte <strong>période de tolérance</strong> vous laisse renouveler sans interruption. Passé ce délai, l'accès est suspendu — mais vos données restent intactes et l'accès revient dès qu'une clé valide est saisie.</p></div></details>
+      <details><summary>Où puis-je voir ma clé de licence ?</summary><div class="a"><p>Pour la sécurité, la clé complète n'est affichée qu'<strong>une seule fois</strong>, à sa génération. Conservez-la. Dans l'application, vous ne voyez que son début (<code>WKLY-XXXX-••••</code>) et son statut. En cas de perte, votre fournisseur peut en émettre une nouvelle.</p></div></details>
+
+      <h3 style="margin-top:26px">Général</h3>
+      <details><summary>Mes données sont-elles en sécurité ?</summary><div class="a"><p>Oui. Chaque agence est <strong>isolée</strong> : vous n'accédez qu'à vos données. Les mots de passe sont chiffrés, les échanges protégés par HTTPS, les accès contrôlés par rôle.</p></div></details>
+      <details><summary>L'application fonctionne-t-elle sur téléphone ?</summary><div class="a"><p>Oui, l'interface s'adapte au téléphone, à la tablette et à l'ordinateur. Aucune installation : tout se passe dans le navigateur.</p></div></details>
+      <details><summary>Puis-je utiliser Wakalaty en arabe ou en anglais ?</summary><div class="a"><p>Oui. Les drapeaux 🇩🇿 🇫🇷 🇬🇧 en bas du menu basculent instantanément entre <strong>arabe</strong>, <strong>français</strong> et <strong>anglais</strong>. Votre choix est mémorisé.</p></div></details>
+      <details><summary>Puis-je supprimer un client qui a déjà des factures ?</summary><div class="a"><p>C'est possible, mais supprimer un client retire aussi ses documents. Pour conserver l'historique, mieux vaut <strong>ne pas</strong> le supprimer.</p></div></details>
+      <details><summary>L'envoi d'e-mail ne fonctionne pas, pourquoi ?</summary><div class="a"><p>Vérifiez que le <strong>client a une adresse e-mail</strong>. L'envoi dépend aussi d'une configuration serveur assurée par votre fournisseur ; sinon, utilisez <strong>🔗</strong> pour copier le lien et l'envoyer vous-même.</p></div></details>
+    </section>
+
+    <footer><p><strong>Wakalaty</strong> — Manuel d'utilisation client. Les fonctions décrites peuvent évoluer avec les mises à jour. Une question sans réponse ici ? Contactez votre fournisseur Wakalaty.</p></footer>
+  </main>
+</div>
+</div>
+
+<script>
+  function setLang(l){
+    var ar = document.getElementById('doc-ar'), fr = document.getElementById('doc-fr');
+    ar.hidden = (l !== 'ar'); fr.hidden = (l !== 'fr');
+    document.getElementById('btn-ar').setAttribute('aria-pressed', l === 'ar');
+    document.getElementById('btn-fr').setAttribute('aria-pressed', l === 'fr');
+    try { localStorage.setItem('wakalaty_manual_lang', l); } catch(e){}
+    window.scrollTo(0, 0);
+  }
+  (function(){
+    var saved = 'ar';
+    try { saved = localStorage.getItem('wakalaty_manual_lang') || 'ar'; } catch(e){}
+    setLang(saved === 'fr' ? 'fr' : 'ar');
+  })();
+</script>
+</body>
+</html>

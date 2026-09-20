@@ -1,0 +1,298 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+  /* Direction pilotée par <html dir> (langue), pas figée en RTL. */
+}
+
+/* ── Layout ── */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  /* propriété logique : suit la direction (sidebar à droite en RTL, à gauche en LTR) */
+  margin-inline-start: 250px;
+  padding: 32px;
+  min-height: 100vh;
+  transition: margin 0.3s;
+}
+
+/* ── Mobile Top Bar ── */
+.mobile-topbar {
+  display: none;
+  position: fixed;
+  top: 0; right: 0; left: 0;
+  height: 56px;
+  background: #1e293b;
+  padding: 0 16px;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.mobile-topbar-title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+}
+
+/* ── Sidebar Overlay ── */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 998;
+}
+
+/* ── Grids ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ── Table ── */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: clamp(16px, 4vw, 28px);
+  width: 100%;
+  max-width: 520px;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+/* ── Forms ── */
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  text-align: start;
+  color: #1e293b;
+  background: #fff;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px #3b82f620;
+}
+
+.form-input:disabled {
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.btn-danger {
+  background: #fff5f5;
+  color: #ef4444;
+  border: 1px solid #fee2e2;
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+/* ── Page Header ── */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.page-title {
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ── Cards ── */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ── TABLET ── */
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 24px;
+  }
+  .two-col-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .main-content {
+    margin-inline-start: 0;
+    padding: 16px;
+    padding-top: 68px;
+  }
+
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .two-col-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modal-box {
+    padding: 16px;
+    max-height: 95vh;
+  }
+
+  .sidebar-overlay {
+    display: block;
+  }
+
+  .table-wrapper table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 400px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.responsive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+}
+
+@media (max-width: 375px) {
+  .responsive-grid {
+    grid-template-columns: 1fr;
+  }
+  .invoice-grid-header,
+  .invoice-grid-row {
+    grid-template-columns: 1fr 1fr !important;
+    font-size: 12px;
+  }
+  .invoice-grid-header span:nth-child(3),
+  .invoice-grid-header span:nth-child(4),
+  .invoice-grid-row > *:nth-child(3),
+  .invoice-grid-row > *:nth-child(4) {
+    grid-column: span 1;
+  }
+}
+
+
+/* Impression du dashboard (bouton PDF) : on ne garde que le contenu. */
+@media print {
+  .app-sidebar-wrap,
+  .sidebar-overlay,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+  }
+}

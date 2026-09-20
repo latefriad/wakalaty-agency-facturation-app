@@ -1,0 +1,758 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  ACCOUNTANT
+  EDITOR
+  DESIGNER
+  ADS
+  VIDEO
+  SEO
+  EMPLOYEE
+}
+
+enum InvoiceStatus {
+  DRAFT       // brouillon : sans numéro légal, non compté dans la séquence
+  SENT        // envoyée au client, en attente de paiement
+  EN_ATTENTE  // émise/en attente de paiement (valeur historique)
+  PAYEE
+  ANNULEE
+}
+
+// Types d'événements de la timeline client : chaque module en émet à son
+// moment clé. Générique et extensible sans nouvelle table.
+enum ClientEventType {
+  CLIENT_CREATED
+  INVOICE_ISSUED
+  INVOICE_SENT
+  INVOICE_PAID
+  CONTRACT_SIGNED
+  TASK_CREATED
+  NOTE_ADDED
+}
+
+enum DocType {
+  FACTURE
+  DEVIS
+}
+
+// Mode de calcul de l'acompte : montant fixe ou pourcentage du total.
+enum DepositType {
+  FIXED
+  PERCENT
+}
+
+enum RecurringFreq {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum TaskType {
+  DAILY
+  WEEKLY
+  PROJECT
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum TaskStatus {
+  TODO
+  INPROGRESS
+  DONE
+}
+
+enum ContractType {
+  MARKETING
+  ADS
+  WEBSITE
+  CAHIER
+}
+
+enum ContractStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model Agency {
+  id              String   @id @default(uuid())
+  name            String
+  email           String?  @unique
+  phone           String?
+  address         String?
+  logo            String?
+  tagline         String?
+  website         String?
+  primaryColor    String?
+  secondaryColor  String?
+  taxId           String?
+  bankAccount     String?
+  currency        String   @default("DZD")
+  remindersEnabled Boolean @default(true)
+  // Nombre de jours avant l'échéance pour la relance de courtoisie (0 = off).
+  reminderLeadDays Int     @default(3)
+  // Parcours de bienvenue : false uniquement pour les agences créées après
+  // l'activation du flux (les existantes sont backfillées à true).
+  onboarded       Boolean  @default(false)
+  agencyType      String?
+  teamSize        String?
+  goals           Json?
+  // Solde de trésorerie initial (saisie de calage unique) : la trésorerie
+  // affichée = openingBalance + encaissements − dépenses. Sans ce calage,
+  // le chiffre ne collerait jamais avec la banque.
+  openingBalance  Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  users           User[]
+  clients         Client[]
+  invoices        Invoice[]
+  employees       Employee[]
+  tasks           Task[]
+  services        Service[]
+  contracts       Contract[]
+  payments        Payment[]
+  portfolio       PortfolioItem[]
+  invitations     Invitation[]
+  leaveRequests   LeaveRequest[]
+  expenses        Expense[]
+  budgets         Budget[]
+  suppliers       Supplier[]
+  supplierBills   SupplierBill[]
+
+  @@map("agencies")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(ADMIN)
+  avatar    String?
+  agencyId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agency   Agency    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  employee Employee?
+
+  @@index([agencyId])
+  @@index([email])
+  @@map("users")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  company   String?
+  notes     String?
+  defaultTaxRate Float?
+  // Segmentation libre (secteur, priorité, statut…) et champs personnalisés
+  // { libellé: valeur } définis par l'agence sur la fiche.
+  tags      String[] @default([])
+  customFields Json?
+  agencyId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agency   Agency         @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  invoices Invoice[]
+  contracts Contract[]
+  serviceCharges ServiceCharge[]
+  tasks    Task[]
+  events   ClientEvent[]
+  clientNotes ClientNote[]
+
+  @@index([agencyId])
+  @@map("clients")
+}
+
+// Journal d'activité immuable du client, alimenté automatiquement par les
+// modules (facture émise/payée, contrat signé, tâche créée, note ajoutée…).
+// `meta` porte le contexte (n° de facture, montant, ids) pour l'affichage et
+// les liens, sans jointures.
+model ClientEvent {
+  id        String          @id @default(uuid())
+  clientId  String
+  agencyId  String
+  type      ClientEventType
+  message   String?
+  meta      Json?
+  createdAt DateTime        @default(now())
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, createdAt])
+  @@index([agencyId])
+  @@map("client_events")
+}
+
+// Notes libres éditables, horodatées et attribuées à un auteur — distinctes
+// des événements immuables de la timeline.
+model ClientNote {
+  id         String   @id @default(uuid())
+  clientId   String
+  agencyId   String
+  authorId   String?
+  authorName String?
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, createdAt])
+  @@map("client_notes")
+}
+
+model Invoice {
+  id          String        @id @default(uuid())
+  // null tant que le document est un brouillon : le numéro séquentiel légal
+  // n'est attribué qu'à la finalisation, pour ne jamais trouer la séquence.
+  number      String?
+  docType     DocType       @default(FACTURE)
+  status      InvoiceStatus @default(EN_ATTENTE)
+  total       Float         @default(0)
+  subtotal    Float         @default(0)
+  taxAmount   Float         @default(0)
+  tax         Float         @default(0)
+  discount    Float         @default(0)
+  // Devise de la facture (DZD/EUR/USD) et taux vers la devise de l'agence,
+  // conservé pour la comptabilité (les montants sont saisis dans la devise
+  // de la facture).
+  currency    String        @default("DZD")
+  exchangeRate Float        @default(1)
+  // Acompte à verser : type (fixe/pourcentage), valeur saisie, montant calculé.
+  depositType  DepositType?
+  depositValue Float?
+  depositAmount Float        @default(0)
+  // Taux de pénalité de retard (%), appliqué au solde d'une facture échue.
+  penaltyRate  Float         @default(0)
+  notes       String?
+  dueDate     DateTime?
+  paidAt      DateTime?
+  // Consultation client sans compte (portail light) — non devinable.
+  publicToken String        @unique @default(uuid())
+  // Horodatages du cycle de vie : envoi, première consultation par le client,
+  // dernière relance après échéance, relance de courtoisie avant échéance.
+  sentAt      DateTime?
+  viewedAt    DateTime?
+  lastReminderAt DateTime?
+  preReminderAt  DateTime?
+  convertedFromId String?
+  agencyId    String
+  clientId    String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  agency   Agency        @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  client   Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  items    InvoiceItem[]
+  payments Payment[]
+
+  @@unique([agencyId, number])
+  @@index([agencyId])
+  @@index([agencyId, status])
+  @@index([clientId])
+  @@map("invoices")
+}
+
+// Compteur séquentiel par agence/type/année : numérotation légale continue.
+model DocCounter {
+  id       String @id @default(uuid())
+  agencyId String
+  docType  DocType
+  year     Int
+  value    Int    @default(0)
+
+  @@unique([agencyId, docType, year])
+  @@map("doc_counters")
+}
+
+model RecurringInvoice {
+  id        String        @id @default(uuid())
+  frequency RecurringFreq @default(MONTHLY)
+  nextRunAt DateTime
+  active    Boolean       @default(true)
+  // Modèle des lignes à générer: [{description, quantity, unitPrice, taxRate}]
+  items     Json
+  tax       Float         @default(0)
+  discount  Float         @default(0)
+  notes     String?
+  dueDays   Int           @default(30)
+  agencyId  String
+  clientId  String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([agencyId])
+  @@index([nextRunAt, active])
+  @@map("recurring_invoices")
+}
+
+model InvoiceItem {
+  id          String  @id @default(uuid())
+  description String
+  quantity    Int     @default(1)
+  unitPrice   Float
+  // Taux de TVA propre à la ligne ; null = taux global de la facture.
+  taxRate     Float?
+  total       Float
+  invoiceId   String
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([invoiceId])
+  @@map("invoice_items")
+}
+
+model Employee {
+  id                String   @id @default(uuid())
+  name              String
+  email             String?
+  phone             String?
+  position          String?
+  salary            Float?
+  jobType           String   @default("salarie")
+  // Fiche RH : date d'embauche et type de contrat (CDI, CDD, STAGE,
+  // FREELANCE, AUTRE — valeurs validées à l'API, comme jobType).
+  hireDate          DateTime?
+  contractType      String?
+  // Cycle de vie : OFFBOARDED coupe l'accès (compte désactivé) sans rien
+  // supprimer — l'historique (tâches, commissions, congés) reste intact.
+  status            String    @default("ACTIVE")
+  offboardedAt      DateTime?
+  commissionRate    Float    @default(0)
+  commissionBalance  Float    @default(0)
+  commissionPaid    Float    @default(0)
+  isPaid            Boolean  @default(false)
+  paymentDate       String?
+  agencyId          String
+  // Compte de connexion de l'employé (facultatif : un employé peut ne pas
+  // avoir de compte). Fait le pont User ↔ Employee pour "mes tâches" et le RBAC.
+  userId            String?  @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Hiérarchie : manager direct (self-relation). Sert à l'organigramme et à
+  // la validation des congés par le manager.
+  managerId         String?
+
+  agency  Agency     @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  user    User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+  manager Employee?  @relation("EmployeeManager", fields: [managerId], references: [id], onDelete: SetNull)
+  reports Employee[] @relation("EmployeeManager")
+  tasks  Task[]
+  leaveRequests LeaveRequest[]
+  leaveBalances LeaveBalance[]
+  documents     EmployeeDocument[]
+  timeEntries   TimeEntry[]
+
+  @@index([agencyId])
+  @@index([managerId])
+  @@map("employees")
+}
+
+// Pointage : arrivée/départ horodatés PAR LE SERVEUR (l'heure ne vient
+// jamais du client). Une seule entrée ouverte (clockOut null) par employé ;
+// les minutes sont figées au départ.
+model TimeEntry {
+  id         String    @id @default(uuid())
+  clockIn    DateTime
+  clockOut   DateTime?
+  minutes    Int?
+  note       String?
+  employeeId String
+  agencyId   String
+  createdAt  DateTime  @default(now())
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, clockIn])
+  @@index([employeeId, clockIn])
+  @@map("time_entries")
+}
+
+// Document RH joint à la fiche (contrat, pièce d'identité, diplôme…).
+// Les fichiers vivent HORS du dossier statique public : téléchargement
+// uniquement via une route authentifiée (admin ou l'intéressé), auditée.
+model EmployeeDocument {
+  id           String   @id @default(uuid())
+  name         String
+  filename     String
+  mimeType     String
+  size         Int
+  employeeId   String
+  agencyId     String
+  uploadedById String?
+  createdAt    DateTime @default(now())
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@index([employeeId])
+  @@map("employee_documents")
+}
+
+// Demande de congé/absence : créée par l'employé pour LUI-MÊME (employeeId
+// dérivé du token côté serveur), validée par un rôle autorisé. Le décompte
+// du solde se fait à l'approbation, dans la même transaction.
+model LeaveRequest {
+  id           String    @id @default(uuid())
+  type         String    @default("ANNUAL") // ANNUAL | SICK | UNPAID | EXCEPTIONAL
+  status       String    @default("PENDING") // PENDING | APPROVED | REJECTED | CANCELLED
+  startDate    DateTime
+  endDate      DateTime
+  // Jours ouvrés décomptés (week-end algérien vendredi/samedi exclu),
+  // figés à la création pour que l'historique reste lisible.
+  days         Float
+  reason       String?
+  employeeId   String
+  agencyId     String
+  decidedById  String?
+  decidedAt    DateTime?
+  decisionNote String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  agency   Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, status])
+  @@index([employeeId, createdAt])
+  @@map("leave_requests")
+}
+
+// Solde de congés par employé et par année civile (30 jours ouvrables par
+// défaut — code du travail algérien). usedDays n'augmente qu'à l'approbation.
+model LeaveBalance {
+  id            String @id @default(uuid())
+  year          Int
+  allocatedDays Float  @default(30)
+  usedDays      Float  @default(0)
+  employeeId    String
+  agencyId      String
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([employeeId, year])
+  @@index([agencyId])
+  @@map("leave_balances")
+}
+
+model Task {
+  id          String     @id @default(uuid())
+  title       String
+  description String?
+  type        TaskType   @default(DAILY)
+  priority    Priority   @default(MEDIUM)
+  status      TaskStatus @default(TODO)
+  startDate   DateTime?
+  dueDate     DateTime?
+  // Position dans la colonne Kanban (tri croissant, mise à jour au drop).
+  order       Int        @default(0)
+  agencyId    String
+  employeeId  String?
+  // Tâche/rappel de suivi rattachable à un client (facultatif).
+  clientId    String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  agency   Agency    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  employee Employee? @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+  client   Client?   @relation(fields: [clientId], references: [id], onDelete: SetNull)
+
+  @@index([agencyId, status])
+  @@index([agencyId, dueDate])
+  @@index([employeeId])
+  @@index([clientId])
+  @@map("tasks")
+}
+
+model Service {
+  id               String  @id @default(uuid())
+  name             String
+  description      String?
+  basePrice        Float   @default(0)
+  type             String?
+  salePrice        Float   @default(0)
+  totalCharges     Float   @default(0)
+  netProfit        Float   @default(0)
+  notes            String?
+  charges          Json?
+  freelancerId     String?
+  freelancerName   String?
+  commissionType   String  @default("percent")
+  commissionValue  Float   @default(0)
+  commissionAmount Float   @default(0)
+  agencyId         String
+
+  agency           Agency           @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  serviceCharges   ServiceCharge[]
+  contractServices ContractService[]
+
+  @@index([agencyId])
+  @@map("services")
+}
+
+model ServiceCharge {
+  id        String @id @default(uuid())
+  amount    Float
+  clientId  String
+  serviceId String
+
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+  @@index([serviceId])
+  @@map("service_charges")
+}
+
+model Contract {
+  id          String         @id @default(uuid())
+  title       String
+  type        ContractType
+  status      ContractStatus @default(ACTIVE)
+  startDate   DateTime       @default(now())
+  endDate     DateTime?
+  value       Float          @default(0)
+  notes       String?
+  agencyId    String
+  clientId    String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  agency   Agency            @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  client   Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  services ContractService[]
+  payments Payment[]
+
+  @@index([agencyId])
+  @@index([clientId])
+  @@map("contracts")
+}
+
+model ContractService {
+  id         String @id @default(uuid())
+  contractId String
+  serviceId  String
+
+  contract Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  service  Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([contractId, serviceId])
+  @@map("contract_services")
+}
+
+model Payment {
+  id          String        @id @default(uuid())
+  amount      Float
+  status      PaymentStatus @default(PENDING)
+  method      String?
+  reference   String?
+  notes       String?
+  agencyId    String
+  contractId  String?
+  invoiceId   String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  agency   Agency    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  contract Contract? @relation(fields: [contractId], references: [id], onDelete: SetNull)
+  invoice  Invoice?  @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+  @@index([contractId])
+  @@index([invoiceId])
+  @@map("payments")
+}
+
+model PortfolioItem {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String?
+  category    String?
+  link        String?
+  agencyId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+  @@map("portfolio")
+}
+
+// ─── Licences d'activation ───────────────────────────────────────────────
+// Une licence est vendue à un client puis activée par une agence de cette
+// instance. La clé claire n'est jamais stockée (seulement son hash + le
+// payload signé Ed25519, revérifié à chaque activation).
+// Le "binding" : quelle agence de l'instance a activé la licence. Une agence
+// = au plus une licence active (@unique sur agencyId).
+// Invitation d'un nouveau membre : l'admin n'envoie JAMAIS de mot de passe —
+// l'invité le définit lui-même via un lien à usage unique qui expire.
+model Invitation {
+  id          String    @id @default(uuid())
+  email       String
+  name        String
+  role        Role      @default(EMPLOYEE)
+  // Empreinte SHA-256 du token : le token en clair ne transite que dans
+  // l'e-mail — un dump de la base ne permet pas de rejouer une invitation.
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  usedAt      DateTime?
+  agencyId    String
+  invitedById String?
+  createdAt   DateTime  @default(now())
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId])
+  @@map("invitations")
+}
+
+// Dépense de l'agence (loyer, salaires versés, pub…) : le prérequis d'un
+// bénéfice réel. Catégorie fermée validée à l'API, devise + taux figé à la
+// saisie (même principe que les factures). Le justificatif est stocké hors
+// du dossier statique public, téléchargeable via route authentifiée.
+model Expense {
+  id             String   @id @default(uuid())
+  amount         Float
+  currency       String   @default("DZD")
+  exchangeRate   Float    @default(1)
+  category       String
+  date           DateTime @default(now())
+  notes          String?
+  attachment     String?
+  attachmentName String?
+  agencyId       String
+  createdById    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, date])
+  @@index([agencyId, category])
+  @@map("expenses")
+}
+
+// Budget mensuel : un objectif d'encaissements et des plafonds de dépenses
+// par catégorie (mêmes catégories fermées que les expenses). Le dashboard
+// compare au réalisé avec les MÊMES définitions (encaissé = payments,
+// dépenses = expenses) — jamais une comptabilité parallèle.
+model Budget {
+  id             String   @id @default(uuid())
+  year           Int
+  month          Int // 1-12
+  revenueTarget  Float    @default(0)
+  // { SALAIRES: 120000, ADS: 30000, … } — Json plutôt que 8 colonnes :
+  // extensible avec les catégories, validé par zod à l'API.
+  expenseBudgets Json?
+  agencyId       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@unique([agencyId, year, month])
+  @@map("budgets")
+}
+
+// Fournisseur de l'agence (prestataires, régies pub, bailleur…).
+model Supplier {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String?
+  notes     String?
+  agencyId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agency Agency         @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  bills  SupplierBill[]
+
+  @@index([agencyId])
+  @@map("suppliers")
+}
+
+// Facture fournisseur : un ENGAGEMENT à payer, pas un décaissement — la
+// trésorerie ne bouge qu'au paiement. Payer crée la dépense (module
+// expenses) dans la même transaction et la lie ici : une seule source de
+// décaissement, les définitions du dashboard ne changent pas.
+model SupplierBill {
+  id           String    @id @default(uuid())
+  reference    String?
+  amount       Float
+  currency     String    @default("DZD")
+  exchangeRate Float     @default(1)
+  // Catégorie de la dépense créée au paiement (catégories fermées expenses).
+  category     String    @default("AUTRE")
+  status       String    @default("A_PAYER") // A_PAYER | PAYEE | ANNULEE
+  dueDate      DateTime?
+  notes        String?
+  paidAt       DateTime?
+  expenseId    String?   @unique
+  supplierId   String
+  agencyId     String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  supplier Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  agency   Agency   @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, status])
+  @@index([agencyId, dueDate])
+  @@map("supplier_bills")
+}
+
+// Journal d'audit générique (pas limité aux licences).
+model AuditLog {
+  id         String   @id @default(uuid())
+  action     String
+  actorId    String?
+  actorEmail String?
+  // Agence concernée : permet de requêter le journal par tenant (accès RH,
+  // salaires…) sans passer par l'acteur.
+  agencyId   String?
+  targetType String?
+  targetId   String?
+  details    Json?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([action])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+  @@index([agencyId, createdAt])
+  @@map("audit_logs")
+}

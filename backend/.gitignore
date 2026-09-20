@@ -1,0 +1,4 @@
+node_modules/
+.env
+# Documents RH uploadés (hors du dossier statique public)
+storage/
