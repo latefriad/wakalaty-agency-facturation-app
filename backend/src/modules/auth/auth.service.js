@@ -47,8 +47,6 @@ async function login({ email, password }) {
     throw Object.assign(new Error("Identifiants incorrects"), { status: 401 });
   }
 
-  }
-
   const valid = await comparePassword(password, user.password);
   if (!valid) {
     throw Object.assign(new Error("Identifiants incorrects"), { status: 401 });
