@@ -29,7 +29,6 @@ async function request(endpoint, options = {}) {
 
   if (res.status === 401) {
     clearToken();
-    window.location.href = "/login";
     throw new Error("Session expirée");
   }
 

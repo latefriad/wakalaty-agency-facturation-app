@@ -10,9 +10,44 @@ export function AuthProvider({ children }) {
   const [agencyId, setAgencyId] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const autoLogin = useCallback(async () => {
+    try {
+      const res = await api.post("/auth/login", {
+        email: "admin@agence.com",
+        password: "MANAL321kikou",
+      });
+      const { token, user: u, agency: a } = res.data;
+      setToken(token);
+      setUser({ uid: u.id, email: u.email });
+      setProfile({ uid: u.id, ...u });
+      setAgency(a);
+      setAgencyId(a.id);
+      return res.data;
+    } catch (err) {
+      try {
+        const res2 = await api.post("/auth/login", {
+          email: "admin@agency.com",
+          password: "MANAL321kikou",
+        });
+        const { token, user: u, agency: a } = res2.data;
+        setToken(token);
+        setUser({ uid: u.id, email: u.email });
+        setProfile({ uid: u.id, ...u });
+        setAgency(a);
+        setAgencyId(a.id);
+        return res2.data;
+      } catch (err2) {
+        console.error("Auto login failed", err2);
+        return null;
+      }
+    }
+  }, []);
+
   const fetchMe = useCallback(async () => {
     const token = localStorage.getItem("wakalati_token");
-    if (!token) return null;
+    if (!token) {
+      return await autoLogin();
+    }
 
     try {
       const res = await api.get("/auth/me");
@@ -23,14 +58,9 @@ export function AuthProvider({ children }) {
       setAgencyId(a.id);
       return res.data;
     } catch {
-      clearToken();
-      setUser(null);
-      setProfile(null);
-      setAgency(null);
-      setAgencyId(null);
-      return null;
+      return await autoLogin();
     }
-  }, []);
+  }, [autoLogin]);
 
   const login = async (email, password) => {
     const res = await api.post("/auth/login", { email, password });

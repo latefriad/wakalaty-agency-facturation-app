@@ -139,19 +139,15 @@ function AppRoutes() {
   return (
     <Routes>
       {/* ═══════════════ PUBLIC ═══════════════ */}
-      <Route path="/" element={<Landing />} />      <Route path="/aide" element={<Help />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/aide" element={<Help />} />
       <Route path="/f/:token" element={<PublicInvoice />} />
-      <Route path="/invitation/:token" element={<InvitationAccept />} />      <Route path="/onboarding" element={<Onboarding />} />
+      <Route path="/invitation/:token" element={<InvitationAccept />} />
+      <Route path="/onboarding" element={<Onboarding />} />
 
       {/* ═══════════════ AUTH ═══════════════ */}
-      <Route
-        path="/login"
-        element={user ? <Navigate to={dashboardRedirect} replace /> : <Login />}
-      />
-      <Route
-        path="/register"
-        element={user ? <Navigate to={dashboardRedirect} replace /> : <Register />}
-      />
+      <Route path="/login" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/register" element={<Navigate to="/dashboard" replace />} />
       {/* ═══════════════ ADMIN + COMPTABLE ═══════════════ */}
       <Route element={<ProtectedRoute allowedRoles={ACCOUNTANT_ROLES} />}>
         <Route path="/dashboard" element={<AppLayout />} />
