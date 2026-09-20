@@ -89,7 +89,7 @@ export function AuthProvider({ children }) {
   };
 
   const isAdmin = profile?.role === "ADMIN";
-  const isSuperAdmin = profile?.role === ;
+  const isSuperAdmin = false;
 
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 5000);

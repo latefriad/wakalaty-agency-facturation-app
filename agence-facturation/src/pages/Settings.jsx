@@ -4,16 +4,12 @@ import { useLang } from "../i18n/LanguageContext";
 import { api } from "../services/api";
 import toast from "react-hot-toast";
 import AgencyProfile from "./AgencyProfile";
-import Subscription from "./Subscription";
-import LicenseTab from "./LicenseTab";
 
 const TABS = [
   { id: "profile", key: "settings.profileTab", icon: "👤" },
   { id: "password", key: "settings.passwordTab", icon: "🔒" },
   { id: "agency", key: "settings.agencyTab", icon: "🏢" },
   { id: "users", key: "settings.usersTab", icon: "👥", adminOnly: true },
-  { id: "license", key: "settings.licenseTab", icon: "🔑", adminOnly: true },
-  { id: "subscription", key: "settings.subscriptionTab", icon: "💳" },
 ];
 
 export default function Settings() {
@@ -78,8 +74,6 @@ export default function Settings() {
       {activeTab === "password" && <PasswordTab />}
       {activeTab === "agency" && <AgencyProfile />}
       {activeTab === "users" && isAdmin && <UsersTab />}
-      {activeTab === "license" && isAdmin && <LicenseTab />}
-      {activeTab === "subscription" && <Subscription />}
     </div>
   );
 }
@@ -193,7 +187,7 @@ function UsersTab() {
                 <span style={{ fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 20, background: "#eff6ff", color: "#3b82f6" }}>
                   {t(`role.${u.role}`)}
                 </span>
-                {u.id !== profile?.id && u.role !==  && (
+                {u.id !== profile?.id && (
                   <button onClick={() => toggleActive(u)}
                     style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 12, color: u.isActive ? "#ef4444" : "#10b981", fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
                     {u.isActive ? t("settings.deactivate") : t("settings.activate")}
