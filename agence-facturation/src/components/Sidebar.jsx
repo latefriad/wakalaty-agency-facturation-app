@@ -9,6 +9,7 @@ import { useTheme } from "../i18n/ThemeContext";
 const ADMIN_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
+  { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
@@ -24,6 +25,7 @@ const ADMIN_MENU = [
 const ACCOUNTANT_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
+  { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
@@ -33,6 +35,7 @@ const ACCOUNTANT_MENU = [
 const ADS_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
+  { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
 ];

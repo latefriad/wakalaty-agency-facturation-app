@@ -18,6 +18,7 @@ const Help = lazy(() => import("./pages/Help"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Clients = lazy(() => import("./pages/Clients"));
 const Leads = lazy(() => import("./pages/Leads"));
+const AdSpend = lazy(() => import("./pages/AdSpend"));
 const ClientDetail = lazy(() => import("./pages/ClientDetail"));
 const Invoices = lazy(() => import("./pages/Invoices"));
 const Expenses = lazy(() => import("./pages/Expenses"));
@@ -101,6 +102,7 @@ function AppLayout() {
     // Admin
     case "/dashboard":           page = <Dashboard />; break;
     case "/leads":               page = <Leads />; break;
+    case "/adspend":             page = <AdSpend />; break;
     case "/clients":             page = <Clients />; break;
     case "/invoices":            page = <Invoices />; break;
     case "/expenses":            page = <Expenses />; break;
@@ -159,9 +161,10 @@ function AppRoutes() {
         <Route path="/suppliers" element={<AppLayout />} />
       </Route>
 
-      {/* ═══════════════ LEADS CRM (ADMIN, ACCOUNTANT, ADS) ═══════════════ */}
+      {/* ═══════════════ LEADS CRM & AD SPEND (ADMIN, ACCOUNTANT, ADS) ═══════════════ */}
       <Route element={<ProtectedRoute allowedRoles={LEADS_ROLES} />}>
         <Route path="/leads" element={<AppLayout />} />
+        <Route path="/adspend" element={<AppLayout />} />
       </Route>
 
       {/* ═══════════════ ADMIN ONLY ═══════════════ */}

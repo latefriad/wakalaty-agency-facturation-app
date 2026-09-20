@@ -113,6 +113,13 @@ enum LeadStage {
   LOST
 }
 
+enum AdPlatform {
+  META
+  TIKTOK
+  GOOGLE
+  OTHER
+}
+
 // ─── Models ──────────────────────────────────────────────
 
 model Agency {
@@ -162,6 +169,7 @@ model Agency {
   supplierBills   SupplierBill[]
   leads           Lead[]
   leadNotes       LeadNote[]
+  adSpendEntries  AdSpendEntry[]
 
   @@map("agencies")
 }
@@ -823,4 +831,31 @@ model LeadNote {
   @@index([leadId, createdAt])
   @@map("lead_notes")
 }
+
+// ─── Module Ad Spend Tracking ────────────────────────────
+model AdSpendEntry {
+  id               String      @id @default(uuid())
+  agencyId         String
+  clientId         String
+  month            String      // YYYY-MM
+  platform         AdPlatform  @default(META)
+  campaignName     String      @default("")
+  clientAdBudget   Float       @default(0)
+  actualSpend      Float       @default(0)
+  amountBilled     Float       @default(0)
+  orders           Int         @default(0)
+  revenueGenerated Float       @default(0)
+  notes            String?     @db.Text
+  createdById      String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@unique([agencyId, clientId, month, platform, campaignName])
+  @@index([agencyId, month])
+  @@index([agencyId, clientId])
+  @@map("ad_spend_entries")
+}
+
 
