@@ -153,6 +153,7 @@ model User {
   name      String
   role      Role     @default(ADMIN)
   avatar    String?
+  isActive  Boolean  @default(true)
   agencyId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

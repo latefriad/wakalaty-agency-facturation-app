@@ -17,7 +17,7 @@ async function auth(req, res, next) {
       include: { agency: true },
     });
 
-    if (!user || !user.isActive) {
+    if (!user || user.isActive === false) {
       return error(res, "Compte invalide ou désactivé", 401);
     }
 
