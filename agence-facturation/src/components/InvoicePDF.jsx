@@ -6,7 +6,7 @@ import { TEMPLATES, renderInvoiceContent, normalizeInvoice } from "./InvoiceTemp
 export default function InvoicePDF({ invoice, onClose }) {
   const { agency } = useAuth();
   const { t } = useLang();
-  const [templateId, setTemplateId] = useState(invoice?.template || "classic");
+  const [templateId, setTemplateId] = useState(invoice?.template || "executive");
   const [downloading, setDownloading] = useState(false);
   const previewRef = useRef(null);
 

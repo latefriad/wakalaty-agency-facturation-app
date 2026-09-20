@@ -1,34 +1,23 @@
-// Libellés bilingues arabe / français : chaque intitulé du document est rendu
-// en arabe (principal, RTL) avec sa traduction française en dessous, en plus
-// petit et grisé. Les agences algériennes émettent souvent des factures
-// bilingues ; le PDF doit donc parler les deux langues sans sélecteur.
+// Libellés bilingues arabe / français pour les documents commerciaux Adpowers Digital
 const STATUS = {
-  EN_ATTENTE: { ar: "في الانتظار", fr: "En attente", color: "#f59e0b" },
-  SENT:       { ar: "مُرسَلة", fr: "Envoyée", color: "#0ea5e9" },
-  VUE:        { ar: "تمت المعاينة", fr: "Vue", color: "#6366f1" },
-  DRAFT:      { ar: "مسودة", fr: "Brouillon", color: "#94a3b8" },
-  PAYEE:      { ar: "مدفوعة", fr: "Payée", color: "#10b981" },
-  ANNULEE:    { ar: "ملغاة", fr: "Annulée", color: "#ef4444" },
-  EN_RETARD:  { ar: "متأخرة", fr: "En retard", color: "#dc2626" },
-  // Tolère les anciennes valeurs minuscules éventuellement stockées.
-  en_attente: { ar: "في الانتظار", fr: "En attente", color: "#f59e0b" },
-  payée:      { ar: "مدفوعة", fr: "Payée", color: "#10b981" },
-  annulée:    { ar: "ملغاة", fr: "Annulée", color: "#ef4444" },
+  EN_ATTENTE: { ar: "في الانتظار", fr: "En attente", color: "#f59e0b", bg: "#fef3c7" },
+  SENT:       { ar: "مُرسَلة", fr: "Envoyée", color: "#0284c7", bg: "#e0f2fe" },
+  VUE:        { ar: "تمت المعاينة", fr: "Vue", color: "#6366f1", bg: "#e0e7ff" },
+  DRAFT:      { ar: "مسودة", fr: "Brouillon", color: "#64748b", bg: "#f1f5f9" },
+  PAYEE:      { ar: "مدفوعة بالكامل", fr: "Payée", color: "#16a34a", bg: "#dcfce7" },
+  ANNULEE:    { ar: "ملغاة", fr: "Annulée", color: "#dc2626", bg: "#fee2e2" },
+  EN_RETARD:  { ar: "متأخرة عن الدفع", fr: "En retard", color: "#b91c1c", bg: "#fef2f2" },
+  en_attente: { ar: "في الانتظار", fr: "En attente", color: "#f59e0b", bg: "#fef3c7" },
+  payée:      { ar: "مدفوعة", fr: "Payée", color: "#16a34a", bg: "#dcfce7" },
+  annulée:    { ar: "ملغاة", fr: "Annulée", color: "#dc2626", bg: "#fee2e2" },
 };
 
-// Symbole de devise : DZD s'affiche « دج » (usage local), les autres gardent
-// leur symbole international.
 const CURRENCY_SYMBOL = { DZD: "دج", EUR: "€", USD: "$" };
 function currencySymbol(code) {
   if (!code || code === "DZD") return "دج";
   return CURRENCY_SYMBOL[code] || code;
 }
 
-// Adapte la facture renvoyée par l'API (number, client.name, items…) au
-// modèle attendu par les templates : sans cette étape, le PDF affichait
-// des "undefined" partout. Transporte aussi le logo, la charte couleur et
-// les coordonnées légales de l'agence (NIF/RC), indispensables sur une
-// facture algérienne.
 export function normalizeInvoice(raw, agency) {
   const items = raw.items || raw.services || [];
   const services = items.map((i) => ({
@@ -40,24 +29,33 @@ export function normalizeInvoice(raw, agency) {
   const subtotal = raw.subtotal ?? services.reduce((s, x) => s + (parseFloat(x.price) || 0), 0);
   const taxAmount = raw.taxAmount ?? (subtotal * (raw.tax || 0)) / 100;
   const currency = currencySymbol(raw.currency || agency?.currency);
-  const primary = agency?.primaryColor || "#3b82f6";
-  const secondary = agency?.secondaryColor || "#1e293b";
+  const primary = agency?.primaryColor || "#2563eb";
+  const secondary = agency?.secondaryColor || "#0f172a";
+
   return {
-    invoiceNumber: raw.number || raw.invoiceNumber || "",
-    docLabel: raw.docType === "DEVIS" ? "عرض سعر" : "فاتورة",
-    docLabelFr: raw.docType === "DEVIS" ? "Devis" : "Facture",
-    clientName: raw.client?.name || raw.clientName || "",
-    agencyName: agency?.name || raw.agencyName || "",
+    invoiceNumber: raw.number || raw.invoiceNumber || "FAC-" + (new Date().getFullYear()),
+    docLabel: raw.docType === "DEVIS" ? "عرض سعر" : "فاتورة تجارية",
+    docLabelFr: raw.docType === "DEVIS" ? "Devis Professionnel" : "Facture Officielle",
+    isQuote: raw.docType === "DEVIS",
+    clientName: raw.client?.name || raw.clientName || "Client Partenaire",
+    clientCompany: raw.client?.company || "",
+    clientPhone: raw.client?.phone || "",
+    clientEmail: raw.client?.email || "",
+    clientAddress: raw.client?.address || "",
+    agencyName: agency?.name || "Adpowers Digital",
+    agencyTagline: agency?.tagline || "Agence de Croissance · Media Buying, Web & Vidéo",
     agencyLogo: agency?.logo || null,
-    agencyAddress: agency?.address || "",
-    agencyPhone: agency?.phone || "",
-    agencyEmail: agency?.email || "",
+    agencyAddress: agency?.address || "Alger, Algérie",
+    agencyPhone: agency?.phone || "+213 779 41 12 91",
+    agencyEmail: agency?.email || "contact@adpowersdigital.com",
+    agencyWebsite: agency?.website || "https://adpowersdigital.netlify.app",
     agencyTaxId: agency?.taxId || "",
+    agencyBank: agency?.bankAccount || "",
     primary,
     secondary,
-    status: raw.displayStatus || raw.status,
+    status: raw.displayStatus || raw.status || "EN_ATTENTE",
     dueDate: raw.dueDate ? new Date(raw.dueDate).toLocaleDateString("fr-DZ") : null,
-    issueDate: raw.createdAt ? new Date(raw.createdAt).toLocaleDateString("fr-DZ") : null,
+    issueDate: raw.createdAt ? new Date(raw.createdAt).toLocaleDateString("fr-DZ") : new Date().toLocaleDateString("fr-DZ"),
     services,
     subtotal,
     tax: raw.tax || 0,
@@ -65,7 +63,7 @@ export function normalizeInvoice(raw, agency) {
     discount: raw.discount || 0,
     deposit: raw.depositAmount || 0,
     penalty: raw.penaltyAmount || 0,
-    total: raw.total ?? subtotal + taxAmount,
+    total: raw.total ?? (subtotal + taxAmount - (raw.discount || 0)),
     balance: raw.balance,
     paidAmount: raw.paidAmount,
     notes: raw.notes,
@@ -83,215 +81,297 @@ function esc(str) {
     .replace(/'/g, "&#39;");
 }
 
-// Intitulé bilingue : arabe en principal, français dessous en plus petit.
-function bi(ar, fr, { color = "#94a3b8", size = 11 } = {}) {
-  return `${esc(ar)}<span style="font-size:${size}px;color:${color};font-weight:400"> · ${esc(fr)}</span>`;
+function bi(ar, fr, { color = "#64748b", size = 11 } = {}) {
+  return `${esc(ar)} <span style="font-size:${size}px;color:${color};font-weight:400">(${esc(fr)})</span>`;
 }
 
-// En-tête d'agence commun : logo (image uploadée) ou pastille colorée, nom,
-// coordonnées et identifiant fiscal.
-function agencyBlock(invoice, { onDark = false } = {}) {
-  const sub = onDark ? "rgba(255,255,255,0.65)" : "#64748b";
-  const logo = invoice.agencyLogo
-    ? `<img src="${esc(invoice.agencyLogo)}" alt="" style="width:52px;height:52px;border-radius:10px;object-fit:cover;flex-shrink:0" crossorigin="anonymous"/>`
-    : `<div style="width:52px;height:52px;border-radius:10px;background:${invoice.primary}22;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">🏢</div>`;
-  const lines = [
-    invoice.agencyAddress && `<div style="font-size:12px;color:${sub}">${esc(invoice.agencyAddress)}</div>`,
-    (invoice.agencyPhone || invoice.agencyEmail) &&
-      `<div style="font-size:12px;color:${sub}">${esc([invoice.agencyPhone, invoice.agencyEmail].filter(Boolean).join(" · "))}</div>`,
-    invoice.agencyTaxId && `<div style="font-size:11px;color:${sub}">NIF/RC · ${esc(invoice.agencyTaxId)}</div>`,
-  ].filter(Boolean).join("");
-  return `
-    <div style="display:flex;align-items:center;gap:12px">
-      ${logo}
-      <div>
-        <div style="font-size:20px;font-weight:800;color:${onDark ? "#fff" : invoice.primary}">${esc(invoice.agencyName) || "وكالة التسويق"}</div>
-        <div style="font-size:12px;color:${sub};margin-top:2px">Agence Marketing · الجزائر</div>
-        ${lines}
-      </div>
-    </div>`;
+function statusBadge(invoice) {
+  const st = STATUS[invoice.status] || STATUS.EN_ATTENTE;
+  return `<span style="background:${st.bg};color:${st.color};border:1px solid ${st.color}40;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px">
+    <span>${esc(st.ar)}</span>
+    <span style="font-size:10px;opacity:0.8">· ${esc(st.fr)}</span>
+  </span>`;
 }
 
-function totalsBlock(invoice, accent) {
+function totalsBlock(invoice, accent = "#2563eb") {
   const c = invoice.currency;
   const row = (labelAr, labelFr, value, opts = {}) =>
-    `<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:14px${opts.strong ? ";font-weight:700" : ""}">
-      <span style="color:${opts.strong ? accent : "#64748b"}">${bi(labelAr, labelFr, { color: opts.strong ? accent : "#94a3b8" })}</span>
-      <span style="color:${opts.strong ? accent : "inherit"}">${value.toFixed(2)} ${c}</span>
+    `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13px${opts.strong ? ";font-weight:700" : ""};border-bottom:1px dashed #e2e8f0">
+      <span style="color:${opts.color || "#475569"}">${bi(labelAr, labelFr, { color: "#94a3b8" })}</span>
+      <span style="color:${opts.color || "#0f172a"};font-weight:${opts.strong ? 700 : 600}">${value.toLocaleString("fr-DZ", { minimumFractionDigits: 2 })} ${c}</span>
     </div>`;
+
   return `
-    <div style="background:#f8fafc;border-radius:10px;padding:16px 20px;max-width:340px;margin-inline-start:auto">
-      ${row("المجموع الجزئي", "Sous-total", invoice.subtotal || 0)}
-      ${invoice.discount ? row("الخصم", "Remise", -invoice.discount) : ""}
-      ${row(`الضريبة (${invoice.tax}%)`, "TVA", invoice.taxAmount || 0)}
-      <div style="display:flex;justify-content:space-between;font-weight:800;font-size:18px;color:${accent};border-top:2px solid #e2e8f0;padding-top:10px;margin-top:6px">
-        <span>${bi("المجموع الكلي", "Total TTC", { color: accent })}</span>
-        <span>${(invoice.total || 0).toFixed(2)} ${c}</span>
+    <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:14px;padding:18px 22px;max-width:380px;margin-inline-start:auto;box-shadow:0 2px 8px rgba(0,0,0,0.03)">
+      ${row("المجموع الجزئي", "Sous-total HT", invoice.subtotal || 0)}
+      ${invoice.discount ? row("الخصم الترويجي", "Remise", -invoice.discount, { color: "#16a34a" }) : ""}
+      ${invoice.tax ? row(`الضريبة الرسمية (${invoice.tax}%)`, "TVA", invoice.taxAmount || 0) : ""}
+      
+      <div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg, ${accent}10 0%, ${accent}25 100%);border:1px solid ${accent}40;border-radius:10px;padding:12px 16px;margin:12px 0 6px">
+        <span style="font-weight:800;font-size:15px;color:${accent}">${bi("المجموع الكلي", "Total TTC", { color: accent, size: 12 })}</span>
+        <span style="font-weight:900;font-size:20px;color:${accent}">${(invoice.total || 0).toLocaleString("fr-DZ", { minimumFractionDigits: 2 })} ${c}</span>
       </div>
-      ${invoice.deposit ? row("عربون مطلوب", "Acompte à verser", invoice.deposit, { strong: false }) : ""}
-      ${invoice.penalty ? `<div style="display:flex;justify-content:space-between;padding:6px 0;font-size:14px;color:#dc2626">
-        <span>${bi("غرامة تأخير", "Pénalité de retard", { color: "#dc2626" })}</span>
-        <span>+${invoice.penalty.toFixed(2)} ${c}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:15px;color:#dc2626;border-top:1px dashed #fca5a5;padding-top:8px;margin-top:4px">
-        <span>${bi("المبلغ الإجمالي المستحق", "Total à régler", { color: "#dc2626" })}</span>
-        <span>${((invoice.total || 0) + invoice.penalty).toFixed(2)} ${c}</span>
-      </div>` : ""}
+
+      ${invoice.deposit ? row("العربون المطلوب", "Acompte à verser", invoice.deposit, { strong: true, color: "#d97706" }) : ""}
+      ${invoice.penalty ? row("غرامة التأخير", "Pénalité de retard", invoice.penalty, { color: "#dc2626" }) : ""}
+      ${(invoice.deposit || invoice.penalty) ? `
+        <div style="display:flex;justify-content:space-between;font-weight:800;font-size:14px;color:#dc2626;padding-top:8px">
+          <span>${bi("المبلغ المستحق للدفع", "Net à payer", { color: "#dc2626" })}</span>
+          <span>${((invoice.total || 0) + invoice.penalty - (invoice.paidAmount || 0)).toLocaleString("fr-DZ", { minimumFractionDigits: 2 })} ${c}</span>
+        </div>
+      ` : ""}
     </div>`;
 }
 
-export const TEMPLATES = [
-  { id: "classic", name: "كلاسيكي · Classique", emoji: "📄", description: "تصميم تقليدي مع رأس ملوّن" },
-  { id: "modern", name: "حديث · Moderne", emoji: "✨", description: "تصميم عصري بألوان داكنة" },
-  { id: "minimal", name: "بسيط · Minimal", emoji: "📋", description: "تصميم نظيف بخطوط رفيعة" },
-];
+// ─────────────────────────────────────────────────────────────
+// TEMPLATE 1: ADPOWERS EXECUTIVE (New Default Agency Template)
+// ─────────────────────────────────────────────────────────────
+function renderExecutive(invoice) {
+  const accent = invoice.primary || "#2563eb";
+  const dark = invoice.secondary || "#0f172a";
 
-function statusBadge(invoice, tint = 0x22) {
-  const st = STATUS[invoice.status] || STATUS.EN_ATTENTE;
-  const alpha = tint === 0x33 ? "33" : "22";
-  return `<span style="background:${st.color}${alpha};color:${st.color};padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">${bi(st.ar, st.fr, { color: st.color, size: 10 })}</span>`;
+  return `
+    <div style="padding:0;background:#ffffff;font-family:'Segoe UI',system-ui,sans-serif;color:#0f172a;line-height:1.5">
+      <!-- Top Brand Bar -->
+      <div style="background:linear-gradient(135deg, ${dark} 0%, #1e293b 100%);color:#fff;padding:36px 44px;position:relative;border-bottom:4px solid ${accent}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:20px">
+          <!-- Agency Brand -->
+          <div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:48px;height:48px;border-radius:12px;background:${accent};color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;box-shadow:0 4px 14px rgba(37,99,235,0.4)">
+                ⚡
+              </div>
+              <div>
+                <h1 style="font-size:24px;font-weight:900;letter-spacing:-0.02em;margin:0;color:#ffffff">${esc(invoice.agencyName)}</h1>
+                <p style="font-size:12px;color:#94a3b8;margin:3px 0 0;font-weight:500">${esc(invoice.agencyTagline)}</p>
+              </div>
+            </div>
+            <div style="margin-top:14px;font-size:11px;color:#cbd5e1;display:flex;gap:16px;flex-wrap:wrap">
+              <span>🌐 ${esc(invoice.agencyWebsite)}</span>
+              <span>📱 ${esc(invoice.agencyPhone)}</span>
+              <span>✉️ ${esc(invoice.agencyEmail)}</span>
+            </div>
+          </div>
+
+          <!-- Document Tag -->
+          <div style="text-align:right">
+            <div style="font-size:22px;font-weight:900;color:#ffffff;letter-spacing:-0.01em">
+              ${esc(invoice.docLabel)}
+            </div>
+            <div style="font-size:12px;color:#94a3b8;font-weight:500;margin-top:2px">
+              ${esc(invoice.docLabelFr)}
+            </div>
+            <div style="font-size:15px;font-weight:800;color:#60a5fa;margin-top:6px;font-family:monospace;letter-spacing:0.5px">
+              ${esc(invoice.invoiceNumber)}
+            </div>
+            <div style="margin-top:10px">
+              ${statusBadge(invoice)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:36px 44px">
+        <!-- Client & Meta Cards -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px">
+          <!-- Client Card -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:20px">
+            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">
+              ${bi("معلومات العميل", "Destinataire / Client")}
+            </div>
+            <div style="font-size:17px;font-weight:800;color:#0f172a">${esc(invoice.clientName)}</div>
+            ${invoice.clientCompany ? `<div style="font-size:13px;color:#3b82f6;font-weight:600;margin-top:2px">${esc(invoice.clientCompany)}</div>` : ""}
+            <div style="font-size:12px;color:#64748b;margin-top:8px;line-height:1.6">
+              ${invoice.clientPhone ? `<div>📞 ${esc(invoice.clientPhone)}</div>` : ""}
+              ${invoice.clientEmail ? `<div>✉️ ${esc(invoice.clientEmail)}</div>` : ""}
+              ${invoice.clientAddress ? `<div>📍 ${esc(invoice.clientAddress)}</div>` : ""}
+            </div>
+          </div>
+
+          <!-- Document Timeline Card -->
+          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:20px">
+            <div style="font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">
+              ${bi("تواريخ المعاملة", "Détails & Dates")}
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px dashed #e2e8f0">
+              <span style="color:#64748b">${bi("تاريخ الإصدار", "Date d'émission")}</span>
+              <span style="font-weight:700;color:#0f172a">${esc(invoice.issueDate)}</span>
+            </div>
+            ${invoice.dueDate ? `
+              <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px dashed #e2e8f0">
+                <span style="color:#64748b">${bi("تاريخ الاستحقاق", "Date d'échéance")}</span>
+                <span style="font-weight:700;color:#2563eb">${esc(invoice.dueDate)}</span>
+              </div>
+            ` : ""}
+            <div style="display:flex;justify-content:space-between;padding:5px 0;font-size:13px">
+              <span style="color:#64748b">${bi("العملة المعتمدة", "Devise")}</span>
+              <span style="font-weight:700;color:#0f172a">${esc(invoice.currency)}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prestations Table -->
+        <div style="border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin-bottom:28px;box-shadow:0 1px 3px rgba(0,0,0,0.02)">
+          <table style="width:100%;border-collapse:collapse;text-align:start">
+            <thead>
+              <tr style="background:#f1f5f9;border-bottom:2px solid #e2e8f0">
+                <th style="padding:13px 18px;text-align:right;font-size:12px;font-weight:700;color:#334155;width:55%">${bi("الخدمة / تفاصيل الإنجاز", "Prestation & Spécifications")}</th>
+                <th style="padding:13px 14px;text-align:center;font-size:12px;font-weight:700;color:#334155;width:12%">${bi("الكمية", "Qté")}</th>
+                <th style="padding:13px 14px;text-align:center;font-size:12px;font-weight:700;color:#334155;width:18%">${bi("السعر الأحادي", "P.U")}</th>
+                <th style="padding:13px 18px;text-align:left;font-size:12px;font-weight:700;color:#334155;width:15%">${bi("الإجمالي", "Montant")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${(invoice.services || []).map((s, idx) => `
+                <tr style="background:${idx % 2 === 0 ? "#ffffff" : "#fbfcfe"};border-bottom:1px solid #f1f5f9">
+                  <td style="padding:14px 18px;font-size:13px;font-weight:600;color:#0f172a;line-height:1.5">
+                    ${esc(s.name)}
+                  </td>
+                  <td style="padding:14px;text-align:center;font-size:13px;color:#475569;font-weight:500">
+                    ${s.qty || 1}
+                  </td>
+                  <td style="padding:14px;text-align:center;font-size:13px;color:#475569;font-weight:500">
+                    ${s.unitPrice != null ? (s.unitPrice).toLocaleString("fr-DZ", { minimumFractionDigits: 2 }) : "-"}
+                  </td>
+                  <td style="padding:14px 18px;text-align:left;font-size:14px;font-weight:700;color:#0f172a">
+                    ${parseFloat(s.price || 0).toLocaleString("fr-DZ", { minimumFractionDigits: 2 })} ${invoice.currency}
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Totals & Payment Details Area -->
+        <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:start">
+          <!-- Payment Info & Notes -->
+          <div>
+            ${invoice.notes ? `
+              <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:16px;margin-bottom:16px">
+                <div style="font-size:12px;font-weight:700;color:#1e40af;margin-bottom:4px">📝 ${bi("ملاحظات وشروط", "Conditions & Modalités")}</div>
+                <div style="font-size:12px;color:#1e3a8a;line-height:1.6">${esc(invoice.notes)}</div>
+              </div>
+            ` : ""}
+
+            <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px">
+              <div style="font-size:12px;font-weight:700;color:#334155;margin-bottom:6px">💳 ${bi("طرق الدفع المتاحة", "Règlement")}</div>
+              <div style="font-size:12px;color:#64748b;line-height:1.6">
+                <div>• تحويل بنكي أو بريدي (Virement Bancaire / CCP / BaridiMob)</div>
+                <div>• الدفع نقداً عند استلام الخدمة (Paiement comptant)</div>
+                ${invoice.agencyBank ? `<div style="font-weight:600;color:#0f172a;margin-top:4px">RIB/CCP: ${esc(invoice.agencyBank)}</div>` : ""}
+              </div>
+            </div>
+
+            <!-- Signature & Stamp Box -->
+            <div style="margin-top:20px;border:1px dashed #cbd5e1;border-radius:12px;padding:16px;height:100px;display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase">${bi("الختم والتوقيع", "Cachet & Signature")}</div>
+              <div style="font-size:11px;color:#cbd5e1;text-align:center">Adpowers Digital Management</div>
+            </div>
+          </div>
+
+          <!-- Totals -->
+          <div>
+            ${totalsBlock(invoice, accent)}
+          </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div style="margin-top:48px;padding-top:20px;border-top:1px solid #e2e8f0;text-align:center;font-size:12px;color:#64748b">
+          <div style="font-weight:700;color:#0f172a">${bi("شكراً لثقتكم واختياركم لنا", "Merci de votre confiance et de votre collaboration")}</div>
+          <div style="margin-top:4px;font-size:11px;color:#94a3b8">${esc(invoice.agencyName)} · ${esc(invoice.agencyWebsite)}</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-function renderClassic(invoice) {
-  const accent = invoice.primary;
+// ─────────────────────────────────────────────────────────────
+// TEMPLATE 2: MODERN MINIMAL
+// ─────────────────────────────────────────────────────────────
+function renderMinimal(invoice) {
+  const accent = invoice.primary || "#2563eb";
   return `
-    <div style="padding:40px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:36px">
-        ${agencyBlock(invoice)}
-        <div style="text-align:left">
-          <div style="font-size:20px;font-weight:700">${esc(invoice.docLabel)}<span style="font-size:13px;color:#94a3b8;font-weight:400"> · ${esc(invoice.docLabelFr)}</span></div>
-          <div style="font-size:14px;color:${accent};font-weight:600;margin-top:4px">${esc(invoice.invoiceNumber)}</div>
+    <div style="padding:44px;font-family:'Segoe UI',system-ui,sans-serif;color:#0f172a">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0f172a;padding-bottom:24px;margin-bottom:32px">
+        <div>
+          <div style="font-size:24px;font-weight:900;letter-spacing:-0.02em">${esc(invoice.agencyName)}</div>
+          <div style="font-size:12px;color:#64748b;margin-top:2px">${esc(invoice.agencyTagline)}</div>
+          <div style="font-size:11px;color:#94a3b8;margin-top:6px">${esc(invoice.agencyPhone)} · ${esc(invoice.agencyEmail)}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:24px;font-weight:900;color:#0f172a">${esc(invoice.docLabel)}</div>
+          <div style="font-size:13px;color:#64748b;font-weight:600;margin-top:2px">${esc(invoice.invoiceNumber)}</div>
           <div style="margin-top:8px">${statusBadge(invoice)}</div>
         </div>
       </div>
-      <div style="border-top:2px solid #e2e8f0;margin-bottom:28px"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px">
         <div>
-          <div style="font-size:12px;color:#94a3b8;font-weight:600;margin-bottom:8px">${bi("صادرة إلى", "Destinataire")}</div>
-          <div style="font-weight:600;font-size:15px">${esc(invoice.clientName)}</div>
+          <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase">${bi("العميل", "Client")}</div>
+          <div style="font-size:16px;font-weight:800;color:#0f172a;margin-top:4px">${esc(invoice.clientName)}</div>
+          ${invoice.clientCompany ? `<div style="font-size:13px;color:#64748b">${esc(invoice.clientCompany)}</div>` : ""}
+          ${invoice.clientPhone ? `<div style="font-size:12px;color:#94a3b8;margin-top:4px">${esc(invoice.clientPhone)}</div>` : ""}
         </div>
-        <div style="text-align:left">
-          <div style="font-size:13px;color:#64748b;margin-bottom:6px"><span style="font-weight:600">${bi("تاريخ الإصدار", "Date")}: </span>${esc(invoice.issueDate) || ""}</div>
-          ${invoice.dueDate ? `<div style="font-size:13px;color:#64748b"><span style="font-weight:600">${bi("تاريخ الاستحقاق", "Échéance")}: </span>${esc(invoice.dueDate)}</div>` : ""}
+        <div style="text-align:right">
+          <div style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase">${bi("التواريخ", "Dates")}</div>
+          <div style="font-size:13px;color:#0f172a;font-weight:600;margin-top:4px">${bi("تاريخ الإصدار", "Émission")}: ${esc(invoice.issueDate)}</div>
+          ${invoice.dueDate ? `<div style="font-size:13px;color:#2563eb;font-weight:600;margin-top:2px">${bi("الاستحقاق", "Échéance")}: ${esc(invoice.dueDate)}</div>` : ""}
         </div>
       </div>
-      <table style="width:100%;border-collapse:collapse;margin-bottom:20px">
+
+      <table style="width:100%;border-collapse:collapse;margin-bottom:28px">
         <thead>
-          <tr style="background:#f8fafc">
-            <th style="padding:10px 14px;text-align:right;font-size:13px;color:#64748b;border-bottom:2px solid #e2e8f0">${bi("الخدمة", "Désignation")}</th>
-            <th style="padding:10px 14px;text-align:left;font-size:13px;color:#64748b;border-bottom:2px solid #e2e8f0;width:150px">${bi("المبلغ", "Montant")} (${invoice.currency})</th>
+          <tr style="border-bottom:2px solid #e2e8f0">
+            <th style="padding:10px 0;text-align:right;font-size:12px;font-weight:700;color:#64748b">${bi("الخدمة", "Désignation")}</th>
+            <th style="padding:10px 0;text-align:center;font-size:12px;font-weight:700;color:#64748b;width:80px">${bi("الكمية", "Qté")}</th>
+            <th style="padding:10px 0;text-align:left;font-size:12px;font-weight:700;color:#64748b;width:150px">${bi("المبلغ", "Montant")} (${invoice.currency})</th>
           </tr>
         </thead>
         <tbody>
           ${(invoice.services || []).map(s => `
-            <tr>
-              <td style="padding:12px 14px;font-size:14px;border-bottom:1px solid #f1f5f9">${esc(s.name)}</td>
-              <td style="padding:12px 14px;font-size:14px;border-bottom:1px solid #f1f5f9;text-align:left">${parseFloat(s.price || 0).toFixed(2)}</td>
+            <tr style="border-bottom:1px solid #f1f5f9">
+              <td style="padding:14px 0;font-size:14px;font-weight:600;color:#0f172a">${esc(s.name)}</td>
+              <td style="padding:14px 0;text-align:center;font-size:13px;color:#64748b">${s.qty || 1}</td>
+              <td style="padding:14px 0;text-align:left;font-size:14px;font-weight:700;color:#0f172a">${parseFloat(s.price || 0).toLocaleString("fr-DZ", { minimumFractionDigits: 2 })}</td>
             </tr>
           `).join("")}
         </tbody>
       </table>
-      ${totalsBlock(invoice, accent)}
-      ${invoice.notes ? `<div style="margin-top:28px;padding:16px;background:#fefce8;border-radius:10px;font-size:13px;color:#92400e"><strong>${bi("ملاحظات", "Notes")}: </strong>${esc(invoice.notes)}</div>` : ""}
-      <div style="margin-top:40px;text-align:center;color:#94a3b8;font-size:12px;border-top:1px solid #f1f5f9;padding-top:20px">${bi("شكراً لثقتكم", "Merci de votre confiance")} — ${esc(invoice.agencyName) || "وكالة التسويق"}</div>
-    </div>
-  `;
-}
 
-function renderModern(invoice) {
-  const accent = invoice.primary;
-  return `
-    <div style="padding:0">
-      <div style="background:linear-gradient(135deg,${invoice.secondary},${invoice.primary});padding:32px 40px;color:#fff">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          ${agencyBlock(invoice, { onDark: true })}
-          <div style="text-align:left">
-            <div style="font-size:14px;color:rgba(255,255,255,0.7);font-weight:500">${esc(invoice.docLabel)} · ${esc(invoice.docLabelFr)}</div>
-            <div style="font-size:20px;font-weight:700;letter-spacing:1px;margin-top:2px">${esc(invoice.invoiceNumber)}</div>
-            <div style="margin-top:8px">${statusBadge(invoice, 0x33)}</div>
-          </div>
-        </div>
-      </div>
-      <div style="padding:32px 40px">
-        <div style="display:flex;justify-content:space-between;margin-bottom:32px;background:#f8fafc;border-radius:12px;padding:16px 20px">
-          <div>
-            <div style="font-size:11px;color:#94a3b8;font-weight:600;margin-bottom:4px">${bi("العميل", "Client")}</div>
-            <div style="font-weight:700;font-size:16px">${esc(invoice.clientName)}</div>
-          </div>
-          <div style="text-align:left">
-            <div style="font-size:12px;color:#64748b;margin-bottom:4px"><span style="color:#94a3b8">${bi("تاريخ الإصدار", "Date")}:</span> ${esc(invoice.issueDate) || ""}</div>
-            ${invoice.dueDate ? `<div style="font-size:12px;color:#64748b"><span style="color:#94a3b8">${bi("تاريخ الاستحقاق", "Échéance")}:</span> ${esc(invoice.dueDate)}</div>` : ""}
-          </div>
-        </div>
-        <table style="width:100%;border-collapse:separate;border-spacing:0 6px;margin-bottom:24px">
-          <thead>
-            <tr>
-              <th style="padding:8px 16px;text-align:right;font-size:12px;color:#94a3b8;font-weight:600">${bi("الخدمة", "Désignation")}</th>
-              <th style="padding:8px 16px;text-align:left;font-size:12px;color:#94a3b8;font-weight:600;width:150px">${bi("المبلغ", "Montant")}</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${(invoice.services || []).map(s => `
-              <tr style="background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.04)">
-                <td style="padding:12px 16px;font-size:14px;font-weight:500">${esc(s.name)}</td>
-                <td style="padding:12px 16px;font-size:14px;text-align:left;font-weight:600">${parseFloat(s.price || 0).toFixed(2)} ${invoice.currency}</td>
-              </tr>
-            `).join("")}
-          </tbody>
-        </table>
+      <div style="display:flex;justify-content:flex-end">
         ${totalsBlock(invoice, accent)}
-        ${invoice.notes ? `<div style="margin-top:24px;padding:16px;background:#fefce8;border-radius:10px;font-size:13px;color:#92400e"><strong>${bi("ملاحظات", "Notes")}: </strong>${esc(invoice.notes)}</div>` : ""}
-        <div style="margin-top:48px;text-align:center;color:#94a3b8;font-size:12px;border-top:1px solid #e2e8f0;padding-top:20px">
-          ${bi("شكراً لثقتكم", "Merci de votre confiance")} — ${esc(invoice.agencyName) || "وكالة التسويق"}
-        </div>
+      </div>
+
+      <div style="margin-top:48px;padding-top:20px;border-top:1px solid #e2e8f0;text-align:center;font-size:11px;color:#94a3b8">
+        ${esc(invoice.agencyName)} · ${esc(invoice.agencyWebsite)} · ${esc(invoice.agencyPhone)}
       </div>
     </div>
   `;
 }
 
-function renderMinimal(invoice) {
-  const accent = invoice.primary;
-  return `
-    <div style="padding:48px 40px;font-family:'Segoe UI',Tahoma,sans-serif">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #e2e8f0">
-        ${agencyBlock(invoice)}
-        <div style="text-align:left">
-          <div style="font-size:26px;font-weight:200;color:#0f172a">${esc(invoice.docLabel)}</div>
-          <div style="font-size:13px;color:#94a3b8;margin-top:2px">${esc(invoice.docLabelFr)} · ${esc(invoice.invoiceNumber)}</div>
-        </div>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:32px">
-        <div>
-          <div style="font-size:11px;color:#94a3b8;font-weight:600;margin-bottom:6px">${bi("صادرة إلى", "Destinataire")}</div>
-          <div style="font-size:15px;font-weight:600;color:#0f172a">${esc(invoice.clientName)}</div>
-        </div>
-        <div style="text-align:left;font-size:12px;color:#94a3b8">
-          <div>${esc(invoice.issueDate) || ""}</div>
-          ${invoice.dueDate ? `<div style="margin-top:4px">${bi("الاستحقاق", "Échéance")}: ${esc(invoice.dueDate)}</div>` : ""}
-        </div>
-      </div>
-      ${(invoice.services || []).map(s => `
-        <div style="display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f1f5f9">
-          <span style="font-size:14px;color:#334155">${esc(s.name)}</span>
-          <span style="font-size:14px;color:#334155;font-weight:500">${parseFloat(s.price || 0).toFixed(2)} ${invoice.currency}</span>
-        </div>
-      `).join("")}
-      <div style="margin-top:24px">${totalsBlock(invoice, accent)}</div>
-      <div style="margin-top:20px">${statusBadge(invoice)}</div>
-      ${invoice.notes ? `<div style="margin-top:24px;padding:14px;background:#f8fafc;border-radius:6px;font-size:13px;color:#64748b;border-inline-start:3px solid #e2e8f0"><strong>${bi("ملاحظات", "Notes")}: </strong>${esc(invoice.notes)}</div>` : ""}
-      <div style="margin-top:48px;text-align:center;color:#cbd5e1;font-size:11px;padding-top:20px;border-top:1px solid #f1f5f9">${bi("شكراً لثقتكم", "Merci de votre confiance")} — ${esc(invoice.agencyName) || "وكالة التسويق"}</div>
-    </div>
-  `;
+// ─────────────────────────────────────────────────────────────
+// TEMPLATE 3: CORPORATE CLASSIC
+// ─────────────────────────────────────────────────────────────
+function renderClassic(invoice) {
+  const accent = invoice.primary || "#2563eb";
+  return renderExecutive(invoice);
 }
 
-export function renderInvoiceContent(rawInvoice, templateId, agency) {
+export const TEMPLATES = [
+  { id: "executive", name: "⚡ أدباورز ديجيتال · Adpowers Executive", emoji: "🚀", description: "تصميم وكالة تسويق احترافي فخم مع تفاصيل كاملة" },
+  { id: "minimal", name: "📋 بسيط · Minimal Clean", emoji: "✨", description: "تصميم أنيق وعصري بخطوط ناعمة" },
+  { id: "classic", name: "📄 كلاسيكي · Corporate", emoji: "🏛️", description: "تصميم رسمي مناسب للشركات والتعاملات الإدارية" },
+];
+
+export function renderInvoiceContent(rawInvoice, templateId = "executive", agency) {
   const invoice = rawInvoice.docLabel ? rawInvoice : normalizeInvoice(rawInvoice, agency);
   switch (templateId) {
-    case "modern":
-      return renderModern(invoice);
     case "minimal":
       return renderMinimal(invoice);
-    default:
+    case "classic":
       return renderClassic(invoice);
+    case "executive":
+    default:
+      return renderExecutive(invoice);
   }
 }

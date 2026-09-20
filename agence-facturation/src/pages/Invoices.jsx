@@ -28,7 +28,7 @@ const emptyForm = {
   tax: 19,
   dueDate: "",
   notes: "",
-  template: "classic",
+  template: "executive",
   currency: "DZD",
   exchangeRate: 1,
   depositType: "",

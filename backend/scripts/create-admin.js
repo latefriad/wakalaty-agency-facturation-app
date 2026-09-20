@@ -32,9 +32,17 @@ async function main() {
   // Les admins partagent une agence technique (le modèle User exige un
   // agencyId ; ce ne sont pas de vraies agences clientes).
   const agency = await prisma.agency.upsert({
-    where: { email: "system@wakalati.local" },
-    update: {},
-    create: { name: "Système", email: "system@wakalati.local", onboarded: true },
+    where: { email: "contact@adpowersdigital.com" },
+    update: { name: "Adpowers Digital" },
+    create: {
+      name: "Adpowers Digital",
+      email: "contact@adpowersdigital.com",
+      website: "https://adpowersdigital.netlify.app",
+      tagline: "On transforme votre budget en croissance",
+      primaryColor: "#2563eb",
+      secondaryColor: "#0f172a",
+      onboarded: true,
+    },
   });
 
   const user = await prisma.user.upsert({
