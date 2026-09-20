@@ -18,6 +18,7 @@ import { getServices } from "../services/servicesService";
 import InvoicePDF from "../components/InvoicePDF";
 import Pagination from "../components/Pagination";
 import { TEMPLATES } from "../components/InvoiceTemplates";
+import WhatsAppReminderButton from "../components/WhatsAppReminderButton";
 
 const PAGE_SIZE = 20;
 
@@ -546,6 +547,7 @@ export default function Invoices() {
                 {inv.docType === "FACTURE" && (
                   <button onClick={() => handleMakeRecurring(inv)} title={t("inv.makeRecurring")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13 }}>🔁</button>
                 )}
+                <WhatsAppReminderButton invoice={inv} />
                 <button onClick={() => handleSendEmail(inv)} title={t("inv.sendByEmail")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13 }}>✉️</button>
                 <button onClick={() => handleCopyLink(inv)} title={t("inv.copyClientLink")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13 }}>🔗</button>
                 <button onClick={() => setSelectedInvoice(inv)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #dbeafe", background: "#eff6ff", color: "#3b82f6", cursor: "pointer", fontSize: 13 }}>👁️</button>
