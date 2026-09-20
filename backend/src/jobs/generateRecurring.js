@@ -2,7 +2,6 @@ const prisma = require("../config/database");
 const logger = require("../utils/logger");
 const invoicesService = require("../modules/invoices/invoices.service");
 const { advance } = require("../modules/recurring/recurring.service");
-const { canAdd } = require("../config/plans");
 
 // Génère les factures des récurrences arrivées à échéance. Respecte les
 // limites de plan : une agence FREE au quota voit sa génération sautée
@@ -18,12 +17,6 @@ async function generateRecurring() {
     try {
       const agency = await prisma.agency.findUnique({ where: { id: rec.agencyId } });
       if (!agency) continue;
-
-      const count = await prisma.invoice.count({ where: { agencyId: rec.agencyId } });
-      if (!canAdd(agency.plan, "invoices", count)) {
-        logger.info(`Récurrence ${rec.id}: limite du plan ${agency.plan} atteinte, génération sautée`);
-        continue;
-      }
 
       const client = await prisma.client.findFirst({ where: { id: rec.clientId, agencyId: rec.agencyId } });
       if (!client) {
