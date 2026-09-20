@@ -169,7 +169,7 @@ async function create(agencyId, { clientId, items, tax, discount = 0, notes, due
       },
       include: { items: true, client: { select: { id: true, name: true, email: true } }, payments: true },
     });
-  });
+  }, { timeout: 30000 });
 
   if (invoice.status !== "DRAFT" && invoice.docType === "FACTURE") {
     await logClientEvent(prisma, { agencyId, clientId, type: "INVOICE_ISSUED", message: invoice.number, meta: { invoiceId: invoice.id, number: invoice.number, total: invoice.total } });
@@ -193,7 +193,7 @@ async function finalize(agencyId, id) {
       data: { number, status: "EN_ATTENTE" },
       include: { items: true, client: { select: { id: true, name: true, email: true } }, payments: true },
     });
-  });
+  }, { timeout: 30000 });
 
   if (invoice.docType === "FACTURE") {
     await logClientEvent(prisma, { agencyId, clientId: invoice.clientId, type: "INVOICE_ISSUED", message: invoice.number, meta: { invoiceId: invoice.id, number: invoice.number, total: invoice.total } });

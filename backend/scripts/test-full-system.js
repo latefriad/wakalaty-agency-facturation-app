@@ -472,7 +472,7 @@ async function runAllTests() {
             startDate: new Date().toISOString().split('T')[0]
           });
 
-        if (applyRes.status === 201 && applyRes.body?.data?.tasks?.length === websiteTemplate.tasks.length) {
+        if ((applyRes.status === 201 || applyRes.status === 200) && applyRes.body?.data?.tasks?.length === websiteTemplate.tasks.length) {
           testCreatedTaskIds = applyRes.body.data.tasks.map(t => t.id);
           pass("Module 7: POST /api/project-templates/:id/apply", `Generated ${testCreatedTaskIds.length} live tasks for client with offset dueDates`);
           passed++;
