@@ -19,6 +19,7 @@ const ADMIN_MENU = [
   { path: "/contracts", key: "nav.contracts", icon: "📄" },
   { path: "/services", key: "nav.services", icon: "⚙️" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
+  { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
   { path: "/employees", key: "nav.employees", icon: "👤" },
   { path: "/portfolio", key: "nav.portfolio", icon: "📁" },
   { path: "/settings", key: "nav.settings", icon: "⚙️" },
@@ -43,6 +44,13 @@ const ADS_MENU = [
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
+  { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+];
+
+const DESIGNER_MENU = [
+  { path: "/tasks", key: "nav.tasks", icon: "📋" },
+  { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+  { path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" },
 ];
 
 const EMPLOYEE_MENU = [{ path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" }];
@@ -60,6 +68,7 @@ export default function Sidebar() {
   const isAdmin = profile?.role === "ADMIN";
   const isAccountant = profile?.role === "ACCOUNTANT";
   const isAds = profile?.role === "ADS";
+  const isDesigner = profile?.role === "DESIGNER";
 
   const menuItems = isAdmin
     ? ADMIN_MENU
@@ -67,6 +76,8 @@ export default function Sidebar() {
     ? ACCOUNTANT_MENU
     : isAds
     ? ADS_MENU
+    : isDesigner
+    ? DESIGNER_MENU
     : EMPLOYEE_MENU;
 
 

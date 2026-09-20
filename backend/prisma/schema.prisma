@@ -172,6 +172,7 @@ model Agency {
   adSpendEntries  AdSpendEntry[]
   monthlyGoals    AgencyGoal[]
   testiliTests    TestiliTest[]
+  projectTemplates ProjectTemplate[]
 
   @@map("agencies")
 }
@@ -924,6 +925,50 @@ model TestiliTest {
   @@index([agencyId, status])
   @@index([agencyId, verdict])
   @@map("testili_tests")
+}
+
+// ─── Module Project Templates per Service ────────────────
+enum ServiceType {
+  META_ADS
+  WEBSITE
+  TESTILI
+  VOICE_OFF
+  VIDEO_EDITING
+  CONTENT
+}
+
+model ProjectTemplate {
+  id          String      @id @default(uuid())
+  agencyId    String
+  name        String
+  serviceType ServiceType @default(META_ADS)
+  description String?     @db.Text
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  agency Agency                @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  tasks  ProjectTemplateTask[]
+
+  @@index([agencyId, serviceType])
+  @@map("project_templates")
+}
+
+model ProjectTemplateTask {
+  id                 String    @id @default(uuid())
+  templateId         String
+  title              String
+  description        String?   @db.Text
+  defaultPriority    Priority  @default(MEDIUM)
+  dayOffsetFromStart Int       @default(0)
+  defaultRole        Role?
+  order              Int       @default(0)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  template ProjectTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@index([templateId])
+  @@map("project_template_tasks")
 }
 
 

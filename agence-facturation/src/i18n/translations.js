@@ -1377,8 +1377,28 @@ export const translations = {
   "clientReport.tasksSummary": { ar: "المهام والخدمات المنفذة خلال الشهر", fr: "Missions & Livrables Réalisés", en: "Completed Deliverables & Tasks" },
   "clientReport.testiliSummary": { ar: "نتائج اختبار المنتجات (مختبر Testili)", fr: "Résultats des Tests Produits (Testili)", en: "Product Testing Results (Testili)" },
   "clientReport.conclusion": { ar: "رأي الوكالة والخطوات القادمة", fr: "Conclusion & Prochaines Étapes", en: "Agency Conclusion & Next Steps" },
-  "clientReport.agencySignature": { ar: "ختم وتوقيع الوكالة", fr: "Cachet & Signature de l'Agence", en: "Agency Seal & Signature" },
   "clientReport.noClientSelected": { ar: "يرجى اختيار عميل لعرض التقرير الشهري", fr: "Veuillez sélectionner un client pour afficher le rapport", en: "Please select a client to display the monthly report" },
+
+  // ── Project Templates per Service ──
+  "nav.projectTemplates": { ar: "قوالب المشاريع", fr: "Modèles de Projets", en: "Project Templates" },
+  "projectTpl.title": { ar: "قوالب المشاريع والخدمات", fr: "Modèles de Projets par Service", en: "Service Project Templates" },
+  "projectTpl.subtitle": { ar: "توليد خطط العمل والمهام تلقائياً لكل خدمة وتطبيقها بضغطة زر على العميل", fr: "Génération automatique des tâches et jalons par service pour chaque nouveau client", en: "Automate project tasks and milestones per service and apply to clients in one click" },
+  "projectTpl.seedDefaults": { ar: "توليد قوالب الوكالة الافتراضية", fr: "Générer les modèles par défaut", en: "Generate Default Templates" },
+  "projectTpl.newTemplate": { ar: "قالب جديد", fr: "Nouveau Modèle", en: "New Template" },
+  "projectTpl.editTemplate": { ar: "تعديل القالب", fr: "Modifier le Modèle", en: "Edit Template" },
+  "projectTpl.applyToClient": { ar: "تطبيق على عميل", fr: "Appliquer au client", en: "Apply to Client" },
+  "projectTpl.applyModalTitle": { ar: "تطبيق قالب: {name}", fr: "Appliquer le modèle : {name}", en: "Apply Template: {name}" },
+  "projectTpl.serviceType": { ar: "نوع الخدمة", fr: "Type de Service", en: "Service Type" },
+  "projectTpl.tasksCount": { ar: "{count} مهام متسلسلة", fr: "{count} tâches jalons", en: "{count} milestone tasks" },
+  "projectTpl.durationDays": { ar: "المدة الإجمالية: {days} يوم", fr: "Durée estimée : {days} jours", en: "Estimated duration: {days} days" },
+  "projectTpl.startDate": { ar: "تاريخ انطلاق المشروع", fr: "Date de démarrage du projet", en: "Project Start Date" },
+  "projectTpl.appliedSuccess": { ar: "تم إنشاء {count} مهام بنجاح للعميل {client} وفقاً لجدول القالب!", fr: "{count} tâches créées avec succès pour {client} selon le calendrier du modèle !", en: "{count} tasks successfully created for {client} following the template schedule!" },
+  "projectTpl.seededSuccess": { ar: "تم إنشاء القوالب الافتراضية بنجاح", fr: "Modèles par défaut générés avec succès", en: "Default templates generated successfully" },
+  "projectTpl.addTask": { ar: "+ إضافة مهمة للقالب", fr: "+ Ajouter une tâche", en: "+ Add Task" },
+  "projectTpl.dayOffset": { ar: "الموعد بعد (أيام)", fr: "Échéance (+jours)", en: "Due (+days)" },
+  "projectTpl.assignedRole": { ar: "الدور المسؤول", fr: "Rôle assigné", en: "Assigned Role" },
+  "projectTpl.deleteConfirm": { ar: "هل أنت متأكد من رغبتك في حذف هذا القالب؟", fr: "Êtes-vous sûr de supprimer ce modèle ?", en: "Are you sure you want to delete this template?" },
+  "projectTpl.noTemplates": { ar: "لا توجد قوالب مشاريع حتى الآن. يمكنك توليد قوالب الوكالة بنقرة واحدة!", fr: "Aucun modèle de projet configuré. Cliquez sur 'Générer les modèles par défaut'.", en: "No project templates configured yet. Click 'Generate Default Templates' to start." },
 };
 
 export function translate(lang, key, params) {

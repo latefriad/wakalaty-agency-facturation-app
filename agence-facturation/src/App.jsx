@@ -21,6 +21,7 @@ const Leads = lazy(() => import("./pages/Leads"));
 const AdSpend = lazy(() => import("./pages/AdSpend"));
 const Testili = lazy(() => import("./pages/Testili"));
 const ClientReports = lazy(() => import("./pages/ClientReports"));
+const ProjectTemplates = lazy(() => import("./pages/ProjectTemplates"));
 const ClientDetail = lazy(() => import("./pages/ClientDetail"));
 const Invoices = lazy(() => import("./pages/Invoices"));
 const Expenses = lazy(() => import("./pages/Expenses"));
@@ -43,7 +44,7 @@ import GlobalSearch from "./components/GlobalSearch";
 import "./App.css";
 
 import LoadingScreen from "./components/LoadingScreen";
-import { EMPLOYEE_ROLES, ADMIN_ROLES, ACCOUNTANT_ROLES, LEADS_ROLES, TESTILI_ROLES, CLIENT_REPORTS_ROLES } from "./utils/constants";
+import { EMPLOYEE_ROLES, ADMIN_ROLES, ACCOUNTANT_ROLES, LEADS_ROLES, TESTILI_ROLES, CLIENT_REPORTS_ROLES, PROJECT_TEMPLATES_ROLES } from "./utils/constants";
 
 /**
  * AppLayout — shared shell for admin + employee pages.
@@ -113,6 +114,7 @@ function AppLayout() {
     case "/suppliers":           page = <Suppliers />; break;
     case "/services":            page = <Services />; break;
     case "/tasks":               page = <Tasks />; break;
+    case "/project-templates":   page = <ProjectTemplates />; break;
     case "/employees":           page = <Employees />; break;
     case "/contracts":           page = <Contracts />; break;
     case "/agency":              page = <AgencyProfile />; break;    case "/settings":            page = <Settings />; break;
@@ -179,6 +181,11 @@ function AppRoutes() {
       {/* ═══════════════ CLIENT MONTHLY REPORTS (ADMIN, ACCOUNTANT, ADS) ═══════════════ */}
       <Route element={<ProtectedRoute allowedRoles={CLIENT_REPORTS_ROLES} />}>
         <Route path="/client-reports" element={<AppLayout />} />
+      </Route>
+
+      {/* ═══════════════ PROJECT TEMPLATES (ADMIN, ADS, DESIGNER) ═══════════════ */}
+      <Route element={<ProtectedRoute allowedRoles={PROJECT_TEMPLATES_ROLES} />}>
+        <Route path="/project-templates" element={<AppLayout />} />
       </Route>
 
       {/* ═══════════════ ADMIN ONLY ═══════════════ */}
