@@ -27,7 +27,6 @@ const Employees = lazy(() => import("./pages/Employees"));
 const Contracts = lazy(() => import("./pages/Contracts"));
 const AgencyProfile = lazy(() => import("./pages/AgencyProfile"));
 const Settings = lazy(() => import("./pages/Settings"));
-const ServiceProposals = lazy(() => import("./pages/ServiceProposals"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const EmployeeDashboard = lazy(() => import("./pages/EmployeeDashboard"));
 const InvitationAccept = lazy(() => import("./pages/InvitationAccept"));
@@ -110,7 +109,7 @@ function AppLayout() {
     case "/contracts":           page = <Contracts />; break;
     case "/agency":              page = <AgencyProfile />; break;    case "/settings":            page = <Settings />; break;
     case "/portfolio":           page = <Portfolio />; break;
-    case "/service-proposals":   page = <ServiceProposals />; break;    // Employee
+    // Employee
     case "/my-dashboard":        page = <EmployeeDashboard />; break;
     // Fallback
     default:
@@ -166,7 +165,7 @@ function AppRoutes() {
         <Route path="/contracts" element={<AppLayout />} />
         <Route path="/agency" element={<AppLayout />} />        <Route path="/settings" element={<AppLayout />} />
         <Route path="/portfolio" element={<AppLayout />} />
-        <Route path="/service-proposals" element={<AppLayout />} />      </Route>
+      </Route>
 
       {/* ═══════════════ EMPLOYEE ONLY ═══════════════ */}
       <Route element={<ProtectedRoute allowedRoles={EMPLOYEE_ROLES} />}>

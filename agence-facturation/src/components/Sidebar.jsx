@@ -14,7 +14,6 @@ const ADMIN_MENU = [
   { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
   { path: "/contracts", key: "nav.contracts", icon: "📄" },
   { path: "/services", key: "nav.services", icon: "⚙️" },
-  { path: "/service-proposals", key: "nav.proposals", icon: "🤖" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
   { path: "/employees", key: "nav.employees", icon: "👤" },
   { path: "/portfolio", key: "nav.portfolio", icon: "📁" },
