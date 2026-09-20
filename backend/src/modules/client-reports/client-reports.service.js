@@ -32,7 +32,6 @@ async function getClientMonthlyReport(agencyId, clientId, monthQuery) {
       email: true,
       phone: true,
       address: true,
-      currency: true,
     },
   });
 
@@ -53,11 +52,8 @@ async function getClientMonthlyReport(agencyId, clientId, monthQuery) {
       address: true,
       primaryColor: true,
       secondaryColor: true,
-      nif: true,
-      nis: true,
-      rc: true,
-      rib: true,
-      bankName: true,
+      taxId: true,
+      bankAccount: true,
     },
   });
 

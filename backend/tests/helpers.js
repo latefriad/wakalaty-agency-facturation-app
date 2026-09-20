@@ -35,7 +35,7 @@ async function createSuperAdmin() {
   const email = uniqueEmail("super");
   const agency = await prisma.agency.create({ data: { name: "SA Agency" } });
   await prisma.user.create({
-    data: { email, password: await hashPassword("password123"), name: "Super", role: , agencyId: agency.id },
+    data: { email, password: await hashPassword("password123"), name: "Super", role: "ADMIN", agencyId: agency.id },
   });
   const res = await request(app).post("/api/auth/login").send({ email, password: "password123" });
   return { token: res.body.data.token, email };
