@@ -10,6 +10,7 @@ const ADMIN_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
   { path: "/adspend", key: "nav.adspend", icon: "📈" },
+  { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
@@ -36,6 +37,7 @@ const ADS_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
   { path: "/adspend", key: "nav.adspend", icon: "📈" },
+  { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
 ];

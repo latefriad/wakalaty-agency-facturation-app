@@ -171,6 +171,7 @@ model Agency {
   leadNotes       LeadNote[]
   adSpendEntries  AdSpendEntry[]
   monthlyGoals    AgencyGoal[]
+  testiliTests    TestiliTest[]
 
   @@map("agencies")
 }
@@ -873,6 +874,56 @@ model AgencyGoal {
   @@unique([agencyId, month])
   @@index([agencyId, month])
   @@map("agency_goals")
+}
+
+// ─── Module Testili Product Testing Tracker ──────────────
+enum TestiliPlatform {
+  META
+  TIKTOK
+}
+
+enum TestiliStatus {
+  PLANNED
+  RUNNING
+  COMPLETED
+}
+
+enum TestiliVerdict {
+  PENDING
+  WINNER
+  LOSER
+  NEEDS_MORE_DATA
+}
+
+model TestiliTest {
+  id           String          @id @default(uuid())
+  agencyId     String
+  clientId     String
+  productName  String
+  productUrl   String?
+  platform     TestiliPlatform @default(META)
+  testBudget   Float           @default(0)
+  amountSpent  Float           @default(0)
+  targetCPA    Float?
+  targetROAS   Float?
+  actualCPA    Float?
+  actualROAS   Float?
+  orders       Int             @default(0)
+  startDate    DateTime        @default(now())
+  endDate      DateTime?
+  status       TestiliStatus   @default(PLANNED)
+  verdict      TestiliVerdict  @default(PENDING)
+  verdictNotes String?         @db.Text
+  createdById  String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@index([agencyId, clientId])
+  @@index([agencyId, status])
+  @@index([agencyId, verdict])
+  @@map("testili_tests")
 }
 
 

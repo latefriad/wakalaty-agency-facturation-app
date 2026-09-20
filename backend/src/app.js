@@ -29,6 +29,7 @@ const searchRoutes = require("./modules/search/search.routes");
 const leadsRoutes = require("./modules/leads/leads.routes");
 const adspendRoutes = require("./modules/adspend/adspend.routes");
 const dashboardExtrasRoutes = require("./modules/dashboard-extras/dashboard-extras.routes");
+const testiliRoutes = require("./modules/testili/testili.routes");
 
 const app = express();
 
@@ -94,6 +95,7 @@ app.use("/api/portfolio", portfolioRoutes);
 app.use("/api/leads", leadsRoutes);
 app.use("/api/adspend", adspendRoutes);
 app.use("/api/dashboard-extras", dashboardExtrasRoutes);
+app.use("/api/testili", testiliRoutes);
 
 // 404
 app.use((_req, res) => {

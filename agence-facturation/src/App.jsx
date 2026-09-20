@@ -19,6 +19,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Clients = lazy(() => import("./pages/Clients"));
 const Leads = lazy(() => import("./pages/Leads"));
 const AdSpend = lazy(() => import("./pages/AdSpend"));
+const Testili = lazy(() => import("./pages/Testili"));
 const ClientDetail = lazy(() => import("./pages/ClientDetail"));
 const Invoices = lazy(() => import("./pages/Invoices"));
 const Expenses = lazy(() => import("./pages/Expenses"));
@@ -41,7 +42,7 @@ import GlobalSearch from "./components/GlobalSearch";
 import "./App.css";
 
 import LoadingScreen from "./components/LoadingScreen";
-import { EMPLOYEE_ROLES, ADMIN_ROLES, ACCOUNTANT_ROLES, LEADS_ROLES } from "./utils/constants";
+import { EMPLOYEE_ROLES, ADMIN_ROLES, ACCOUNTANT_ROLES, LEADS_ROLES, TESTILI_ROLES } from "./utils/constants";
 
 /**
  * AppLayout — shared shell for admin + employee pages.
@@ -103,6 +104,7 @@ function AppLayout() {
     case "/dashboard":           page = <Dashboard />; break;
     case "/leads":               page = <Leads />; break;
     case "/adspend":             page = <AdSpend />; break;
+    case "/testili":             page = <Testili />; break;
     case "/clients":             page = <Clients />; break;
     case "/invoices":            page = <Invoices />; break;
     case "/expenses":            page = <Expenses />; break;
@@ -165,6 +167,11 @@ function AppRoutes() {
       <Route element={<ProtectedRoute allowedRoles={LEADS_ROLES} />}>
         <Route path="/leads" element={<AppLayout />} />
         <Route path="/adspend" element={<AppLayout />} />
+      </Route>
+
+      {/* ═══════════════ TESTILI TRACKER (ADMIN, ADS) ═══════════════ */}
+      <Route element={<ProtectedRoute allowedRoles={TESTILI_ROLES} />}>
+        <Route path="/testili" element={<AppLayout />} />
       </Route>
 
       {/* ═══════════════ ADMIN ONLY ═══════════════ */}
