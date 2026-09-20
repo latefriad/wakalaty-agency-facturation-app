@@ -1361,6 +1361,24 @@ export const translations = {
   "testili.viewCards": { ar: "كروت", fr: "Cartes", en: "Cards" },
   "testili.noTests": { ar: "لا توجد اختبارات منتجات بعد. انقر على 'اختبار جديد' للبدء.", fr: "Aucun test de produit enregistré. Cliquez sur 'Nouveau Test'.", en: "No product tests found. Click 'New Test' to begin." },
   "testili.deleteConfirm": { ar: "هل أنت متأكد من رغبتك في حذف هذا الاختبار؟", fr: "Êtes-vous sûr de supprimer ce test ?", en: "Are you sure you want to delete this test?" },
+
+  // ── Client Monthly Report (PDF) ──
+  "nav.clientReports": { ar: "تقارير العملاء", fr: "Rapports Clients", en: "Client Reports" },
+  "clientReport.title": { ar: "التقرير الشهري لنشاط العميل", fr: "Rapport Mensuel d'Activité Client", en: "Monthly Client Activity Report" },
+  "clientReport.subtitle": { ar: "تقرير شامل ومفصل بالأداء الإعلاني، الفوترة، والمهام المنجزة قابل للتصدير كملف PDF رسمي", fr: "Synthèse officielle consolidée des performances, facturation et livrables", en: "Official executive summary of ad performance, invoices, and deliverables" },
+  "clientReport.selectClient": { ar: "العميل المستهدف", fr: "Client concerné", en: "Target Client" },
+  "clientReport.selectMonth": { ar: "شهر التقرير", fr: "Mois du rapport", en: "Report Month" },
+  "clientReport.reportLanguage": { ar: "لغة التقرير", fr: "Langue du rapport", en: "Report Language" },
+  "clientReport.agencyNotes": { ar: "ملاحظات وتوصيات الوكالة (قابلة للتعديل قبل التصدير)", fr: "Recommandations et synthèse de l'agence (modifiables)", en: "Agency Insights & Next Steps (editable)" },
+  "clientReport.downloadPDF": { ar: "تحميل التقرير (PDF)", fr: "Télécharger le PDF", en: "Download PDF" },
+  "clientReport.generating": { ar: "جاري إنشاء الـ PDF...", fr: "Génération du PDF...", en: "Generating PDF..." },
+  "clientReport.financialSummary": { ar: "الملخص المالي والفوترة", fr: "Synthèse Financière & Facturation", en: "Financial & Invoicing Summary" },
+  "clientReport.adSpendSummary": { ar: "أداء الحملات الإعلانية (Media Buying)", fr: "Performance des Campagnes Publicitaires", en: "Media Buying & Ad Performance" },
+  "clientReport.tasksSummary": { ar: "المهام والخدمات المنفذة خلال الشهر", fr: "Missions & Livrables Réalisés", en: "Completed Deliverables & Tasks" },
+  "clientReport.testiliSummary": { ar: "نتائج اختبار المنتجات (مختبر Testili)", fr: "Résultats des Tests Produits (Testili)", en: "Product Testing Results (Testili)" },
+  "clientReport.conclusion": { ar: "رأي الوكالة والخطوات القادمة", fr: "Conclusion & Prochaines Étapes", en: "Agency Conclusion & Next Steps" },
+  "clientReport.agencySignature": { ar: "ختم وتوقيع الوكالة", fr: "Cachet & Signature de l'Agence", en: "Agency Seal & Signature" },
+  "clientReport.noClientSelected": { ar: "يرجى اختيار عميل لعرض التقرير الشهري", fr: "Veuillez sélectionner un client pour afficher le rapport", en: "Please select a client to display the monthly report" },
 };
 
 export function translate(lang, key, params) {

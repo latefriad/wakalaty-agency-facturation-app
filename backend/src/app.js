@@ -30,6 +30,7 @@ const leadsRoutes = require("./modules/leads/leads.routes");
 const adspendRoutes = require("./modules/adspend/adspend.routes");
 const dashboardExtrasRoutes = require("./modules/dashboard-extras/dashboard-extras.routes");
 const testiliRoutes = require("./modules/testili/testili.routes");
+const clientReportsRoutes = require("./modules/client-reports/client-reports.routes");
 
 const app = express();
 
@@ -96,6 +97,7 @@ app.use("/api/leads", leadsRoutes);
 app.use("/api/adspend", adspendRoutes);
 app.use("/api/dashboard-extras", dashboardExtrasRoutes);
 app.use("/api/testili", testiliRoutes);
+app.use("/api/client-reports", clientReportsRoutes);
 
 // 404
 app.use((_req, res) => {

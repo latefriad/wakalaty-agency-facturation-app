@@ -12,6 +12,7 @@ const ADMIN_MENU = [
   { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
+  { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
   { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
@@ -28,6 +29,7 @@ const ACCOUNTANT_MENU = [
   { path: "/leads", key: "nav.leads", icon: "🎯" },
   { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
+  { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
   { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
@@ -39,6 +41,7 @@ const ADS_MENU = [
   { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
+  { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
 ];
 
