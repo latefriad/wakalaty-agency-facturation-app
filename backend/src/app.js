@@ -26,6 +26,7 @@ const recurringRoutes = require("./modules/recurring/recurring.routes");
 const aiRoutes = require("./modules/ai/ai.routes");
 const portfolioRoutes = require("./modules/portfolio/portfolio.routes");
 const searchRoutes = require("./modules/search/search.routes");
+const leadsRoutes = require("./modules/leads/leads.routes");
 
 const app = express();
 
@@ -88,6 +89,7 @@ app.use("/api/public", publicRoutes);
 app.use("/api/recurring-invoices", recurringRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/portfolio", portfolioRoutes);
+app.use("/api/leads", leadsRoutes);
 
 // 404
 app.use((_req, res) => {

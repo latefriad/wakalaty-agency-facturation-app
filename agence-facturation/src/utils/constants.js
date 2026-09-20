@@ -3,6 +3,7 @@ export const ADMIN_ROLES = ["ADMIN"];
 // Le comptable accède aux pages de facturation (dashboard, clients, factures),
 // pas aux employés/paramètres/abonnement.
 export const ACCOUNTANT_ROLES = ["ADMIN", "ACCOUNTANT"];
+export const LEADS_ROLES = ["ADMIN", "ACCOUNTANT", "ADS"];
 
 const COLORS = ["#6366f1", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
 

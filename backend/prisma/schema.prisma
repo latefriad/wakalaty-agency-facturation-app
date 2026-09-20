@@ -95,6 +95,24 @@ enum PaymentStatus {
   REJECTED
 }
 
+enum LeadSource {
+  WHATSAPP
+  FORM
+  CHATBOT
+  ADS
+  REFERRAL
+  OTHER
+}
+
+enum LeadStage {
+  NEW
+  CONTACTED
+  QUOTE_SENT
+  NEGOTIATION
+  WON
+  LOST
+}
+
 // ─── Models ──────────────────────────────────────────────
 
 model Agency {
@@ -142,6 +160,8 @@ model Agency {
   budgets         Budget[]
   suppliers       Supplier[]
   supplierBills   SupplierBill[]
+  leads           Lead[]
+  leadNotes       LeadNote[]
 
   @@map("agencies")
 }
@@ -158,8 +178,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  agency   Agency    @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-  employee Employee?
+  agency        Agency     @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  employee      Employee?
+  assignedLeads Lead[]     @relation("LeadAssignee")
+  leadNotes     LeadNote[] @relation("LeadNoteAuthor")
 
   @@index([agencyId])
   @@index([email])
@@ -757,3 +779,48 @@ model AuditLog {
   @@index([agencyId, createdAt])
   @@map("audit_logs")
 }
+
+// ─── Module Leads (CRM) ──────────────────────────────────
+model Lead {
+  id                String      @id @default(uuid())
+  agencyId          String
+  name              String
+  phone             String?
+  email             String?
+  company           String?
+  source            LeadSource  @default(OTHER)
+  stage             LeadStage   @default(NEW)
+  estimatedValue    Float?
+  followUpDate      DateTime?
+  lostReason        String?
+  notes             String?     @db.Text
+  assignedToId      String?
+  convertedClientId String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  agency     Agency     @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  assignedTo User?      @relation("LeadAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  notesList  LeadNote[]
+
+  @@index([agencyId, stage])
+  @@index([agencyId, followUpDate])
+  @@map("leads")
+}
+
+model LeadNote {
+  id        String   @id @default(uuid())
+  leadId    String
+  agencyId  String
+  authorId  String?
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  author User?  @relation("LeadNoteAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+
+  @@index([leadId, createdAt])
+  @@map("lead_notes")
+}
+

@@ -8,6 +8,7 @@ import { useTheme } from "../i18n/ThemeContext";
 
 const ADMIN_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+  { path: "/leads", key: "nav.leads", icon: "🎯" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
@@ -22,10 +23,18 @@ const ADMIN_MENU = [
 
 const ACCOUNTANT_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+  { path: "/leads", key: "nav.leads", icon: "🎯" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
   { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
+];
+
+const ADS_MENU = [
+  { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+  { path: "/leads", key: "nav.leads", icon: "🎯" },
+  { path: "/clients", key: "nav.clients", icon: "👥" },
+  { path: "/tasks", key: "nav.tasks", icon: "📋" },
 ];
 
 const EMPLOYEE_MENU = [{ path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" }];
@@ -42,11 +51,14 @@ export default function Sidebar() {
 
   const isAdmin = profile?.role === "ADMIN";
   const isAccountant = profile?.role === "ACCOUNTANT";
+  const isAds = profile?.role === "ADS";
 
   const menuItems = isAdmin
     ? ADMIN_MENU
     : isAccountant
     ? ACCOUNTANT_MENU
+    : isAds
+    ? ADS_MENU
     : EMPLOYEE_MENU;
 
 
