@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useLang } from "../i18n/LanguageContext";
 import { api, apiDownload } from "../services/api";
+import DashboardExtras from "../components/DashboardExtras";
 
 const STATUS = {
   DRAFT: { color: "#64748b", bg: "#f1f5f9" },
@@ -432,6 +433,7 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+      <DashboardExtras range={range} />
     </div>
   );
 }

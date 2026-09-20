@@ -170,6 +170,7 @@ model Agency {
   leads           Lead[]
   leadNotes       LeadNote[]
   adSpendEntries  AdSpendEntry[]
+  monthlyGoals    AgencyGoal[]
 
   @@map("agencies")
 }
@@ -857,5 +858,22 @@ model AdSpendEntry {
   @@index([agencyId, clientId])
   @@map("ad_spend_entries")
 }
+
+// ─── Module Agency Goals (MRR & Revenue Targets) ─────────
+model AgencyGoal {
+  id           String   @id @default(uuid())
+  agencyId     String
+  month        String   // YYYY-MM
+  targetAmount Float    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  agency Agency @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+
+  @@unique([agencyId, month])
+  @@index([agencyId, month])
+  @@map("agency_goals")
+}
+
 
 

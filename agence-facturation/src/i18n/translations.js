@@ -1301,6 +1301,25 @@ export const translations = {
   "platform.TIKTOK": { ar: "TikTok Ads", fr: "TikTok Ads", en: "TikTok Ads" },
   "platform.GOOGLE": { ar: "Google Ads", fr: "Google Ads", en: "Google Ads" },
   "platform.OTHER": { ar: "منصة أخرى", fr: "Autre plateforme", en: "Other Platform" },
+
+  // ── Dashboard Extras (MRR, Collection Rate, Goal, Top Clients) ──
+  "dashExtras.title": { ar: "مؤشرات الأداء المتقدمة للوكالة", fr: "Indicateurs avancés de l'agence", en: "Advanced Agency KPIs" },
+  "dashExtras.mrr": { ar: "الإيراد الشهري المتكرر (MRR)", fr: "Revenu Récurrent Mensuel (MRR)", en: "Monthly Recurring Revenue (MRR)" },
+  "dashExtras.mrrHint": { ar: "إجمالي الاشتراكات والفواتير المتكررة النشطة شهرياً", fr: "Total des abonnements et factures récurrentes actives", en: "Total active recurring subscriptions" },
+  "dashExtras.activeSubscriptions": { ar: "{count} اشتراك وفاتورة متكررة نشطة", fr: "{count} récurrences actives", en: "{count} active recurring subscriptions" },
+  "dashExtras.collectionRate": { ar: "نسبة التحصيل المالي", fr: "Taux de recouvrement", en: "Collection Rate" },
+  "dashExtras.collectionRateHint": { ar: "نسبة المبالغ المحصلة فعلياً من إجمالي الفواتير الصادرة", fr: "Part des paiements reçus sur le total facturé émis", en: "Share of received payments on total billed" },
+  "dashExtras.collectedVsBilled": { ar: "المحصل: {received} — المفوتر: {billed}", fr: "Encaissé : {received} — Facturé : {billed}", en: "Collected: {received} — Billed: {billed}" },
+  "dashExtras.goalTitle": { ar: "هدف إيراد الشهر", fr: "Objectif mensuel de revenus", en: "Monthly Revenue Goal" },
+  "dashExtras.goalHint": { ar: "نسبة الإنجاز من الهدف المحدد للشهر الحالي", fr: "Progression par rapport à l'objectif fixé ce mois-ci", en: "Progress towards this month's target" },
+  "dashExtras.setGoal": { ar: "تحديد الهدف", fr: "Définir l'objectif", en: "Set Goal" },
+  "dashExtras.setGoalModalTitle": { ar: "تحديد هدف الإيرادات لشهر {month}", fr: "Fixer l'objectif de revenus ({month})", en: "Set Revenue Goal ({month})" },
+  "dashExtras.targetAmount": { ar: "المبلغ المستهدف (دج)", fr: "Montant cible (DZD)", en: "Target Amount (DZD)" },
+  "dashExtras.goalSaved": { ar: "تم حفظ الهدف بنجاح", fr: "Objectif enregistré", en: "Goal saved" },
+  "dashExtras.noGoalSet": { ar: "لم يتم تحديد هدف لهذا الشهر بعد", fr: "Aucun objectif fixé pour ce mois", en: "No target set for this month yet" },
+  "dashExtras.topClients": { ar: "أفضل 5 عملاء من حيث المساهمة والربحية", fr: "Top 5 clients par profitabilité", en: "Top 5 Clients by Profitability" },
+  "dashExtras.topClientsHint": { ar: "المحصل ناقص التكاليف المباشرة المسندة للعميل", fr: "Encaissé moins charges directes rattachées au client", en: "Collected minus direct costs" },
+  "dashExtras.noClientsYet": { ar: "لا توجد بيانات عملاء كافية", fr: "Données insuffisantes", en: "Insufficient data" },
 };
 
 export function translate(lang, key, params) {
