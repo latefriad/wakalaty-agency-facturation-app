@@ -4,32 +4,37 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-app: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-light: #e2e8f0;
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --sidebar-w: 260px;
+}
+
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, sans-serif;
+  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: #f1f5f9;
-  color: #1e293b;
-  /* La direction (rtl/ltr) est pilotée par l'attribut dir de <html>, posé
-     selon la langue. Ne pas la figer ici, sinon le mode fr/en reste en RTL
-     et la marge du contenu tombe du mauvais côté (volet qui recouvre la page). */
+  background: var(--bg-app);
+  color: var(--text-main);
+  overflow-x: hidden;
 }
 
-
-/* ─── Mode sombre ───────────────────────────────────────────
-   L'app est stylée inline (couleurs claires en dur) : on inverse tout le
-   rendu, puis on ré-inverse ce qui doit garder ses couleurs réelles
-   (images, vidéos, logos). Emojis légèrement teintés : compromis assumé. */
-html[data-theme="dark"] {
-  background: #0b1220;
-  color-scheme: dark;
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
-html[data-theme="dark"] body {
-  filter: invert(0.92) hue-rotate(180deg);
-  background: #0e1526;
+::-webkit-scrollbar-track {
+  background: transparent;
 }
-html[data-theme="dark"] img,
-html[data-theme="dark"] video,
-html[data-theme="dark"] iframe,
-html[data-theme="dark"] .no-invert {
-  filter: invert(1.087) hue-rotate(180deg);
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

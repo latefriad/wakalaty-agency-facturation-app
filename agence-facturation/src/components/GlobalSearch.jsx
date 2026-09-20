@@ -40,14 +40,29 @@ export default function GlobalSearch() {
   const total = res ? res.clients.length + res.invoices.length + res.contracts.length : 0;
 
   return (
-    <div ref={boxRef} style={{ position: "relative", maxWidth: 460, margin: "0 0 16px" }}>
-      <input
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-        onFocus={() => res && setOpen(true)}
-        placeholder={t("search.placeholder")}
-        style={{ width: "100%", padding: "10px 14px", borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box", background: "#fff" }}
-      />
+    <div ref={boxRef} style={{ position: "relative", maxWidth: 480, margin: "0 0 20px" }}>
+      <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+        <span style={{ position: "absolute", insetInlineStart: 14, fontSize: 15, color: "#94a3b8", pointerEvents: "none" }}>🔍</span>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          onFocus={() => res && setOpen(true)}
+          placeholder={t("search.placeholder")}
+          style={{
+            width: "100%",
+            padding: "11px 16px",
+            paddingInlineStart: 42,
+            borderRadius: 12,
+            border: "1px solid #cbd5e1",
+            fontSize: 14,
+            outline: "none",
+            boxSizing: "border-box",
+            background: "#fff",
+            color: "#0f172a",
+            boxShadow: "0 1px 2px rgba(0,0,0,0.04)"
+          }}
+        />
+      </div>
       {open && res && (
         <div style={{ position: "absolute", top: "100%", insetInlineStart: 0, insetInlineEnd: 0, marginTop: 4, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, boxShadow: "0 12px 32px -8px rgba(15,23,42,.2)", zIndex: 900, maxHeight: 420, overflowY: "auto" }}>
           {total === 0 && !loading && (
