@@ -218,14 +218,37 @@ export default function Leads() {
   };
 
   // Move stage (via drag-and-drop or select dropdown)
+  // If moved to WON → auto-convert to client immediately (no extra button needed)
   const handleMoveLead = async (leadId, targetStage) => {
     try {
       // Optimistic update
       setLeads((prev) =>
         prev.map((l) => (l.id === leadId ? { ...l, stage: targetStage } : l))
       );
-      await changeLeadStage(leadId, targetStage);
-      toast.success(t("leads.stageChanged"));
+
+      if (targetStage === "WON") {
+        const lead = leads.find((l) => l.id === leadId);
+        if (!lead?.convertedClientId) {
+          try {
+            const res = await convertLeadToClient(leadId);
+            toast.success("✅ صفقة ناجحة! تم إضافته تلقائياً لقسم إدارة العملاء 🎉");
+            fetchLeads();
+            if (selectedLead && selectedLead.id === leadId) {
+              setSelectedLead(res.lead);
+            }
+            return;
+          } catch (convertErr) {
+            toast.error(convertErr.message || t("common.error"));
+          }
+        } else {
+          await changeLeadStage(leadId, targetStage);
+          toast.success(t("leads.stageChanged"));
+        }
+      } else {
+        await changeLeadStage(leadId, targetStage);
+        toast.success(t("leads.stageChanged"));
+      }
+
       fetchLeads();
       if (selectedLead && selectedLead.id === leadId) {
         setSelectedLead((prev) => ({ ...prev, stage: targetStage }));
