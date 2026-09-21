@@ -12,6 +12,7 @@ import { format } from "date-fns";
 const CONTRACT_TYPES = [
   { value: "MARKETING", labelAr: "عقد خدمات تسويق رقمي", labelFr: "Contrat Marketing Digital", icon: "📱" },
   { value: "ADS", labelAr: "عقد إدارة حملات إعلانية", labelFr: "Contrat Campagnes Pub", icon: "📢" },
+  { value: "MEDIA_BUYER", labelAr: "عقد Media Buying – إدارة الإعلانات", labelFr: "Contrat Media Buying", icon: "🎯" },
   { value: "WEBSITE", labelAr: "عقد تصميم وتطوير موقع", labelFr: "Contrat Création Site Web", icon: "💻" },
   { value: "CAHIER", labelAr: "كراسة الشروط", labelFr: "Cahier des Charges", icon: "📋" },
 ];
@@ -669,6 +670,10 @@ export default function Contracts() {
 }
 
 function ContractTemplate({ contract, agency }) {
+  if (contract.type === "MEDIA_BUYER") {
+    return <MediaBuyerTemplate contract={contract} agency={agency} />;
+  }
+
   const typeMap = {
     MARKETING: { ar: "عقد خدمات التسويق الرقمي", fr: "CONTRAT DE SERVICES MARKETING DIGITAL" },
     ADS: { ar: "عقد إدارة الحملات الإعلانية", fr: "CONTRAT DE GESTION DES CAMPAGNES" },
@@ -862,6 +867,257 @@ function ContractTemplate({ contract, agency }) {
       </div>
 
       <div style={{ marginTop: 40, textAlign: "center", fontSize: 10, color: "#94a3b8", borderTop: "1px solid #f1f5f9", paddingTop: 16 }}>
+        {agency?.name} — {agency?.address} — {agency?.phone}
+        <br />محرر من نسختين أصليتين / Établi en deux exemplaires originaux
+      </div>
+    </div>
+  );
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// MEDIA BUYER CONTRACT TEMPLATE — عقد تقديم خدمات إدارة الإعلانات
+// ═══════════════════════════════════════════════════════════════
+function MediaBuyerTemplate({ contract, agency }) {
+  const clientName = contract.client?.name || contract.clientName || "________________________";
+  const clientEmail = contract.client?.email || contract.clientEmail || "";
+  const adBudget = parseFloat(contract.value || 0);
+  const agencyFee = Math.round(adBudget * 0.30);
+  const totalClient = adBudget + agencyFee;
+  const today = new Date().toLocaleDateString("ar-DZ");
+
+  const S = {
+    page: { fontFamily: "'Segoe UI', Arial, sans-serif", color: "#1e293b", direction: "rtl", lineHeight: 1.8 },
+    header: { textAlign: "center", borderBottom: "4px double #1e293b", paddingBottom: 24, marginBottom: 32 },
+    logoArea: { display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 8 },
+    agencyName: { fontSize: 22, fontWeight: "bold", color: "#1e40af" },
+    contractTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 4 },
+    contractSub: { fontSize: 12, color: "#64748b", marginBottom: 8 },
+    dateRow: { fontSize: 12, color: "#475569" },
+    sectionTitle: { fontSize: 14, fontWeight: "bold", borderBottom: "2px solid #3b82f6", paddingBottom: 6, marginBottom: 14, color: "#1e40af", marginTop: 24 },
+    parties: { display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 8 },
+    partyBox: (color) => ({ flex: 1, minWidth: 220, padding: 14, border: `1px solid #e2e8f0`, borderRadius: 10, borderRight: `4px solid ${color}` }),
+    partyLabel: (color) => ({ fontWeight: "bold", fontSize: 13, marginBottom: 10, color }),
+    field: { fontSize: 12, marginBottom: 5, color: "#475569" },
+    blankLine: { display: "inline-block", borderBottom: "1px solid #475569", minWidth: 180, marginRight: 4 },
+    listItem: { fontSize: 12.5, marginBottom: 6, paddingRight: 16, position: "relative" },
+    bullet: { position: "absolute", right: 0, color: "#3b82f6", fontWeight: "bold" },
+    amountBox: { background: "#eff6ff", border: "2px solid #bfdbfe", borderRadius: 10, padding: 16, textAlign: "center", marginBottom: 14 },
+    amountNum: { fontSize: 28, fontWeight: "bold", color: "#1d4ed8" },
+    amountSub: { fontSize: 11, color: "#64748b", marginTop: 4 },
+    calcTable: { width: "100%", borderCollapse: "collapse", marginBottom: 14, fontSize: 13 },
+    calcTd: { padding: "8px 12px", border: "1px solid #e2e8f0" },
+    calcTdBold: { padding: "8px 12px", border: "1px solid #e2e8f0", fontWeight: "bold", background: "#f8fafc" },
+    checkRow: { display: "flex", gap: 24, flexWrap: "wrap", margin: "10px 0", fontSize: 13 },
+    checkOpt: { display: "flex", alignItems: "center", gap: 8 },
+    checkbox: { width: 16, height: 16, border: "1.5px solid #64748b", borderRadius: 3, display: "inline-block" },
+    note: { background: "#fef9c3", borderRight: "4px solid #f59e0b", padding: "12px 16px", borderRadius: 8, fontSize: 12, marginBottom: 14 },
+    sigBox: { flex: 1, minWidth: 200, textAlign: "center", padding: "0 20px" },
+    sigLine: { borderTop: "2px solid #1e293b", paddingTop: 8, marginTop: 60 },
+    stamp: { width: 90, height: 90, border: "2px dashed #94a3b8", borderRadius: "50%", margin: "12px auto", display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8", fontSize: 10 },
+    footer: { marginTop: 40, textAlign: "center", fontSize: 10, color: "#94a3b8", borderTop: "1px solid #f1f5f9", paddingTop: 16 },
+  };
+
+  const Article = ({ num, title }) => (
+    <div style={S.sectionTitle}>المادة {num} – {title}</div>
+  );
+
+  const Li = ({ children }) => (
+    <div style={S.listItem}>
+      <span style={S.bullet}>◆</span> {children}
+    </div>
+  );
+
+  return (
+    <div style={S.page}>
+      {/* ── HEADER ── */}
+      <div style={S.header}>
+        <div style={S.agencyName}>{agency?.name || "Adpowers Digital"}</div>
+        <div style={{ fontSize: 11, color: "#64748b", marginBottom: 12 }}>
+          {agency?.address} {agency?.phone ? `| ${agency.phone}` : ""} {agency?.email ? `| ${agency.email}` : ""}
+        </div>
+        <div style={S.contractTitle}>عقد تقديم خدمات إدارة الإعلانات الرقمية</div>
+        <div style={S.contractSub}>MEDIA BUYING AGREEMENT</div>
+        {contract.title && <div style={{ fontSize: 13, color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>{contract.title}</div>}
+        <div style={S.dateRow}>تم إبرام هذا العقد بتاريخ: <strong>{today}</strong></div>
+      </div>
+
+      {/* ── PARTIES ── */}
+      <Article num="التمهيد" title="أطراف العقد" />
+      <div style={S.parties}>
+        <div style={S.partyBox("#3b82f6")}>
+          <div style={S.partyLabel("#1e40af")}>الطرف الأول – الوكالة / Prestataire</div>
+          {[
+            ["الاسم", agency?.name || "Adpowers Digital"],
+            ["العنوان", agency?.address],
+            ["الهاتف", agency?.phone],
+            ["البريد الإلكتروني", agency?.email],
+            ["الرقم الجبائي", agency?.taxId],
+          ].filter(([, v]) => v).map(([l, v]) => (
+            <div key={l} style={S.field}><strong>{l}:</strong> {v}</div>
+          ))}
+          <div style={S.field}><strong>ويُشار إليها بـ:</strong> "الوكالة"</div>
+        </div>
+        <div style={S.partyBox("#10b981")}>
+          <div style={S.partyLabel("#065f46")}>الطرف الثاني – العميل / Client</div>
+          <div style={S.field}><strong>الاسم / الشركة:</strong> {clientName}</div>
+          <div style={S.field}><strong>الممثل القانوني:</strong> <span style={S.blankLine} /></div>
+          <div style={S.field}><strong>العنوان:</strong> <span style={S.blankLine} /></div>
+          <div style={S.field}><strong>الهاتف:</strong> <span style={S.blankLine} /></div>
+          {clientEmail && <div style={S.field}><strong>البريد:</strong> {clientEmail}</div>}
+          <div style={S.field}><strong>ويُشار إليه بـ:</strong> "العميل"</div>
+        </div>
+      </div>
+      <div style={{ fontSize: 12, color: "#475569", marginBottom: 8, textAlign: "center" }}>
+        ويُشار إلى الطرفين مجتمعين بـ <strong>"الطرفين"</strong>
+      </div>
+
+      {/* ── ART 1 ── */}
+      <Article num="1" title="موضوع العقد" />
+      <div style={{ fontSize: 13, marginBottom: 8 }}>
+        يهدف هذا العقد إلى تحديد شروط وأحكام تقديم خدمات <strong>Media Buying وإدارة الحملات الإعلانية الرقمية</strong> من طرف {agency?.name || "Adpowers Digital"} لصالح العميل.
+      </div>
+      <div style={{ fontSize: 12.5, color: "#475569", marginBottom: 4 }}>تشمل الخدمات:</div>
+      {["إعداد وإدارة الحملات الإعلانية", "إعداد هيكلة الحملات الإعلانية", "تحديد واستهداف الجماهير المناسبة", "إعداد واختبار الحملات والإعلانات", "مراقبة أداء الحملات", "تحليل النتائج والبيانات", "تحسين الحملات والميزانيات", "اختبار الإعلانات والجماهير", "إعادة توزيع الميزانية حسب الأداء", "تقديم تقارير وملخصات حول النتائج"].map((s, i) => <Li key={i}>{s}</Li>)}
+
+      {/* ── ART 2 ── */}
+      <Article num="2" title="المنصات الإعلانية" />
+      {["Meta Ads – Facebook / Instagram", "TikTok Ads", "Google Ads", "وغيرها من المنصات التي يتم الاتفاق عليها بين الطرفين"].map((s, i) => <Li key={i}>{s}</Li>)}
+      <div style={{ fontSize: 12, color: "#64748b", marginTop: 6 }}>تحدد المنصات المستخدمة حسب استراتيجية المشروع واحتياجات العميل.</div>
+
+      {/* ── ART 3 ── */}
+      <Article num="3" title="أتعاب Media Buyer" />
+      <div style={S.amountBox}>
+        <div style={{ fontSize: 15, fontWeight: "bold", color: "#1e40af", marginBottom: 8 }}>30% من إجمالي الإنفاق الإعلاني الفعلي</div>
+        {adBudget > 0 && (
+          <table style={S.calcTable}>
+            <tbody>
+              <tr><td style={S.calcTdBold}>الإنفاق الإعلاني الفعلي</td><td style={S.calcTd}>{adBudget.toLocaleString("ar-DZ")} دج</td></tr>
+              <tr><td style={S.calcTdBold}>أتعاب {agency?.name || "Adpowers Digital"} (30%)</td><td style={S.calcTd}>{agencyFee.toLocaleString("ar-DZ")} دج</td></tr>
+              <tr><td style={{ ...S.calcTdBold, background: "#dbeafe" }}>إجمالي ما يدفعه العميل</td><td style={{ ...S.calcTd, fontWeight: "bold", fontSize: 15, color: "#1d4ed8" }}>{totalClient.toLocaleString("ar-DZ")} دج</td></tr>
+            </tbody>
+          </table>
+        )}
+        <div style={S.amountSub}>تبقى ميزانية الإعلانات منفصلة عن أتعاب الوكالة</div>
+      </div>
+
+      {/* ── ART 4 ── */}
+      <Article num="4" title="ميزانية الإعلانات" />
+      <div style={{ fontSize: 12.5, marginBottom: 8 }}>ميزانية الإعلانات <strong>لا تدخل ضمن أتعاب الوكالة</strong>. يتحمل العميل بشكل مستقل تكاليف الإعلانات المدفوعة للمنصة. لا تتحمل الوكالة مسؤولية توقف الحملات الناتج عن:</div>
+      {["عدم توفر الرصيد", "تأخر العميل في الدفع", "مشاكل بطاقة الدفع", "مشاكل الحساب الإعلاني", "القيود أو الحظر الصادر عن المنصة الإعلانية"].map((s, i) => <Li key={i}>{s}</Li>)}
+
+      {/* ── ART 5 ── */}
+      <Article num="5" title="طريقة احتساب الأتعاب" />
+      <div style={{ fontSize: 12.5 }}>يتم احتساب أتعاب Media Buying بناءً على <strong>إجمالي الإنفاق الإعلاني الفعلي</strong> خلال فترة التعاون. يحق للوكالة الاطلاع على بيانات الإنفاق من أجل احتساب أتعابها بشكل دقيق. في حال كان العميل هو من يقوم بالدفع مباشرة للمنصة، يلتزم بتوفير البيانات اللازمة.</div>
+
+      {/* ── ART 6 ── */}
+      <Article num="6" title="موعد دفع الأتعاب" />
+      <div style={{ fontSize: 12.5, marginBottom: 8 }}>يتم دفع أتعاب الوكالة:</div>
+      <div style={S.checkRow}>
+        {["أسبوعيًا", "شهريًا", "بعد انتهاء كل حملة", "حسب اتفاق خاص"].map((opt) => (
+          <div key={opt} style={S.checkOpt}><span style={S.checkbox} /> {opt}</div>
+        ))}
+      </div>
+      <div style={{ fontSize: 12, marginBottom: 8 }}>الخيار المعتمد: <span style={{ ...S.blankLine, minWidth: 300 }} /></div>
+      <div style={S.note}>⚠️ في حالة التأخر في دفع الأتعاب، يحق للوكالة تعليق خدمات إدارة الحملات إلى غاية تسوية المبلغ المستحق.</div>
+
+      {/* ── ART 7 ── */}
+      <Article num="7" title="التزامات الوكالة" />
+      {["إدارة الحملات الإعلانية وفق استراتيجية مناسبة للمشروع", "مراقبة أداء الحملات بشكل دوري", "تحليل البيانات والمؤشرات الرئيسية", "إجراء الاختبارات والتحسينات اللازمة", "محاولة تحسين استخدام الميزانية الإعلانية بناءً على البيانات", "تقديم التقارير أو الملخصات المتفق عليها", "الحفاظ على سرية المعلومات المتعلقة بالعميل ومشروعه"].map((s, i) => <Li key={i}>{s}</Li>)}
+
+      {/* ── ART 8 ── */}
+      <Article num="8" title="التزامات العميل" />
+      {["توفير المعلومات والمواد اللازمة لإنشاء الحملات", "توفير الصور والفيديوهات والنصوص والعروض والأسعار عند الحاجة", "توفير الوصول إلى الحسابات الإعلانية والصفحات المطلوبة", "توفير ميزانية الإعلانات في الوقت المناسب", "ضمان قانونية المنتجات والخدمات التي يتم الإعلان عنها", "الرد على طلبات الوكالة والموافقات في الوقت المناسب", "عدم تغيير إعدادات الحملات دون التنسيق مع الوكالة", "دفع أتعاب الوكالة في المواعيد المتفق عليها"].map((s, i) => <Li key={i}>{s}</Li>)}
+
+      {/* ── ART 9 ── */}
+      <Article num="9" title="المحتوى والمواد الإعلانية" />
+      <div style={{ fontSize: 12.5, marginBottom: 6 }}>يتحمل العميل مسؤولية توفير: الصور، الفيديوهات، عروض المنتجات، الأسعار، المعلومات التجارية، بيانات التواصل.</div>
+      <div style={S.note}>🔔 الخدمات الإضافية كالتصميمات، الفيديوهات، Voice-over، Landing Page، Website — <strong>لا تدخل تلقائياً ضمن خدمة Media Buying</strong> وتُسعَّر بشكل منفصل.</div>
+
+      {/* ── ART 10 ── */}
+      <Article num="10" title="التعديلات والخدمات الإضافية" />
+      <div style={{ fontSize: 12.5 }}>أي طلب لإضافة خدمات غير منصوص عليها قد يؤدي إلى تعديل السعر والمدة. لا يتم تنفيذ الخدمات الإضافية إلا بعد الاتفاق عليها واعتماد السعر من الطرفين.</div>
+
+      {/* ── ART 11 ── */}
+      <Article num="11" title="النتائج والإعلانات" />
+      <div style={S.note}>⚠️ تلتزم الوكالة ببذل جهود مهنية في إدارة الحملات، ولكنها <strong>لا تضمن عددًا معينًا من المبيعات أو الأرباح أو العملاء</strong>. تعتمد النتائج على: المنتج، السعر، جودة المحتوى، السوق، الميزانية، جودة الموقع، وظروف المنصة الإعلانية.</div>
+
+      {/* ── ART 12 ── */}
+      <Article num="12" title="الحسابات الإعلانية" />
+      <div style={{ fontSize: 12.5 }}>تبقى ملكية الحسابات الإعلانية والصفحات والأصول الرقمية الخاصة بالعميل للعميل. تقتصر صلاحيات الوكالة على إدارة الحملات وتنفيذ الخدمات المتفق عليها.</div>
+
+      {/* ── ART 13 ── */}
+      <Article num="13" title="السرية" />
+      <div style={{ fontSize: 12.5 }}>يتعهد الطرفان بالحفاظ على سرية جميع المعلومات والبيانات: بيانات الحملات، بيانات العملاء، البيانات المالية، الاستراتيجيات، معلومات المنتجات، بيانات الحسابات.</div>
+
+      {/* ── ART 14 ── */}
+      <Article num="14" title="مدة العقد" />
+      <div style={{ fontSize: 13, lineHeight: 2 }}>
+        تبدأ مدة العقد بتاريخ: <strong>{contract.startDate ? formatDateStr(contract.startDate) : "_____ / _____ / _________"}</strong>
+        {contract.endDate
+          ? <span> وتستمر حتى: <strong>{formatDateStr(contract.endDate)}</strong></span>
+          : <span> وتستمر لمدة: <span style={{ ...S.blankLine, minWidth: 120 }} /></span>
+        }
+      </div>
+
+      {/* ── ART 15 ── */}
+      <Article num="15" title="إنهاء العقد" />
+      <div style={{ fontSize: 12.5 }}>يمكن لأي طرف إنهاء التعاون من خلال إشعار الطرف الآخر قبل: <span style={{ ...S.blankLine, minWidth: 60 }} /> <strong>يومًا</strong>. تظل جميع الأتعاب المستحقة عن الخدمات والإنفاق الإعلاني المنفذ حتى تاريخ الإنهاء واجبة الدفع.</div>
+
+      {/* ── ART 16 ── */}
+      <Article num="16" title="تعليق الخدمة" />
+      {["عدم دفع الأتعاب", "عدم توفير الميزانية الإعلانية", "عدم توفير المعلومات أو المواد المطلوبة", "مخالفة العميل لشروط المنصات الإعلانية", "طلب تنفيذ أعمال غير قانونية أو مخالفة لسياسات المنصات"].map((s, i) => <Li key={i}>{s}</Li>)}
+
+      {/* ── ART 17 ── */}
+      <Article num="17" title="المسؤولية" />
+      <div style={{ fontSize: 12.5, marginBottom: 6 }}>لا تتحمل الوكالة مسؤولية المشاكل الناتجة عن:</div>
+      {["حظر الحساب الإعلاني من طرف المنصة", "رفض الإعلانات من طرف المنصة", "تغييرات خوارزميات المنصات", "مشاكل الدفع الخاصة بالعميل", "مشاكل الموقع أو الاستضافة", "مشاكل المنتج أو المخزون", "تأخر العميل في معالجة الطلبات", "أسباب خارجة عن سيطرة الوكالة"].map((s, i) => <Li key={i}>{s}</Li>)}
+
+      {/* ── ART 18 ── */}
+      <Article num="18" title="القانون وتسوية النزاعات" />
+      <div style={{ fontSize: 12.5 }}>يسعى الطرفان أولًا إلى حل أي نزاع وديًا. وفي حال تعذر ذلك، يتم اللجوء إلى الجهات المختصة وفقًا للقوانين المعمول بها في <strong>الجمهورية الجزائرية</strong>.</div>
+
+      {/* ── ART 19 ── */}
+      <Article num="19" title="الموافقة" />
+      <div style={{ fontSize: 12.5 }}>بتوقيع هذا العقد، يقر الطرفان بأنهما قرآ جميع البنود وفهما محتواها ووافقا عليها.</div>
+
+      {/* Notes */}
+      {contract.notes && (
+        <div style={{ ...S.note, marginTop: 16 }}><strong>ملاحظات:</strong> {contract.notes}</div>
+      )}
+
+      {/* ── SIGNATURES ── */}
+      <div style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "2px solid #1e293b", paddingBottom: 6, marginBottom: 32, textAlign: "center", color: "#1e40af" }}>
+          التوقيعات
+        </div>
+        <div style={{ display: "flex", gap: 40, flexWrap: "wrap", justifyContent: "space-around" }}>
+          <div style={S.sigBox}>
+            <div style={{ fontWeight: "bold", fontSize: 13, marginBottom: 4 }}>الطرف الأول – الوكالة</div>
+            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 2 }}>{agency?.name || "Adpowers Digital"}</div>
+            <div style={{ fontSize: 11, color: "#94a3b8" }}>الاسم: ___________________________</div>
+            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>الصفة: ___________________________</div>
+            <div style={S.stamp}>الختم</div>
+            <div style={S.sigLine}>
+              <div style={{ fontSize: 11, color: "#64748b" }}>التوقيع</div>
+              <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>التاريخ: _____ / _____ / _______</div>
+            </div>
+          </div>
+          <div style={S.sigBox}>
+            <div style={{ fontWeight: "bold", fontSize: 13, marginBottom: 4 }}>الطرف الثاني – العميل</div>
+            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 2 }}>{clientName}</div>
+            <div style={{ fontSize: 11, color: "#94a3b8" }}>الاسم: ___________________________</div>
+            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>الصفة: ___________________________</div>
+            <div style={S.stamp}>الختم</div>
+            <div style={S.sigLine}>
+              <div style={{ fontSize: 11, color: "#64748b" }}>التوقيع</div>
+              <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>التاريخ: _____ / _____ / _______</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={S.footer}>
         {agency?.name} — {agency?.address} — {agency?.phone}
         <br />محرر من نسختين أصليتين / Établi en deux exemplaires originaux
       </div>
