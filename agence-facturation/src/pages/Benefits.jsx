@@ -82,6 +82,10 @@ export default function Benefits() {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [applying, setApplying] = useState(false);
+  const [appliedMonths, setAppliedMonths] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("benefits_applied_months") || "[]"); } catch { return []; }
+  });
   const [selectedMonth, setSelectedMonth] = useState(currentMonthStr());
 
   const currency = agency?.currency || "DZD";
@@ -103,6 +107,43 @@ export default function Benefits() {
   useEffect(() => {
     if (isAdmin) fetchData();
   }, [isAdmin, fetchData]);
+
+  // ── Apply net profit to treasury balance ────────────────────────────
+  const alreadyApplied = appliedMonths.includes(selectedMonth);
+
+  const handleApplyToBalance = async () => {
+    if (!data) return;
+    const net = data.profit?.net || 0;
+
+    const confirm = window.confirm(
+      `تحويل صافي ربح شهر ${selectedMonth} إلى رصيد الخزينة؟\n\n` +
+      `المبلغ: ${net.toLocaleString("fr-DZ")} ${currency}\n\n` +
+      `Ajouter ${net.toLocaleString("fr-DZ")} ${currency} au solde de trésorerie ?`
+    );
+    if (!confirm) return;
+
+    setApplying(true);
+    try {
+      const res = await api.post("/benefits/apply-to-balance", {
+        month: selectedMonth,
+        netProfit: net,
+      });
+      const newBal = res.data?.newBalance;
+      const applied = [...appliedMonths, selectedMonth];
+      setAppliedMonths(applied);
+      localStorage.setItem("benefits_applied_months", JSON.stringify(applied));
+      // Refresh the data to show updated treasury
+      await fetchData();
+      toast.success(
+        `✅ ${net.toLocaleString("fr-DZ")} ${currency} تم إضافته للرصيد!\n` +
+        `الرصيد الجديد: ${(newBal || 0).toLocaleString("fr-DZ")} ${currency}`
+      );
+    } catch (err) {
+      toast.error(err.message || "خطأ في التحويل");
+    } finally {
+      setApplying(false);
+    }
+  };
 
   if (!isAdmin) {
     return (
@@ -278,11 +319,40 @@ export default function Benefits() {
             </div>
           )}
 
-          {/* ── BOTTOM: Profit Summary ── */}
+          {/* ── BOTTOM: Profit Summary + Transfer to Balance ── */}
           <div style={{ background: netPositive ? "#ecfdf5" : "#fffbeb", border: `2px solid ${netPositive ? "#a7f3d0" : "#fde68a"}`, borderRadius: 14, padding: "20px 28px" }}>
-            <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 14, color: netPositive ? "#059669" : "#d97706" }}>
-              {netPositive ? "✅" : "⚠️"} ملخص الأرباح / Récapitulatif Financier — {selectedMonth}
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
+              <div style={{ fontWeight: 700, fontSize: 15, color: netPositive ? "#059669" : "#d97706" }}>
+                {netPositive ? "✅" : "⚠️"} ملخص الأرباح / Récapitulatif Financier — {selectedMonth}
+              </div>
+
+              {/* ── APPLY TO BALANCE BUTTON ── */}
+              {alreadyApplied ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px",
+                  background: "#f0fdf4", border: "1.5px solid #86efac", borderRadius: 10,
+                  color: "#15803d", fontSize: 13, fontWeight: 600 }}>
+                  ✅ تم التحويل للرصيد / Déjà transféré
+                </div>
+              ) : (
+                <button
+                  onClick={handleApplyToBalance}
+                  disabled={applying || !data}
+                  title="إضافة صافي ربح هذا الشهر إلى رصيد الخزينة"
+                  style={{
+                    display: "flex", alignItems: "center", gap: 8,
+                    padding: "10px 20px", borderRadius: 10, fontWeight: 700,
+                    fontSize: 13, cursor: applying ? "wait" : "pointer", border: "none",
+                    background: netPositive ? "#1d4ed8" : "#f59e0b",
+                    color: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                    transition: "opacity 0.2s",
+                    opacity: applying ? 0.7 : 1,
+                  }}
+                >
+                  {applying ? "⏳ جاري التحويل..." : "🏦 تحويل الربح للرصيد / Ajouter au solde"}
+                </button>
+              )}
             </div>
+
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr))", gap: 12, fontSize: 13 }}>
               {[
                 ["💵 الإيرادات المحصلة", fmt(r.revenue.collected), "#1d4ed8"],
@@ -298,7 +368,19 @@ export default function Benefits() {
                 </div>
               ))}
             </div>
+
+            {/* Explanation note */}
+            <div style={{ marginTop: 14, fontSize: 11, color: "#64748b", display: "flex", alignItems: "flex-start", gap: 6 }}>
+              <span>ℹ️</span>
+              <span>
+                زر "تحويل للرصيد" يضيف صافي ربح الشهر إلى رصيد الخزينة الكلي مباشرة.
+                يظهر الرصيد الجديد في لوحة التحكم وهذه الصفحة فوراً.
+                / Le bouton "Ajouter au solde" transfère le bénéfice net du mois sélectionné
+                directement dans le solde de trésorerie de l'agence.
+              </span>
+            </div>
           </div>
+
         </>
       ) : (
         <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>لا توجد بيانات لهذا الشهر</div>
