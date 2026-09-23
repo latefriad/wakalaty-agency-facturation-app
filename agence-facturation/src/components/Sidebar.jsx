@@ -8,6 +8,7 @@ import { useTheme } from "../i18n/ThemeContext";
 
 const ADMIN_MENU = [
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+  { path: "/benefits", key: "nav.benefits", icon: "💰" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
   { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/testili", key: "nav.testili", icon: "🧪" },

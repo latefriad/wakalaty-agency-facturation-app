@@ -32,6 +32,7 @@ const dashboardExtrasRoutes = require("./modules/dashboard-extras/dashboard-extr
 const testiliRoutes = require("./modules/testili/testili.routes");
 const clientReportsRoutes = require("./modules/client-reports/client-reports.routes");
 const projectTemplatesRoutes = require("./modules/project-templates/project-templates.routes");
+const benefitsRoutes = require("./modules/benefits/benefits.routes");
 
 const app = express();
 
@@ -100,6 +101,7 @@ app.use("/api/dashboard-extras", dashboardExtrasRoutes);
 app.use("/api/testili", testiliRoutes);
 app.use("/api/client-reports", clientReportsRoutes);
 app.use("/api/project-templates", projectTemplatesRoutes);
+app.use("/api/benefits", benefitsRoutes);
 
 // 404
 app.use((_req, res) => {

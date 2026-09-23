@@ -49,6 +49,7 @@ export const translations = {
 
   // ── Navigation ──
   "nav.dashboard": { ar: "لوحة التحكم", fr: "Tableau de bord", en: "Dashboard" },
+  "nav.benefits":  { ar: "💰 أرباحي الشخصية", fr: "💰 Mes Bénéfices", en: "💰 My Benefits" },
   "nav.leads": { ar: "العملاء المحتملين (CRM)", fr: "Prospects (CRM)", en: "Leads (CRM)" },
   "nav.clients": { ar: "العملاء", fr: "Clients", en: "Clients" },
   "nav.adspend": { ar: "تتبع الإعلانات والـ ROAS", fr: "Dépenses Ads & ROAS", en: "Ad Spend & ROAS" },

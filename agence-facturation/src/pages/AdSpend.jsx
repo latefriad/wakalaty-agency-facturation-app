@@ -231,6 +231,82 @@ export default function AdSpend() {
     }
   };
 
+  // ── TRANSFER TO INVOICE + EXPENSE ──────────────────────────────────
+  // 1. Creates a FACTURE for the client (amountBilled)
+  // 2. Creates an internal Expense entry (actualSpend → category ADS)
+  const [billingEntryId, setBillingEntryId] = useState(null); // loading state per row
+
+  const handleBillToInvoice = async (entry) => {
+    const clientName = clients.find((c) => c.id === entry.clientId)?.name || "Client";
+    const platform = entry.platform || "ADS";
+    const month = entry.month || currentMonthStr();
+    const campaign = entry.campaignName ? ` – ${entry.campaignName}` : "";
+    const label = `${platform}${campaign} (${month})`;
+    const billed = Number(entry.amountBilled || 0);
+    const spent = Number(entry.actualSpend || 0);
+
+    if (billed <= 0) {
+      toast.error("Le montant facturé (Montant facturé) doit être > 0 pour créer une facture.");
+      return;
+    }
+
+    const ok = await confirm(
+      `Facturer ${billed.toLocaleString("fr-DZ")} ${agencyCurrency} à ${clientName} ` +
+      `et enregistrer ${spent.toLocaleString("fr-DZ")} ${agencyCurrency} comme dépense réelle ?`
+    );
+    if (!ok) return;
+
+    setBillingEntryId(entry.id);
+    try {
+      const promises = [];
+
+      // 1️⃣ Create invoice (FACTURE) for the client
+      if (billed > 0) {
+        promises.push(
+          api.post("/invoices", {
+            clientId: entry.clientId,
+            docType: "FACTURE",
+            status: "EN_ATTENTE",
+            items: [
+              {
+                description: `Frais Media Buying – ${label}`,
+                quantity: 1,
+                unitPrice: billed,
+                tax: 0,
+              },
+            ],
+            notes: `Généré automatiquement depuis Suivi des Dépenses Ads — ${label}`,
+            dueDate: null,
+          })
+        );
+      }
+
+      // 2️⃣ Create expense (Dépense réelle) in expenses section
+      if (spent > 0) {
+        promises.push(
+          api.post("/expenses", {
+            description: `Dépense Ads réelle – ${label} (${clientName})`,
+            amount: spent,
+            category: "ADS",
+            date: new Date(`${month}-01`).toISOString(),
+            notes: `Transféré depuis Suivi des Dépenses Ads — ${label}`,
+          })
+        );
+      }
+
+      await Promise.all(promises);
+
+      toast.success(
+        `✅ Facture créée (${billed.toLocaleString("fr-DZ")} ${agencyCurrency}) + Dépense enregistrée (${spent.toLocaleString("fr-DZ")} ${agencyCurrency}) !`
+      );
+    } catch (err) {
+      toast.error(err.message || t("common.error"));
+    } finally {
+      setBillingEntryId(null);
+    }
+  };
+
+
   // ROAS Badge Helper
   const renderROASBadge = (roas) => {
     let color = "#dc2626";
@@ -947,6 +1023,26 @@ export default function AdSpend() {
                         >
                           ✏️
                         </button>
+                        {/* ── Transfer to Invoice + Expense ── */}
+                        <button
+                          type="button"
+                          onClick={() => handleBillToInvoice(item)}
+                          disabled={billingEntryId === item.id}
+                          title="Transférer vers Facture + Dépense"
+                          style={{
+                            border: "1px solid #bbf7d0",
+                            background: billingEntryId === item.id ? "#f0fdf4" : "#dcfce7",
+                            color: "#15803d",
+                            borderRadius: 6,
+                            padding: "4px 10px",
+                            fontSize: 11,
+                            fontWeight: 600,
+                            cursor: billingEntryId === item.id ? "wait" : "pointer",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {billingEntryId === item.id ? "⏳" : "🧾 Facturer"}
+                        </button>
                         <button
                           type="button"
                           onClick={() => handleDelete(item.id)}
@@ -964,6 +1060,7 @@ export default function AdSpend() {
                           🗑️
                         </button>
                       </div>
+
                     </td>
                   </tr>
                 );

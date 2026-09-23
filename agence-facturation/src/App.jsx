@@ -35,6 +35,7 @@ const Settings = lazy(() => import("./pages/Settings"));
 const Portfolio = lazy(() => import("./pages/Portfolio"));
 const EmployeeDashboard = lazy(() => import("./pages/EmployeeDashboard"));
 const InvitationAccept = lazy(() => import("./pages/InvitationAccept"));
+const Benefits = lazy(() => import("./pages/Benefits"));
 
 // Shared
 import Sidebar from "./components/Sidebar";
@@ -119,6 +120,7 @@ function AppLayout() {
     case "/contracts":           page = <Contracts />; break;
     case "/agency":              page = <AgencyProfile />; break;    case "/settings":            page = <Settings />; break;
     case "/portfolio":           page = <Portfolio />; break;
+    case "/benefits":            page = <Benefits />; break;
     // Employee
     case "/my-dashboard":        page = <EmployeeDashboard />; break;
     // Fallback
@@ -196,6 +198,7 @@ function AppRoutes() {
         <Route path="/contracts" element={<AppLayout />} />
         <Route path="/agency" element={<AppLayout />} />        <Route path="/settings" element={<AppLayout />} />
         <Route path="/portfolio" element={<AppLayout />} />
+        <Route path="/benefits" element={<AppLayout />} />
       </Route>
 
       {/* ═══════════════ EMPLOYEE ONLY ═══════════════ */}
