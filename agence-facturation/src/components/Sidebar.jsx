@@ -7,85 +7,143 @@ import { useTheme } from "../i18n/ThemeContext";
 
 
 const ADMIN_MENU = [
-  { section: "Général" },
-  { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
-  { path: "/benefits", key: "nav.benefits", icon: "💰" },
-  
-  { section: "CRM & Ventes" },
-  { path: "/leads", key: "nav.leads", icon: "🎯" },
-  { path: "/clients", key: "nav.clients", icon: "👥" },
-  { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
-  { path: "/contracts", key: "nav.contracts", icon: "📄" },
-
-  { section: "Finance" },
-  { path: "/invoices", key: "nav.invoices", icon: "🧾" },
-  { path: "/expenses", key: "nav.expenses", icon: "💸" },
-  
-  { section: "Opérations & Projets" },
-  { path: "/adspend", key: "nav.adspend", icon: "📈" },
-  { path: "/testili", key: "nav.testili", icon: "🧪" },
-  { path: "/tasks", key: "nav.tasks", icon: "📋" },
-  { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
-  
-  { section: "Gestion & Équipe" },
-  { path: "/services", key: "nav.services", icon: "⚙️" },
-  { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
-  { path: "/employees", key: "nav.employees", icon: "👤" },
-  { path: "/portfolio", key: "nav.portfolio", icon: "📁" },
-  
-  { section: "Configuration" },
-  { path: "/settings", key: "nav.settings", icon: "⚙️" },
+  {
+    title: "Général",
+    items: [
+      { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+      { path: "/benefits", key: "nav.benefits", icon: "💰" },
+    ]
+  },
+  {
+    title: "CRM & Ventes",
+    items: [
+      { path: "/leads", key: "nav.leads", icon: "🎯" },
+      { path: "/clients", key: "nav.clients", icon: "👥" },
+      { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
+      { path: "/contracts", key: "nav.contracts", icon: "📄" },
+    ]
+  },
+  {
+    title: "Finance",
+    items: [
+      { path: "/invoices", key: "nav.invoices", icon: "🧾" },
+      { path: "/expenses", key: "nav.expenses", icon: "💸" },
+    ]
+  },
+  {
+    title: "Opérations & Projets",
+    items: [
+      { path: "/adspend", key: "nav.adspend", icon: "📈" },
+      { path: "/testili", key: "nav.testili", icon: "🧪" },
+      { path: "/tasks", key: "nav.tasks", icon: "📋" },
+      { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+    ]
+  },
+  {
+    title: "Gestion & Équipe",
+    items: [
+      { path: "/services", key: "nav.services", icon: "⚙️" },
+      { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
+      { path: "/employees", key: "nav.employees", icon: "👤" },
+      { path: "/portfolio", key: "nav.portfolio", icon: "📁" },
+    ]
+  },
+  {
+    title: "Configuration",
+    items: [
+      { path: "/settings", key: "nav.settings", icon: "⚙️" },
+    ]
+  }
 ];
 
 const ACCOUNTANT_MENU = [
-  { section: "Général" },
-  { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
-  
-  { section: "CRM & Ventes" },
-  { path: "/leads", key: "nav.leads", icon: "🎯" },
-  { path: "/clients", key: "nav.clients", icon: "👥" },
-  { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
-
-  { section: "Finance" },
-  { path: "/invoices", key: "nav.invoices", icon: "🧾" },
-  { path: "/expenses", key: "nav.expenses", icon: "💸" },
-  
-  { section: "Opérations" },
-  { path: "/adspend", key: "nav.adspend", icon: "📈" },
-  { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
+  {
+    title: "Général",
+    items: [
+      { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+    ]
+  },
+  {
+    title: "CRM & Ventes",
+    items: [
+      { path: "/leads", key: "nav.leads", icon: "🎯" },
+      { path: "/clients", key: "nav.clients", icon: "👥" },
+      { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
+    ]
+  },
+  {
+    title: "Finance",
+    items: [
+      { path: "/invoices", key: "nav.invoices", icon: "🧾" },
+      { path: "/expenses", key: "nav.expenses", icon: "💸" },
+    ]
+  },
+  {
+    title: "Opérations",
+    items: [
+      { path: "/adspend", key: "nav.adspend", icon: "📈" },
+      { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
+    ]
+  }
 ];
 
 const ADS_MENU = [
-  { section: "Général" },
-  { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
-  
-  { section: "CRM & Ventes" },
-  { path: "/leads", key: "nav.leads", icon: "🎯" },
-  { path: "/clients", key: "nav.clients", icon: "👥" },
-  { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
-
-  { section: "Opérations & Ads" },
-  { path: "/adspend", key: "nav.adspend", icon: "📈" },
-  { path: "/testili", key: "nav.testili", icon: "🧪" },
-  
-  { section: "Projets" },
-  { path: "/tasks", key: "nav.tasks", icon: "📋" },
-  { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+  {
+    title: "Général",
+    items: [
+      { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+    ]
+  },
+  {
+    title: "CRM & Ventes",
+    items: [
+      { path: "/leads", key: "nav.leads", icon: "🎯" },
+      { path: "/clients", key: "nav.clients", icon: "👥" },
+      { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
+    ]
+  },
+  {
+    title: "Opérations & Ads",
+    items: [
+      { path: "/adspend", key: "nav.adspend", icon: "📈" },
+      { path: "/testili", key: "nav.testili", icon: "🧪" },
+    ]
+  },
+  {
+    title: "Projets",
+    items: [
+      { path: "/tasks", key: "nav.tasks", icon: "📋" },
+      { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+    ]
+  }
 ];
 
 const DESIGNER_MENU = [
-  { path: "/tasks", key: "nav.tasks", icon: "📋" },
-  { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
-  { path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" },
+  {
+    title: "Projets",
+    items: [
+      { path: "/tasks", key: "nav.tasks", icon: "📋" },
+      { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+      { path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" },
+    ]
+  }
 ];
 
-const EMPLOYEE_MENU = [{ path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" }];
+const EMPLOYEE_MENU = [
+  {
+    title: "Menu",
+    items: [
+      { path: "/my-dashboard", key: "nav.myDashboard", icon: "🏠" },
+    ]
+  }
+];
 
 export default function Sidebar() {
   const { profile, agency, logout } = useAuth();
   const { t, dir } = useLang();
   const { isDark, toggle } = useTheme();
   const [open, setOpen] = useState(false);
+  const [collapsedSections, setCollapsedSections] = useState({});
   const navigate = useNavigate();
 
   const primary = agency?.primaryColor || "#1e293b";
@@ -180,70 +238,88 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
-        {menuItems.map((item, idx) => {
-          if (item.section) {
-            return (
-              <div key={`sec-${idx}`} style={{ 
-                fontSize: 11, 
-                fontWeight: 700, 
-                color: "var(--text-muted)", 
-                textTransform: "uppercase", 
-                letterSpacing: "0.06em",
-                marginTop: idx === 0 ? 4 : 24, 
-                marginBottom: 8, 
-                paddingInlineStart: 12 
-              }}>
-                {item.section}
+        {menuItems.map((group, gIdx) => (
+          <div key={group.title || gIdx} style={{ marginBottom: 8 }}>
+            {group.title && (
+              <div 
+                onClick={() => setCollapsedSections(prev => ({ ...prev, [group.title]: !prev[group.title] }))}
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "space-between",
+                  fontSize: 11, 
+                  fontWeight: 700, 
+                  color: "var(--text-muted)", 
+                  textTransform: "uppercase", 
+                  letterSpacing: "0.06em",
+                  marginTop: gIdx === 0 ? 4 : 16,
+                  marginBottom: 8, 
+                  paddingInlineStart: 12,
+                  paddingInlineEnd: 12,
+                  cursor: "pointer",
+                  userSelect: "none"
+                }}
+              >
+                <span>{group.title}</span>
+                <span style={{ fontSize: 10, transition: "transform 0.2s", transform: collapsedSections[group.title] ? "rotate(-90deg)" : "rotate(0deg)" }}>
+                  ▼
+                </span>
               </div>
-            );
-          }
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={() => setOpen(false)}
-              style={({ isActive }) => ({
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-                padding: "10px 14px",
-                marginBottom: 4,
-                borderRadius: 12,
-                textDecoration: "none",
-                color: isActive ? "#fff" : "rgba(255, 255, 255, 0.65)",
-                background: isActive ? "linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.05) 100%)" : "transparent",
-                border: isActive ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid transparent",
-                fontWeight: isActive ? 600 : 500,
-                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-              })}
-            >
-              {({ isActive }) => (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 32,
-                      height: 32,
-                      borderRadius: 10,
-                      background: isActive
-                        ? "linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.12) 100%)"
-                        : "rgba(255, 255, 255, 0.04)",
-                      color: isActive ? "var(--primary-color)" : "inherit",
-                      border: isActive
-                        ? "1px solid rgba(99, 102, 241, 0.2)"
-                        : "1px solid rgba(255, 255, 255, 0.05)",
-                    }}
-                  >
-                    <span style={{ fontSize: 17, flexShrink: 0 }}>{item.icon}</span>
-                  </div>
-                  <span style={{ fontSize: 14 }}>{t(item.key)}</span>
-                </>
-              )}
-            </NavLink>
-          );
-        })}
+            )}
+            
+            <div style={{ 
+              display: collapsedSections[group.title] ? "none" : "flex", 
+              flexDirection: "column",
+              gap: 4
+            }}>
+              {group.items.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setOpen(false)}
+                  style={({ isActive }) => ({
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 12,
+                    padding: "10px 14px",
+                    borderRadius: 12,
+                    textDecoration: "none",
+                    color: isActive ? "#fff" : "rgba(255, 255, 255, 0.65)",
+                    background: isActive ? "linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.05) 100%)" : "transparent",
+                    border: isActive ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid transparent",
+                    fontWeight: isActive ? 600 : 500,
+                    transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+                  })}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: 32,
+                          height: 32,
+                          borderRadius: 10,
+                          background: isActive
+                            ? "linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.12) 100%)"
+                            : "rgba(255, 255, 255, 0.04)",
+                          color: isActive ? "var(--primary-color)" : "inherit",
+                          border: isActive
+                            ? "1px solid rgba(99, 102, 241, 0.2)"
+                            : "1px solid rgba(255, 255, 255, 0.05)",
+                        }}
+                      >
+                        <span style={{ fontSize: 17, flexShrink: 0 }}>{item.icon}</span>
+                      </div>
+                      <span style={{ fontSize: 14 }}>{t(item.key)}</span>
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        ))}
       </nav>
 
       {/* User Footer */}
