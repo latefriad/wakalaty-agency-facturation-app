@@ -1,8 +1,10 @@
 const router = require("express").Router();
-const { authenticate, requireRole } = require("../../middleware/auth");
+const auth = require("../../middleware/auth");
+const authorize = require("../../middleware/authorize");
 const { getBenefitsHandler, applyToBalanceHandler } = require("./benefits.controller");
 
-router.get("/", authenticate, requireRole(["ADMIN"]), getBenefitsHandler);
-router.post("/apply-to-balance", authenticate, requireRole(["ADMIN"]), applyToBalanceHandler);
+router.get("/", auth, authorize("ADMIN"), getBenefitsHandler);
+router.post("/apply-to-balance", auth, authorize("ADMIN"), applyToBalanceHandler);
+
 
 module.exports = router;
