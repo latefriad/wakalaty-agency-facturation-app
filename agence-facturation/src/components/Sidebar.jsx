@@ -7,43 +7,68 @@ import { useTheme } from "../i18n/ThemeContext";
 
 
 const ADMIN_MENU = [
+  { section: "Général" },
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
   { path: "/benefits", key: "nav.benefits", icon: "💰" },
+  
+  { section: "CRM & Ventes" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
-  { path: "/adspend", key: "nav.adspend", icon: "📈" },
-  { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
+  { path: "/contracts", key: "nav.contracts", icon: "📄" },
+
+  { section: "Finance" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
-  { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
-  { path: "/contracts", key: "nav.contracts", icon: "📄" },
-  { path: "/services", key: "nav.services", icon: "⚙️" },
+  
+  { section: "Opérations & Projets" },
+  { path: "/adspend", key: "nav.adspend", icon: "📈" },
+  { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
   { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
+  
+  { section: "Gestion & Équipe" },
+  { path: "/services", key: "nav.services", icon: "⚙️" },
+  { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
   { path: "/employees", key: "nav.employees", icon: "👤" },
   { path: "/portfolio", key: "nav.portfolio", icon: "📁" },
+  
+  { section: "Configuration" },
   { path: "/settings", key: "nav.settings", icon: "⚙️" },
 ];
 
 const ACCOUNTANT_MENU = [
+  { section: "Général" },
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+  
+  { section: "CRM & Ventes" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
-  { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
+
+  { section: "Finance" },
   { path: "/invoices", key: "nav.invoices", icon: "🧾" },
   { path: "/expenses", key: "nav.expenses", icon: "💸" },
+  
+  { section: "Opérations" },
+  { path: "/adspend", key: "nav.adspend", icon: "📈" },
   { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
 ];
 
 const ADS_MENU = [
+  { section: "Général" },
   { path: "/dashboard", key: "nav.dashboard", icon: "📊" },
+  
+  { section: "CRM & Ventes" },
   { path: "/leads", key: "nav.leads", icon: "🎯" },
-  { path: "/adspend", key: "nav.adspend", icon: "📈" },
-  { path: "/testili", key: "nav.testili", icon: "🧪" },
   { path: "/clients", key: "nav.clients", icon: "👥" },
   { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
+
+  { section: "Opérations & Ads" },
+  { path: "/adspend", key: "nav.adspend", icon: "📈" },
+  { path: "/testili", key: "nav.testili", icon: "🧪" },
+  
+  { section: "Projets" },
   { path: "/tasks", key: "nav.tasks", icon: "📋" },
   { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
 ];
@@ -155,33 +180,70 @@ export default function Sidebar() {
 
       {/* Navigation */}
       <nav style={{ flex: 1, padding: "12px 10px", overflowY: "auto" }}>
-        {menuItems.map((item) => (
-          <NavLink
-            key={item.path}
-            to={item.path}
-            onClick={() => setOpen(false)}
-            style={({ isActive }) => ({
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              padding: "10px 14px",
-              marginBottom: 3,
-              borderRadius: 10,
-              textDecoration: "none",
-              color: isActive ? "#ffffff" : "var(--text-muted)",
-              background: isActive
-                ? "linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(59, 130, 246, 0.12) 100%)"
-                : "transparent",
-              borderInlineStart: isActive ? "3px solid #3b82f6" : "3px solid transparent",
-              fontWeight: isActive ? 600 : 400,
-              fontSize: 14,
-              transition: "all 0.15s ease",
-            })}
-          >
-            <span style={{ fontSize: 17, flexShrink: 0 }}>{item.icon}</span>
-            <span>{t(item.key)}</span>
-          </NavLink>
-        ))}
+        {menuItems.map((item, idx) => {
+          if (item.section) {
+            return (
+              <div key={`sec-${idx}`} style={{ 
+                fontSize: 11, 
+                fontWeight: 700, 
+                color: "var(--text-muted)", 
+                textTransform: "uppercase", 
+                letterSpacing: "0.06em",
+                marginTop: idx === 0 ? 4 : 24, 
+                marginBottom: 8, 
+                paddingInlineStart: 12 
+              }}>
+                {item.section}
+              </div>
+            );
+          }
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setOpen(false)}
+              style={({ isActive }) => ({
+                display: "flex",
+                alignItems: "center",
+                gap: 12,
+                padding: "10px 14px",
+                marginBottom: 4,
+                borderRadius: 12,
+                textDecoration: "none",
+                color: isActive ? "#fff" : "rgba(255, 255, 255, 0.65)",
+                background: isActive ? "linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.05) 100%)" : "transparent",
+                border: isActive ? "1px solid rgba(99, 102, 241, 0.2)" : "1px solid transparent",
+                fontWeight: isActive ? 600 : 500,
+                transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+              })}
+            >
+              {({ isActive }) => (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 32,
+                      height: 32,
+                      borderRadius: 10,
+                      background: isActive
+                        ? "linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.12) 100%)"
+                        : "rgba(255, 255, 255, 0.04)",
+                      color: isActive ? "var(--primary-color)" : "inherit",
+                      border: isActive
+                        ? "1px solid rgba(99, 102, 241, 0.2)"
+                        : "1px solid rgba(255, 255, 255, 0.05)",
+                    }}
+                  >
+                    <span style={{ fontSize: 17, flexShrink: 0 }}>{item.icon}</span>
+                  </div>
+                  <span style={{ fontSize: 14 }}>{t(item.key)}</span>
+                </>
+              )}
+            </NavLink>
+          );
+        })}
       </nav>
 
       {/* User Footer */}
