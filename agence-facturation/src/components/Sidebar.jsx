@@ -34,7 +34,6 @@ const ADMIN_MENU = [
     title: "Opérations & Projets",
     items: [
       { path: "/adspend", key: "nav.adspend", icon: "📈" },
-      { path: "/testili", key: "nav.testili", icon: "🧪" },
       { path: "/tasks", key: "nav.tasks", icon: "📋" },
       { path: "/project-templates", key: "nav.projectTemplates", icon: "📐" },
     ]
@@ -106,7 +105,6 @@ const ADS_MENU = [
     title: "Opérations & Ads",
     items: [
       { path: "/adspend", key: "nav.adspend", icon: "📈" },
-      { path: "/testili", key: "nav.testili", icon: "🧪" },
     ]
   },
   {
