@@ -44,7 +44,6 @@ const ADMIN_MENU = [
       { path: "/services", key: "nav.services", icon: "⚙️" },
       { path: "/suppliers", key: "nav.suppliers", icon: "🚚" },
       { path: "/employees", key: "nav.employees", icon: "👤" },
-      { path: "/portfolio", key: "nav.portfolio", icon: "📁" },
     ]
   },
   {
