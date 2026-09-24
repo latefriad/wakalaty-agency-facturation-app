@@ -1,54 +1,91 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useLang } from "../i18n/LanguageContext";
 import { api } from "../services/api";
 import toast from "react-hot-toast";
+import { Search, Plus, Filter, MoreVertical, Edit2, Trash2, ArrowUpRight, ArrowDownRight, RefreshCcw, Download, Info } from "lucide-react";
 
-// ─── Expense category labels ──────────────────────────────────────────────
-const CAT_LABELS = {
-  SALAIRE:      { ar: "الرواتب",          fr: "Salaires",           icon: "👥" },
-  LOYER:        { ar: "الإيجار",           fr: "Loyer",              icon: "🏠" },
-  ADS:          { ar: "إنفاق الإعلانات",  fr: "Dépenses Ads",       icon: "📢" },
-  LOGICIEL:     { ar: "البرامج",           fr: "Logiciels",          icon: "💻" },
-  MATERIEL:     { ar: "معدات",             fr: "Matériel",           icon: "🖥️" },
-  TRANSPORT:    { ar: "المواصلات",         fr: "Transport",          icon: "🚗" },
-  REPAS:        { ar: "وجبات",             fr: "Repas",              icon: "🍽️" },
-  FORMATION:    { ar: "التدريب",           fr: "Formation",          icon: "📚" },
-  COMMUNICATION:{ ar: "الاتصالات",        fr: "Communication",      icon: "📞" },
-  AUTRE:        { ar: "أخرى",              fr: "Autres",             icon: "📦" },
+// --- Helpers ---
+const formatCurrency = (val, currency = "DZD") => {
+  return new Intl.NumberFormat("fr-DZ", {
+    style: "currency",
+    currency: currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(val || 0);
 };
 
-function catLabel(cat, lang) {
-  const c = CAT_LABELS[cat] || CAT_LABELS.AUTRE;
-  return { icon: c.icon, label: lang === "ar" ? c.ar : c.fr };
+const formatPct = (val) => {
+  return new Intl.NumberFormat("fr-DZ", {
+    style: "percent",
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  }).format((val || 0) / 100);
+};
+
+const STATUS_COLORS = {
+  REVENUE: { bg: "#ecfdf5", text: "#059669", icon: <ArrowUpRight size={16} /> },
+  EXPENSE: { bg: "#fef2f2", text: "#dc2626", icon: <ArrowDownRight size={16} /> },
+  WITHDRAWAL: { bg: "#fffbeb", text: "#d97706", icon: <ArrowDownRight size={16} /> },
+  TRANSFER: { bg: "#eff6ff", text: "#2563eb", icon: <RefreshCcw size={16} /> },
+};
+
+const CATEGORIES = {
+  REVENUE: [
+    "Media Buying", "Website Creation", "Branding", "Content Creation",
+    "Voice Over", "Marketing Strategy", "Social Media Management", "Other"
+  ],
+  EXPENSE: [
+    // Business
+    "Software / SaaS", "Hosting", "Domain", "Advertising", "Freelancer",
+    "Transport", "Internet", "Phone", "Equipment", "Office", "Marketing", "Other"
+  ],
+  WITHDRAWAL: [
+    // Personal
+    "Food", "Transport", "Shopping", "Family", "Entertainment", "Other"
+  ],
+  TRANSFER: ["Bank Transfer", "Internal", "Other"]
+};
+
+// --- Components ---
+function KpiCard({ title, value, type, icon }) {
+  let color = "#1e293b";
+  if (type === "positive") color = "#059669";
+  if (type === "negative") color = "#dc2626";
+  if (type === "warning") color = "#d97706";
+
+  return (
+    <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, padding: "20px", display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: 13, color: "#64748b", fontWeight: 500 }}>{title}</span>
+        <span style={{ fontSize: 18 }}>{icon}</span>
+      </div>
+      <div style={{ fontSize: 24, fontWeight: "bold", color }}>
+        {value}
+      </div>
+    </div>
+  );
 }
 
-function currentMonthStr() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-}
-
-// ─── Mini bar chart ───────────────────────────────────────────────────────
 function MiniBarChart({ data, currency }) {
   if (!data?.length) return null;
-  const maxVal = Math.max(...data.map((d) => Math.max(d.revenue, d.expenses)), 1);
+  const maxVal = Math.max(...data.map((d) => Math.max(d.revenue, d.expenses, d.withdrawals)), 1);
   return (
-    <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 80, padding: "8px 0" }}>
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 120, padding: "8px 0" }}>
       {data.map((d) => (
-        <div key={d.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 56 }}>
-            <div title={`Revenus: ${d.revenue.toLocaleString("fr-DZ")}`}
-              style={{ width: 12, background: "#3b82f6", borderRadius: "3px 3px 0 0",
-                height: `${Math.round((d.revenue / maxVal) * 56)}px`, minHeight: 2 }} />
-            <div title={`Dépenses: ${d.expenses.toLocaleString("fr-DZ")}`}
-              style={{ width: 12, background: "#f87171", borderRadius: "3px 3px 0 0",
-                height: `${Math.round((d.expenses / maxVal) * 56)}px`, minHeight: 2 }} />
-            <div title={`Profit: ${d.profit.toLocaleString("fr-DZ")}`}
-              style={{ width: 12, background: d.profit >= 0 ? "#10b981" : "#f59e0b",
-                borderRadius: "3px 3px 0 0",
-                height: `${Math.round((Math.abs(d.profit) / maxVal) * 56)}px`, minHeight: 2 }} />
+        <div key={d.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 90, width: "100%", justifyContent: "center" }}>
+            <div title={`Revenus: ${formatCurrency(d.revenue, currency)}`}
+              style={{ width: "25%", background: "#10b981", borderRadius: "2px 2px 0 0",
+                height: `${Math.round((d.revenue / maxVal) * 90)}px`, minHeight: 2 }} />
+            <div title={`Dépenses: ${formatCurrency(d.expenses, currency)}`}
+              style={{ width: "25%", background: "#ef4444", borderRadius: "2px 2px 0 0",
+                height: `${Math.round((d.expenses / maxVal) * 90)}px`, minHeight: 2 }} />
+            <div title={`Retraits: ${formatCurrency(d.withdrawals, currency)}`}
+              style={{ width: "25%", background: "#f59e0b", borderRadius: "2px 2px 0 0",
+                height: `${Math.round((d.withdrawals / maxVal) * 90)}px`, minHeight: 2 }} />
           </div>
-          <div style={{ fontSize: 9, color: "#94a3b8", textAlign: "center" }}>
+          <div style={{ fontSize: 10, color: "#94a3b8", textAlign: "center" }}>
             {d.month.slice(5)}
           </div>
         </div>
@@ -57,93 +94,42 @@ function MiniBarChart({ data, currency }) {
   );
 }
 
-// ─── KPI Card ─────────────────────────────────────────────────────────────
-function KpiCard({ icon, label, value, sub, color = "#1e40af", bg = "#eff6ff", border = "#bfdbfe", big = false }) {
-  return (
-    <div style={{
-      background: bg, border: `1.5px solid ${border}`, borderRadius: 14,
-      padding: big ? "20px 24px" : "16px 20px", display: "flex", alignItems: "center", gap: 14,
-      boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-    }}>
-      <div style={{ fontSize: big ? 36 : 28 }}>{icon}</div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 11, color: "#64748b", fontWeight: 500, marginBottom: 4 }}>{label}</div>
-        <div style={{ fontSize: big ? 26 : 20, fontWeight: "bold", color, lineHeight: 1.1 }}>{value}</div>
-        {sub && <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>{sub}</div>}
-      </div>
-    </div>
-  );
-}
-
 export default function Benefits() {
-  const { profile, agency } = useAuth();
-  const { lang } = useLang();
+  const { profile } = useAuth();
   const isAdmin = profile?.role === "ADMIN";
 
+  const [period, setPeriod] = useState("this_month");
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [applying, setApplying] = useState(false);
-  const [appliedMonths, setAppliedMonths] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("benefits_applied_months") || "[]"); } catch { return []; }
-  });
-  const [selectedMonth, setSelectedMonth] = useState(currentMonthStr());
 
-  const currency = agency?.currency || "DZD";
-  const fmt = (n) => Number(n || 0).toLocaleString("fr-DZ") + " " + currency;
-  const fmtPct = (n) => (n == null ? "—" : Number(n).toFixed(1) + "%");
+  // Modal
+  const [showModal, setShowModal] = useState(false);
+  const [editingTx, setEditingTx] = useState(null);
+  const [form, setForm] = useState({
+    type: "REVENUE", amount: "", date: new Date().toISOString().split("T")[0],
+    category: "Other", description: "", paymentMethod: "Cash", client: ""
+  });
+  const [submitting, setSubmitting] = useState(false);
+
+  // Table filters
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("ALL");
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await api.get(`/benefits?month=${selectedMonth}`);
+      const res = await api.get(`/benefits?period=${period}`);
       setData(res.data);
     } catch (err) {
       toast.error(err.message || "Erreur de chargement");
     } finally {
       setLoading(false);
     }
-  }, [selectedMonth]);
+  }, [period]);
 
   useEffect(() => {
     if (isAdmin) fetchData();
   }, [isAdmin, fetchData]);
-
-  // ── Apply net profit to treasury balance ────────────────────────────
-  const alreadyApplied = appliedMonths.includes(selectedMonth);
-
-  const handleApplyToBalance = async () => {
-    if (!data) return;
-    const net = data.profit?.net || 0;
-
-    const confirm = window.confirm(
-      `تحويل صافي ربح شهر ${selectedMonth} إلى رصيد الخزينة؟\n\n` +
-      `المبلغ: ${net.toLocaleString("fr-DZ")} ${currency}\n\n` +
-      `Ajouter ${net.toLocaleString("fr-DZ")} ${currency} au solde de trésorerie ?`
-    );
-    if (!confirm) return;
-
-    setApplying(true);
-    try {
-      const res = await api.post("/benefits/apply-to-balance", {
-        month: selectedMonth,
-        netProfit: net,
-      });
-      const newBal = res.data?.newBalance;
-      const applied = [...appliedMonths, selectedMonth];
-      setAppliedMonths(applied);
-      localStorage.setItem("benefits_applied_months", JSON.stringify(applied));
-      // Refresh the data to show updated treasury
-      await fetchData();
-      toast.success(
-        `✅ ${net.toLocaleString("fr-DZ")} ${currency} تم إضافته للرصيد!\n` +
-        `الرصيد الجديد: ${(newBal || 0).toLocaleString("fr-DZ")} ${currency}`
-      );
-    } catch (err) {
-      toast.error(err.message || "خطأ في التحويل");
-    } finally {
-      setApplying(false);
-    }
-  };
 
   if (!isAdmin) {
     return (
@@ -153,237 +139,351 @@ export default function Benefits() {
     );
   }
 
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!form.amount || isNaN(form.amount) || Number(form.amount) <= 0) {
+      return toast.error("Montant invalide");
+    }
+    setSubmitting(true);
+    try {
+      if (editingTx) {
+        await api.put(`/benefits/transactions/${editingTx.id}`, form);
+        toast.success("Transaction modifiée");
+      } else {
+        await api.post(`/benefits/transactions`, form);
+        toast.success("Transaction ajoutée");
+      }
+      setShowModal(false);
+      fetchData();
+    } catch (err) {
+      toast.error(err.message || "Erreur lors de l'enregistrement");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Voulez-vous vraiment supprimer cette transaction ? Le solde et les bénéfices seront affectés.")) return;
+    try {
+      await api.delete(`/benefits/transactions/${id}`);
+      toast.success("Transaction supprimée");
+      fetchData();
+    } catch (err) {
+      toast.error(err.message || "Erreur de suppression");
+    }
+  };
+
+  const openModal = (tx = null) => {
+    if (tx) {
+      setEditingTx(tx);
+      setForm({
+        type: tx.type, amount: tx.amount, date: tx.date.split("T")[0],
+        category: tx.category, description: tx.description, paymentMethod: tx.paymentMethod, client: tx.clientName || ""
+      });
+    } else {
+      setEditingTx(null);
+      setForm({
+        type: "REVENUE", amount: "", date: new Date().toISOString().split("T")[0],
+        category: CATEGORIES.REVENUE[0], description: "", paymentMethod: "Cash", client: ""
+      });
+    }
+    setShowModal(true);
+  };
+
+  const exportCSV = () => {
+    if (!data?.transactions) return;
+    const headers = ["Date", "Type", "Catégorie", "Montant", "Client/Source", "Description"];
+    const rows = filteredTransactions.map(tx => [
+      tx.date.split("T")[0], tx.type, tx.category, tx.amount, tx.clientName || "", tx.description || ""
+    ]);
+    const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "transactions.csv");
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const filteredTransactions = useMemo(() => {
+    if (!data?.transactions) return [];
+    return data.transactions.filter(tx => {
+      if (typeFilter !== "ALL" && tx.type !== typeFilter) return false;
+      if (search) {
+        const s = search.toLowerCase();
+        return (tx.description?.toLowerCase().includes(s) || 
+                tx.category?.toLowerCase().includes(s) || 
+                tx.clientName?.toLowerCase().includes(s));
+      }
+      return true;
+    });
+  }, [data?.transactions, search, typeFilter]);
+
+  const currency = data?.currency || "DZD";
   const r = data;
-  const netPositive = (r?.profit?.net || 0) >= 0;
 
   return (
-    <div style={{ padding: "24px", maxWidth: 1100, margin: "0 auto" }}>
-
-      {/* ── Header ── */}
+    <div style={{ padding: "24px", maxWidth: 1200, margin: "0 auto" }}>
+      {/* HEADER */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 24 }}>
         <div>
-          <div style={{ fontSize: 22, fontWeight: "bold", color: "#1e293b" }}>
-            💰 أرباحي الشخصية — Mes Bénéfices
-          </div>
-          <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>
-            ما دخل، ما خرج، وما تبقى لك — Ce que tu gagnes réellement
-          </div>
+          <h1 style={{ fontSize: 22, fontWeight: "bold", color: "#1e293b", margin: 0 }}>💰 Mes Bénéfices</h1>
+          <p style={{ fontSize: 13, color: "#64748b", marginTop: 4, margin: 0 }}>Gérez vos revenus, dépenses et retraits personnels.</p>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <input
-            type="month"
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(e.target.value)}
-            style={{ padding: "7px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13 }}
-          />
-          <button
-            onClick={fetchData}
-            style={{ padding: "7px 16px", borderRadius: 8, background: "#1e40af", color: "#fff",
-              border: "none", cursor: "pointer", fontWeight: 600, fontSize: 13 }}
-          >
-            🔄
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <select value={period} onChange={(e) => setPeriod(e.target.value)}
+            style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #cbd5e1", background: "#fff", outline: "none", fontSize: 13 }}>
+            <option value="today">Aujourd'hui</option>
+            <option value="this_week">Cette semaine</option>
+            <option value="this_month">Ce mois</option>
+            <option value="last_month">Mois précédent</option>
+            <option value="this_year">Cette année</option>
+          </select>
+          <button onClick={fetchData} style={{ padding: "8px", borderRadius: 8, border: "1px solid #cbd5e1", background: "#fff", cursor: "pointer" }}>
+            <RefreshCcw size={16} color="#64748b" />
+          </button>
+          <button onClick={() => openModal()} style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "none", background: "#3b82f6", color: "#fff", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>
+            <Plus size={16} /> Ajouter une transaction
           </button>
         </div>
       </div>
 
-      {loading ? (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>⏳ Chargement...</div>
+      {/* ERROR / NEGATIVE BALANCE WARNING */}
+      {r?.kpis?.availableBalance < 0 && (
+        <div style={{ background: "#fef2f2", borderLeft: "4px solid #ef4444", padding: "12px 16px", borderRadius: 8, marginBottom: 24, display: "flex", alignItems: "center", gap: 12, color: "#991b1b" }}>
+          <Info size={20} />
+          <div>
+            <strong>⚠️ Solde négatif :</strong> Votre solde disponible est actuellement de {formatCurrency(r.kpis.availableBalance, currency)}.
+          </div>
+        </div>
+      )}
+
+      {loading && !r ? (
+        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>⏳ Chargement des données...</div>
       ) : r ? (
         <>
-          {/* ── TOP: 3 Big KPIs ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16, marginBottom: 20 }}>
-            <KpiCard big icon="💵" label="الإيرادات المحصلة / Revenus encaissés"
-              value={fmt(r.revenue.collected)}
-              sub={`Facturé: ${fmt(r.revenue.invoiced)} | En attente: ${fmt(r.revenue.pending)}`}
-              color="#1d4ed8" bg="#eff6ff" border="#bfdbfe" />
-
-            <KpiCard big icon="📉" label="إجمالي المصاريف / Total Dépenses"
-              value={fmt(r.expenses.total)}
-              sub={`Dont salaires: ${fmt(r.expenses.salaries)}`}
-              color="#dc2626" bg="#fef2f2" border="#fecaca" />
-
-            <KpiCard big icon={netPositive ? "🤑" : "😬"}
-              label="صافي الربح / Bénéfice Net"
-              value={fmt(r.profit.net)}
-              sub={`Marge: ${fmtPct(r.profit.margin)}`}
-              color={netPositive ? "#059669" : "#d97706"}
-              bg={netPositive ? "#ecfdf5" : "#fffbeb"}
-              border={netPositive ? "#a7f3d0" : "#fde68a"} />
+          {/* KPIS */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 24 }}>
+            <KpiCard title="Solde disponible" value={formatCurrency(r.kpis.availableBalance, currency)} type={r.kpis.availableBalance >= 0 ? "positive" : "negative"} icon="💰" />
+            <KpiCard title="Bénéfices nets" value={formatCurrency(r.kpis.netProfit, currency)} type={r.kpis.netProfit >= 0 ? "positive" : "warning"} icon="📈" />
+            <KpiCard title="Revenus" value={formatCurrency(r.kpis.revenues, currency)} type="default" icon="💵" />
+            <KpiCard title="Dépenses" value={formatCurrency(r.kpis.expenses, currency)} type="default" icon="💸" />
+            <KpiCard title="Retraits personnels" value={formatCurrency(r.kpis.withdrawals, currency)} type="warning" icon="🔄" />
           </div>
 
-          {/* ── ROW 2: Treasury + Ad Spend margin ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 14, marginBottom: 24 }}>
-            <KpiCard icon="🏦" label="الخزينة الكلية / Trésorerie globale"
-              value={fmt(r.treasury)} color="#7c3aed" bg="#f5f3ff" border="#ddd6fe" />
-            <KpiCard icon="📢" label="هامش الإعلانات / Marge Ads"
-              value={fmt(r.adSpend.margin)}
-              sub={`Dépensé: ${fmt(r.adSpend.totalSpent)} | Facturé: ${fmt(r.adSpend.totalBilled)}`}
-              color="#0e7490" bg="#ecfeff" border="#a5f3fc" />
-            <KpiCard icon="📦" label="إيرادات الإعلانات / Revenus Ads clients"
-              value={fmt(r.adSpend.revenue)}
-              sub={`Commandes: ${r.adSpend.orders} | ROAS moy: ${r.adSpend.avgROAS}x`}
-              color="#1e40af" bg="#eff6ff" border="#bfdbfe" />
-            <KpiCard icon="👥" label="رواتب الموظفين / Masse salariale"
-              value={fmt(r.expenses.salaries)}
-              sub={`${r.employees.length} employé(s)`}
-              color="#9333ea" bg="#faf5ff" border="#e9d5ff" />
-          </div>
-
-          {/* ── ROW 3: Expenses by category + Trend chart ── */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
-
-            {/* Expenses breakdown */}
-            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: "20px 22px" }}>
-              <div style={{ fontWeight: 700, fontSize: 14, color: "#1e293b", marginBottom: 14 }}>
-                🧾 تفصيل المصاريف / Détail des Dépenses
-              </div>
-              {Object.keys(r.expenses.byCategory).length === 0 ? (
-                <div style={{ color: "#94a3b8", fontSize: 13 }}>Aucune dépense ce mois-ci.</div>
-              ) : (
-                Object.entries(r.expenses.byCategory)
-                  .sort((a, b) => b[1] - a[1])
-                  .map(([cat, amt]) => {
-                    const { icon, label } = catLabel(cat, lang);
-                    const pct = r.expenses.total > 0 ? (amt / r.expenses.total) * 100 : 0;
-                    return (
-                      <div key={cat} style={{ marginBottom: 10 }}>
-                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 3 }}>
-                          <span>{icon} {label}</span>
-                          <span style={{ fontWeight: 600 }}>{fmt(amt)} <span style={{ color: "#94a3b8", fontWeight: 400 }}>({pct.toFixed(0)}%)</span></span>
-                        </div>
-                        <div style={{ height: 6, background: "#f1f5f9", borderRadius: 99 }}>
-                          <div style={{ height: 6, width: `${pct}%`, background: "#f87171", borderRadius: 99 }} />
-                        </div>
-                      </div>
-                    );
-                  })
-              )}
-            </div>
-
-            {/* Monthly trend */}
-            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: "20px 22px" }}>
-              <div style={{ fontWeight: 700, fontSize: 14, color: "#1e293b", marginBottom: 4 }}>
-                📈 تطور آخر 6 أشهر / Tendance 6 mois
-              </div>
-              <div style={{ display: "flex", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
-                {[["#3b82f6","Revenus"],["#f87171","Dépenses"],["#10b981","Profit"]].map(([c,l]) => (
-                  <div key={l} style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, color: "#64748b" }}>
-                    <div style={{ width: 10, height: 10, borderRadius: 2, background: c }} />{l}
-                  </div>
-                ))}
+          {/* CHARTS ROW */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 24 }}>
+            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, padding: "20px" }}>
+              <div style={{ fontWeight: 600, color: "#1e293b", marginBottom: 16 }}>Évolution (Derniers 6 mois)</div>
+              <div style={{ display: "flex", gap: 12, marginBottom: 12, fontSize: 11, color: "#64748b" }}>
+                <span style={{display: "flex", alignItems: "center", gap: 4}}><div style={{width: 10, height: 10, background: "#10b981", borderRadius: 2}}/> Revenus</span>
+                <span style={{display: "flex", alignItems: "center", gap: 4}}><div style={{width: 10, height: 10, background: "#ef4444", borderRadius: 2}}/> Dépenses</span>
+                <span style={{display: "flex", alignItems: "center", gap: 4}}><div style={{width: 10, height: 10, background: "#f59e0b", borderRadius: 2}}/> Retraits</span>
               </div>
               <MiniBarChart data={r.monthlyTrend} currency={currency} />
-              <div style={{ marginTop: 8 }}>
-                {r.monthlyTrend.map((m) => (
-                  <div key={m.month} style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#475569", borderBottom: "1px solid #f8fafc", padding: "4px 0" }}>
-                    <span style={{ color: "#94a3b8" }}>{m.month}</span>
-                    <span style={{ color: "#3b82f6" }}>+{m.revenue.toLocaleString("fr-DZ")}</span>
-                    <span style={{ color: "#f87171" }}>-{m.expenses.toLocaleString("fr-DZ")}</span>
-                    <span style={{ color: m.profit >= 0 ? "#10b981" : "#f59e0b", fontWeight: 600 }}>
-                      {m.profit >= 0 ? "+" : ""}{m.profit.toLocaleString("fr-DZ")}
-                    </span>
-                  </div>
-                ))}
+            </div>
+
+            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, padding: "20px" }}>
+              <div style={{ fontWeight: 600, color: "#1e293b", marginBottom: 16 }}>Résumé Mensuel (Derniers 6 mois)</div>
+              <div style={{ overflowX: "auto" }}>
+                <table style={{ width: "100%", fontSize: 12, borderCollapse: "collapse" }}>
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid #e2e8f0", color: "#64748b" }}>
+                      <th style={{ textAlign: "left", padding: "8px 0" }}>Mois</th>
+                      <th style={{ textAlign: "right", padding: "8px 0" }}>Revenus</th>
+                      <th style={{ textAlign: "right", padding: "8px 0" }}>Dépenses</th>
+                      <th style={{ textAlign: "right", padding: "8px 0" }}>Bénéfice</th>
+                      <th style={{ textAlign: "right", padding: "8px 0" }}>Retraits</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {r.monthlyTrend.slice().reverse().map(m => (
+                      <tr key={m.month} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                        <td style={{ padding: "8px 0", fontWeight: 500 }}>{m.month}</td>
+                        <td style={{ padding: "8px 0", textAlign: "right", color: "#10b981" }}>{formatCurrency(m.revenue)}</td>
+                        <td style={{ padding: "8px 0", textAlign: "right", color: "#ef4444" }}>{formatCurrency(m.expenses)}</td>
+                        <td style={{ padding: "8px 0", textAlign: "right", fontWeight: 600 }}>{formatCurrency(m.profit)}</td>
+                        <td style={{ padding: "8px 0", textAlign: "right", color: "#f59e0b" }}>{formatCurrency(m.withdrawals)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
 
-          {/* ── ROW 4: Summary table for employees ── */}
-          {r.employees.length > 0 && (
-            <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 14, padding: "20px 22px", marginBottom: 24 }}>
-              <div style={{ fontWeight: 700, fontSize: 14, color: "#1e293b", marginBottom: 14 }}>
-                👥 رواتب الموظفين / Salaires des Employés
+          {/* TRANSACTIONS SECTION */}
+          <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, overflow: "hidden" }}>
+            <div style={{ padding: "16px 20px", borderBottom: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+              <div style={{ fontWeight: 600, color: "#1e293b", fontSize: 16 }}>Transactions</div>
+              
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ display: "flex", alignItems: "center", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 6, padding: "4px 8px" }}>
+                  <Search size={14} color="#94a3b8" />
+                  <input type="text" placeholder="Rechercher..." value={search} onChange={e => setSearch(e.target.value)}
+                    style={{ border: "none", background: "transparent", outline: "none", fontSize: 12, padding: "4px 8px", width: 140 }} />
+                </div>
+                <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
+                  style={{ padding: "6px 12px", borderRadius: 6, border: "1px solid #e2e8f0", fontSize: 12, outline: "none", background: "#f8fafc" }}>
+                  <option value="ALL">Tous les types</option>
+                  <option value="REVENUE">Revenus</option>
+                  <option value="EXPENSE">Dépenses</option>
+                  <option value="WITHDRAWAL">Retraits</option>
+                  <option value="TRANSFER">Transferts</option>
+                </select>
+                <button onClick={exportCSV} title="Exporter CSV"
+                  style={{ padding: "6px 8px", borderRadius: 6, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", display: "flex", alignItems: "center" }}>
+                  <Download size={14} color="#64748b" />
+                </button>
               </div>
+            </div>
+
+            <div style={{ overflowX: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
                 <thead>
-                  <tr style={{ background: "#f8fafc" }}>
-                    <th style={{ padding: "8px 12px", textAlign: "right", color: "#475569", fontWeight: 600 }}>الاسم</th>
-                    <th style={{ padding: "8px 12px", textAlign: "right", color: "#475569", fontWeight: 600 }}>المنصب</th>
-                    <th style={{ padding: "8px 12px", textAlign: "right", color: "#475569", fontWeight: 600 }}>الراتب / Salaire</th>
+                  <tr style={{ background: "#f8fafc", color: "#64748b", borderBottom: "1px solid #e2e8f0" }}>
+                    <th style={{ padding: "12px 20px", textAlign: "left", fontWeight: 500 }}>Date</th>
+                    <th style={{ padding: "12px 20px", textAlign: "left", fontWeight: 500 }}>Type</th>
+                    <th style={{ padding: "12px 20px", textAlign: "left", fontWeight: 500 }}>Catégorie</th>
+                    <th style={{ padding: "12px 20px", textAlign: "left", fontWeight: 500 }}>Description</th>
+                    <th style={{ padding: "12px 20px", textAlign: "right", fontWeight: 500 }}>Montant</th>
+                    <th style={{ padding: "12px 20px", textAlign: "left", fontWeight: 500 }}>Source</th>
+                    <th style={{ padding: "12px 20px", textAlign: "center", fontWeight: 500 }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {r.employees.map((emp, i) => (
-                    <tr key={i} style={{ borderTop: "1px solid #f1f5f9" }}>
-                      <td style={{ padding: "8px 12px" }}>{emp.name}</td>
-                      <td style={{ padding: "8px 12px", color: "#64748b" }}>{emp.role}</td>
-                      <td style={{ padding: "8px 12px", fontWeight: 600, color: "#7c3aed" }}>{fmt(emp.salary)}</td>
+                  {filteredTransactions.length === 0 ? (
+                    <tr>
+                      <td colSpan={7} style={{ padding: "40px", textAlign: "center", color: "#94a3b8" }}>
+                        <div style={{ marginBottom: 12 }}>Aucune transaction trouvée</div>
+                        <button onClick={() => openModal()} style={{ background: "transparent", border: "1px dashed #cbd5e1", padding: "8px 16px", borderRadius: 8, color: "#3b82f6", cursor: "pointer", fontWeight: 500 }}>
+                          + Ajouter une transaction
+                        </button>
+                      </td>
                     </tr>
-                  ))}
-                  <tr style={{ borderTop: "2px solid #e2e8f0", background: "#faf5ff" }}>
-                    <td colSpan={2} style={{ padding: "8px 12px", fontWeight: 700 }}>الإجمالي / Total</td>
-                    <td style={{ padding: "8px 12px", fontWeight: 700, color: "#7c3aed" }}>{fmt(r.expenses.salaries)}</td>
-                  </tr>
+                  ) : (
+                    filteredTransactions.map(tx => (
+                      <tr key={tx.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                        <td style={{ padding: "12px 20px", color: "#475569" }}>{tx.date.split("T")[0]}</td>
+                        <td style={{ padding: "12px 20px" }}>
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 8px", borderRadius: 12, fontSize: 11, fontWeight: 600, background: STATUS_COLORS[tx.type].bg, color: STATUS_COLORS[tx.type].text }}>
+                            {STATUS_COLORS[tx.type].icon}
+                            {tx.type === "WITHDRAWAL" ? "Retrait" : tx.type}
+                          </span>
+                        </td>
+                        <td style={{ padding: "12px 20px", color: "#1e293b", fontWeight: 500 }}>{tx.category}</td>
+                        <td style={{ padding: "12px 20px", color: "#64748b", maxWidth: 200, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{tx.description || "-"}</td>
+                        <td style={{ padding: "12px 20px", textAlign: "right", fontWeight: "bold", color: STATUS_COLORS[tx.type].text }}>
+                          {tx.type === "EXPENSE" || tx.type === "WITHDRAWAL" ? "-" : "+"}{formatCurrency(tx.amount, currency)}
+                        </td>
+                        <td style={{ padding: "12px 20px", color: "#64748b", fontSize: 12 }}>
+                          {tx.clientName || "-"}
+                        </td>
+                        <td style={{ padding: "12px 20px", textAlign: "center" }}>
+                          {tx.isEditable ? (
+                            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                              <button onClick={() => openModal(tx)} style={{ background: "none", border: "none", cursor: "pointer", color: "#3b82f6" }}><Edit2 size={16} /></button>
+                              <button onClick={() => handleDelete(tx.id)} style={{ background: "none", border: "none", cursor: "pointer", color: "#ef4444" }}><Trash2 size={16} /></button>
+                            </div>
+                          ) : (
+                            <span style={{ fontSize: 11, color: "#94a3b8", background: "#f1f5f9", padding: "2px 6px", borderRadius: 4 }}>Auto</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
-          )}
+          </div>
+        </>
+      ) : null}
 
-          {/* ── BOTTOM: Profit Summary + Transfer to Balance ── */}
-          <div style={{ background: netPositive ? "#ecfdf5" : "#fffbeb", border: `2px solid ${netPositive ? "#a7f3d0" : "#fde68a"}`, borderRadius: 14, padding: "20px 28px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
-              <div style={{ fontWeight: 700, fontSize: 15, color: netPositive ? "#059669" : "#d97706" }}>
-                {netPositive ? "✅" : "⚠️"} ملخص الأرباح / Récapitulatif Financier — {selectedMonth}
+      {/* MODAL AJOUT/EDIT */}
+      {showModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
+          <div style={{ background: "#fff", width: "100%", maxWidth: 500, borderRadius: 16, overflow: "hidden", boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)" }}>
+            <div style={{ padding: "20px 24px", borderBottom: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc" }}>
+              <h2 style={{ margin: 0, fontSize: 18, color: "#1e293b" }}>{editingTx ? "Modifier la transaction" : "Ajouter une transaction"}</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: "none", border: "none", fontSize: 24, cursor: "pointer", color: "#94a3b8" }}>&times;</button>
+            </div>
+            
+            <form onSubmit={handleSave} style={{ padding: 24, display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Type</label>
+                  <select value={form.type} onChange={e => {
+                      const newType = e.target.value;
+                      setForm({...form, type: newType, category: CATEGORIES[newType][0]});
+                    }}
+                    style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", background: "#fff" }}>
+                    <option value="REVENUE">Revenue (Entrée)</option>
+                    <option value="EXPENSE">Dépense Business</option>
+                    <option value="WITHDRAWAL">Retrait Personnel</option>
+                    <option value="TRANSFER">Transfert</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Date</label>
+                  <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} required
+                    style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", boxSizing: "border-box" }} />
+                </div>
               </div>
 
-              {/* ── APPLY TO BALANCE BUTTON ── */}
-              {alreadyApplied ? (
-                <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px",
-                  background: "#f0fdf4", border: "1.5px solid #86efac", borderRadius: 10,
-                  color: "#15803d", fontSize: 13, fontWeight: 600 }}>
-                  ✅ تم التحويل للرصيد / Déjà transféré
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Montant (DA)</label>
+                <input type="number" step="0.01" value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} required
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", boxSizing: "border-box", fontSize: 16, fontWeight: "bold" }} placeholder="0.00" />
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Catégorie</label>
+                <select value={form.category} onChange={e => setForm({...form, category: e.target.value})}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", background: "#fff" }}>
+                  {CATEGORIES[form.type].map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Description / Note</label>
+                <input type="text" value={form.description} onChange={e => setForm({...form, description: e.target.value})}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", boxSizing: "border-box" }} placeholder="Détails de la transaction..." />
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Méthode de paiement</label>
+                  <select value={form.paymentMethod} onChange={e => setForm({...form, paymentMethod: e.target.value})}
+                    style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", background: "#fff" }}>
+                    <option value="Cash">Cash</option>
+                    <option value="Bank">Banque</option>
+                    <option value="CCP">CCP</option>
+                    <option value="BaridiMob">BaridiMob</option>
+                    <option value="Other">Autre</option>
+                  </select>
                 </div>
-              ) : (
-                <button
-                  onClick={handleApplyToBalance}
-                  disabled={applying || !data}
-                  title="إضافة صافي ربح هذا الشهر إلى رصيد الخزينة"
-                  style={{
-                    display: "flex", alignItems: "center", gap: 8,
-                    padding: "10px 20px", borderRadius: 10, fontWeight: 700,
-                    fontSize: 13, cursor: applying ? "wait" : "pointer", border: "none",
-                    background: netPositive ? "#1d4ed8" : "#f59e0b",
-                    color: "#fff", boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                    transition: "opacity 0.2s",
-                    opacity: applying ? 0.7 : 1,
-                  }}
-                >
-                  {applying ? "⏳ جاري التحويل..." : "🏦 تحويل الربح للرصيد / Ajouter au solde"}
+                <div>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#475569", marginBottom: 6 }}>Source / Client (Optionnel)</label>
+                  <input type="text" value={form.client} onChange={e => setForm({...form, client: e.target.value})}
+                    style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #cbd5e1", outline: "none", boxSizing: "border-box" }} placeholder="Nom du client..." />
+                </div>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 12, marginTop: 16 }}>
+                <button type="button" onClick={() => setShowModal(false)}
+                  style={{ padding: "10px 20px", borderRadius: 8, border: "1px solid #cbd5e1", background: "#fff", fontWeight: 600, color: "#475569", cursor: "pointer" }}>
+                  Annuler
                 </button>
-              )}
-            </div>
-
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr))", gap: 12, fontSize: 13 }}>
-              {[
-                ["💵 الإيرادات المحصلة", fmt(r.revenue.collected), "#1d4ed8"],
-                ["📉 إجمالي المصاريف", `- ${fmt(r.expenses.total)}`, "#dc2626"],
-                ["📢 دخل صافي من الإعلانات", fmt(r.adSpend.margin), "#0e7490"],
-                ["🤑 صافي الربح الكلي", fmt(r.profit.net), netPositive ? "#059669" : "#d97706"],
-                ["📊 نسبة الربحية", fmtPct(r.profit.margin), netPositive ? "#059669" : "#d97706"],
-                ["🏦 الخزينة الكلية", fmt(r.treasury), "#7c3aed"],
-              ].map(([label, val, color]) => (
-                <div key={label} style={{ background: "#fff", borderRadius: 10, padding: "12px 16px", border: "1px solid #e2e8f0" }}>
-                  <div style={{ fontSize: 11, color: "#64748b", marginBottom: 4 }}>{label}</div>
-                  <div style={{ fontWeight: "bold", fontSize: 16, color }}>{val}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* Explanation note */}
-            <div style={{ marginTop: 14, fontSize: 11, color: "#64748b", display: "flex", alignItems: "flex-start", gap: 6 }}>
-              <span>ℹ️</span>
-              <span>
-                زر "تحويل للرصيد" يضيف صافي ربح الشهر إلى رصيد الخزينة الكلي مباشرة.
-                يظهر الرصيد الجديد في لوحة التحكم وهذه الصفحة فوراً.
-                / Le bouton "Ajouter au solde" transfère le bénéfice net du mois sélectionné
-                directement dans le solde de trésorerie de l'agence.
-              </span>
-            </div>
+                <button type="submit" disabled={submitting}
+                  style={{ padding: "10px 24px", borderRadius: 8, border: "none", background: "#3b82f6", fontWeight: 600, color: "#fff", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.7 : 1 }}>
+                  {submitting ? "Enregistrement..." : "Enregistrer"}
+                </button>
+              </div>
+            </form>
           </div>
-
-        </>
-      ) : (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>لا توجد بيانات لهذا الشهر</div>
+        </div>
       )}
     </div>
   );
