@@ -51,7 +51,7 @@ async function getBenefits(agencyId, { month, year } = {}) {
           agencyId,
           docType: "FACTURE",
           status: { notIn: ["DRAFT", "ANNULEE"] },
-          issuedAt: { gte: from, lte: to },
+          createdAt: { gte: from, lte: to },
         },
         select: { total: true, status: true },
       }),
@@ -62,7 +62,7 @@ async function getBenefits(agencyId, { month, year } = {}) {
           agencyId,
           date: { gte: from, lte: to },
         },
-        select: { amount: true, category: true, description: true },
+        select: { amount: true, category: true, notes: true },
       }),
 
       // Ad spend entries for the period
@@ -86,8 +86,8 @@ async function getBenefits(agencyId, { month, year } = {}) {
 
       // Employee salaries
       prisma.employee.findMany({
-        where: { agencyId, isActive: true },
-        select: { salary: true, name: true, role: true },
+        where: { agencyId, status: "ACTIVE" },
+        select: { salary: true, name: true, position: true },
       }),
 
       // All-time revenue (for treasury)
@@ -193,7 +193,7 @@ async function getBenefits(agencyId, { month, year } = {}) {
     treasury,
     currency: agency?.currency || "DZD",
     monthlyTrend,
-    employees: employees.map((e) => ({ name: e.name, role: e.role, salary: e.salary || 0 })),
+    employees: employees.map((e) => ({ name: e.name, role: e.position, salary: e.salary || 0 })),
   };
 }
 
