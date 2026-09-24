@@ -7,20 +7,20 @@ export default function LoadingScreen() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "#f1f5f9",
+        background: "var(--bg-hover)",
         direction: "rtl",
         fontFamily: "'Segoe UI',Tahoma,sans-serif",
       }}
     >
       <div style={{ fontSize: 52, marginBottom: 16 }}>🏢</div>
-      <div style={{ fontSize: 16, color: "#64748b", marginBottom: 16 }}>
+      <div style={{ fontSize: 16, color: "var(--text-muted)", marginBottom: 16 }}>
         …
       </div>
       <div
         style={{
           width: 200,
           height: 4,
-          background: "#e2e8f0",
+          background: "var(--border-color)",
           borderRadius: 2,
           overflow: "hidden",
         }}
@@ -29,7 +29,7 @@ export default function LoadingScreen() {
           style={{
             width: "60%",
             height: "100%",
-            background: "#3b82f6",
+            background: "var(--primary-color)",
             borderRadius: 2,
             animation: "slide 1.5s ease-in-out infinite",
           }}

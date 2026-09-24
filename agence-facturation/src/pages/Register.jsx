@@ -43,10 +43,10 @@ export default function Register() {
       fontFamily:"'Segoe UI', Tahoma, sans-serif", padding:20
     }}>
       <div style={{
-        background:"#fff", borderRadius:20,
+        background:"var(--bg-card)", borderRadius:20,
         padding:"clamp(24px,5vw,40px)",
         width:"100%", maxWidth:440,
-        boxShadow:"0 20px 60px rgba(0,0,0,0.1)", border:"1px solid #e2e8f0"
+        boxShadow:"0 20px 60px rgba(0,0,0,0.1)", border: "1px solid var(--border-color)"
       }}>
         <div style={{ textAlign:"center", marginBottom:24 }}>
           <div style={{
@@ -57,7 +57,7 @@ export default function Register() {
           <h1 style={{ fontSize:"clamp(18px,4vw,22px)", fontWeight:700, margin:0 }}>
             {t("auth.registerTitle")}
           </h1>
-          <p style={{ color:"#64748b", fontSize:13, marginTop:4 }}>
+          <p style={{ color:"var(--text-muted)", fontSize:13, marginTop:4 }}>
             {t("auth.registerSubtitle")}
           </p>
         </div>
@@ -65,7 +65,7 @@ export default function Register() {
         <div style={{ display:"flex", gap:6, marginBottom:24 }}>
           {[1,2].map(s => (
             <div key={s} style={{ flex:1, height:5, borderRadius:3,
-              background: step >= s ? "#3b82f6":"#e2e8f0", transition:"background 0.3s" }}/>
+              background: step >= s ? "#3b82f6":"var(--border-color)", transition:"background 0.3s" }}/>
           ))}
         </div>
 
@@ -81,7 +81,7 @@ export default function Register() {
                   <input value={form[f.key]} onChange={e => upd(f.key, e.target.value)}
                     placeholder={f.ph} required
                     style={{ width:"100%", padding:"11px 14px", borderRadius:9,
-                      border:"1px solid #e2e8f0", fontSize:14, outline:"none", boxSizing:"border-box" }}/>
+                      border: "1px solid var(--border-color)", fontSize:14, outline:"none", boxSizing:"border-box" }}/>
                 </div>
               ))}
             </>
@@ -100,11 +100,11 @@ export default function Register() {
                     onChange={e => upd(f.key, e.target.value)}
                     placeholder={f.ph} required
                     style={{ width:"100%", padding:"11px 14px", borderRadius:9,
-                      border:"1px solid #e2e8f0", fontSize:14, outline:"none", boxSizing:"border-box" }}/>
+                      border: "1px solid var(--border-color)", fontSize:14, outline:"none", boxSizing:"border-box" }}/>
                 </div>
               ))}
               {error && (
-                <div style={{ background:"#fee2e2", color:"#dc2626", padding:"10px",
+                <div style={{ background:"#fee2e2", color:"var(--danger)", padding:"10px",
                   borderRadius:8, fontSize:13, marginBottom:14, textAlign:"center" }}>❌ {error}</div>
               )}
             </>
@@ -114,12 +114,12 @@ export default function Register() {
             {step === 2 && (
               <button type="button" onClick={() => setStep(1)} style={{
                 flex:1, padding:"12px 0", borderRadius:10,
-                background:"#f1f5f9", border:"none", cursor:"pointer", fontSize:14
+                background:"var(--bg-hover)", border:"none", cursor:"pointer", fontSize:14
               }}>← {t("auth.back")}</button>
             )}
             <button type="submit" disabled={loading} style={{
               flex:2, padding:"12px 0", borderRadius:10,
-              background:"#3b82f6", color:"#fff", border:"none",
+              background:"var(--primary-color)", color:"var(--bg-card)", border:"none",
               cursor:"pointer", fontWeight:700, fontSize:15,
               opacity: loading ? 0.7 : 1
             }}>
@@ -128,9 +128,9 @@ export default function Register() {
           </div>
         </form>
 
-        <p style={{ textAlign:"center", color:"#64748b", fontSize:13, margin:0 }}>
+        <p style={{ textAlign:"center", color:"var(--text-muted)", fontSize:13, margin:0 }}>
           {t("auth.alreadyAccount")}{" "}
-          <Link to="/login" style={{ color:"#3b82f6", fontWeight:600, textDecoration:"none" }}>
+          <Link to="/login" style={{ color:"var(--primary-color)", fontWeight:600, textDecoration:"none" }}>
             {t("auth.doLogin")}
           </Link>
         </p>

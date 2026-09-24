@@ -42,7 +42,7 @@ export default function GlobalSearch() {
   return (
     <div ref={boxRef} style={{ position: "relative", maxWidth: 480, margin: "0 0 20px" }}>
       <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-        <span style={{ position: "absolute", insetInlineStart: 14, fontSize: 15, color: "#94a3b8", pointerEvents: "none" }}>🔍</span>
+        <span style={{ position: "absolute", insetInlineStart: 14, fontSize: 15, color: "var(--text-muted)", pointerEvents: "none" }}>🔍</span>
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -53,20 +53,20 @@ export default function GlobalSearch() {
             padding: "11px 16px",
             paddingInlineStart: 42,
             borderRadius: 12,
-            border: "1px solid #cbd5e1",
+            border: "1px solid var(--border-color)",
             fontSize: 14,
             outline: "none",
             boxSizing: "border-box",
-            background: "#fff",
-            color: "#0f172a",
+            background: "var(--bg-card)",
+            color: "var(--text-main)",
             boxShadow: "0 1px 2px rgba(0,0,0,0.04)"
           }}
         />
       </div>
       {open && res && (
-        <div style={{ position: "absolute", top: "100%", insetInlineStart: 0, insetInlineEnd: 0, marginTop: 4, background: "#fff", border: "1px solid #e2e8f0", borderRadius: 12, boxShadow: "0 12px 32px -8px rgba(15,23,42,.2)", zIndex: 900, maxHeight: 420, overflowY: "auto" }}>
+        <div style={{ position: "absolute", top: "100%", insetInlineStart: 0, insetInlineEnd: 0, marginTop: 4, background: "var(--bg-card)", border: "1px solid var(--border-color)", borderRadius: 12, boxShadow: "0 12px 32px -8px rgba(15,23,42,.2)", zIndex: 900, maxHeight: 420, overflowY: "auto" }}>
           {total === 0 && !loading && (
-            <div style={{ padding: 16, color: "#94a3b8", fontSize: 13, textAlign: "center" }}>{t("common.noResults")}</div>
+            <div style={{ padding: 16, color: "var(--text-muted)", fontSize: 13, textAlign: "center" }}>{t("common.noResults")}</div>
           )}
           {res.clients.length > 0 && <Group title={t("search.clients")} />}
           {res.clients.map((c) => (
@@ -87,7 +87,7 @@ export default function GlobalSearch() {
 }
 
 function Group({ title }) {
-  return <div style={{ padding: "8px 14px 4px", fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: 0.4 }}>{title}</div>;
+  return <div style={{ padding: "8px 14px 4px", fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: 0.4 }}>{title}</div>;
 }
 
 function Item({ icon, title, subtitle, onClick }) {
@@ -97,8 +97,8 @@ function Item({ icon, title, subtitle, onClick }) {
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
       <span style={{ fontSize: 16 }}>{icon}</span>
       <div style={{ minWidth: 0 }}>
-        <div style={{ fontSize: 14, fontWeight: 600, color: "#0f172a", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
-        {subtitle && <div style={{ fontSize: 12, color: "#94a3b8", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{subtitle}</div>}
+        <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-main)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{title}</div>
+        {subtitle && <div style={{ fontSize: 12, color: "var(--text-muted)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{subtitle}</div>}
       </div>
     </div>
   );

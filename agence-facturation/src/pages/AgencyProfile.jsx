@@ -30,7 +30,7 @@ export default function AgencyProfile() {
     phone: "",
     address: "",
     website: "",
-    primaryColor: "#3b82f6",
+    primaryColor: "var(--primary-color)",
     secondaryColor: "#6366f1",
     logo: "",
     taxId: "",
@@ -96,15 +96,15 @@ export default function AgencyProfile() {
     width: "100%",
     padding: "11px 14px",
     borderRadius: 9,
-    border: "1.5px solid #e2e8f0",
+    border: "1.5px solid var(--border-color)",
     fontSize: 14,
     outline: "none",
     boxSizing: "border-box",
     fontFamily: "'Segoe UI', Tahoma, sans-serif",
     direction: "inherit",
     textAlign: "right",
-    color: "#1e293b",
-    background: "#fff",
+    color: "var(--text-main)",
+    background: "var(--bg-card)",
     marginBottom: 14,
   };
 
@@ -129,7 +129,7 @@ export default function AgencyProfile() {
         <h1 style={{ fontSize: "clamp(18px,3vw,24px)", fontWeight: 700, margin: 0 }}>
           {t("agency.title")}
         </h1>
-        <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+        <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
           {isAdmin ? t("agency.editSubtitle") : t("agency.viewSubtitle")}
         </p>
       </div>
@@ -141,7 +141,7 @@ export default function AgencyProfile() {
           borderRadius: 14,
           padding: "20px 24px",
           marginBottom: 24,
-          color: "#fff",
+          color: "var(--bg-card)",
           display: "flex",
           alignItems: "center",
           gap: 16,
@@ -190,7 +190,7 @@ export default function AgencyProfile() {
         }}
       >
         {/* Basic Info */}
-        <div style={{ background: "#fff", borderRadius: 14, padding: 22, border: "1px solid #e2e8f0" }}>
+        <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 22, border: "1px solid var(--border-color)" }}>
           <h3 style={{ margin: "0 0 18px", fontSize: 15, fontWeight: 600 }}>{t("agency.basicInfo")}</h3>
 
           <label style={labelStyle}>{t("agency.nameLabel")}</label>
@@ -221,7 +221,7 @@ export default function AgencyProfile() {
         {/* Right Column */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Colors */}
-          <div style={{ background: "#fff", borderRadius: 14, padding: 22, border: "1px solid #e2e8f0" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 22, border: "1px solid var(--border-color)" }}>
             <h3 style={{ margin: "0 0 16px", fontSize: 15, fontWeight: 600 }}>{t("agency.colors")}</h3>
 
             <label style={labelStyle}>{t("agency.primaryColor")}</label>
@@ -266,7 +266,7 @@ export default function AgencyProfile() {
           </div>
 
           {/* Logo */}
-          <div style={{ background: "#fff", borderRadius: 14, padding: 22, border: "1px solid #e2e8f0" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 22, border: "1px solid var(--border-color)" }}>
             <h3 style={{ margin: "0 0 14px", fontSize: 15, fontWeight: 600 }}>{t("agency.logoSection")}</h3>
 
             {form.logo && (
@@ -285,8 +285,8 @@ export default function AgencyProfile() {
                 display: "inline-block",
                 padding: "8px 16px",
                 borderRadius: 8,
-                background: "#3b82f6",
-                color: "#fff",
+                background: "var(--primary-color)",
+                color: "var(--bg-card)",
                 cursor: "pointer",
                 fontSize: 13,
                 marginBottom: 10,
@@ -306,7 +306,7 @@ export default function AgencyProfile() {
           </div>
 
           {/* Financial */}
-          <div style={{ background: "#fff", borderRadius: 14, padding: 22, border: "1px solid #e2e8f0" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 22, border: "1px solid var(--border-color)" }}>
             <h3 style={{ margin: "0 0 14px", fontSize: 15, fontWeight: 600 }}>{t("agency.financialInfo")}</h3>
             <label style={labelStyle}>{t("agency.taxId")}</label>
             <input value={form.taxId} onChange={(e) => handleChange("taxId", e.target.value)} placeholder="000 000 000 000" style={inputStyle} />
@@ -314,7 +314,7 @@ export default function AgencyProfile() {
             <input value={form.bankAccount} onChange={(e) => handleChange("bankAccount", e.target.value)} placeholder="CCP / RIB" style={inputStyle} />
             <label style={labelStyle}>{t("agency.openingBalance")}</label>
             <input type="number" step="0.01" value={form.openingBalance} onChange={(e) => handleChange("openingBalance", e.target.value)} placeholder="0.00" style={inputStyle} />
-            <div style={{ fontSize: 12, color: "#94a3b8", marginTop: -6, marginBottom: 10 }}>{t("agency.openingBalanceHint")}</div>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: -6, marginBottom: 10 }}>{t("agency.openingBalanceHint")}</div>
           </div>
         </div>
       </div>
@@ -328,7 +328,7 @@ export default function AgencyProfile() {
             padding: "12px 32px",
             borderRadius: 10,
             background: form.primaryColor || "#3b82f6",
-            color: "#fff",
+            color: "var(--bg-card)",
             border: "none",
             cursor: "pointer",
             fontWeight: 700,

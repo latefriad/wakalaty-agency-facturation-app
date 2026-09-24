@@ -26,7 +26,7 @@ export default function UpgradeModal({ resource, limit, onClose }) {
     >
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 20,
           padding: 32,
           maxWidth: 420,
@@ -42,14 +42,14 @@ export default function UpgradeModal({ resource, limit, onClose }) {
             fontSize: 20,
             fontWeight: 700,
             margin: "0 0 12px",
-            color: "#1e293b",
+            color: "var(--text-main)",
           }}
         >
           {t("upg.title")}
         </h2>
         <p
           style={{
-            color: "#64748b",
+            color: "var(--text-muted)",
             fontSize: 14,
             lineHeight: 1.7,
             marginBottom: 24,
@@ -71,7 +71,7 @@ export default function UpgradeModal({ resource, limit, onClose }) {
             style={{
               fontSize: 13,
               fontWeight: 600,
-              color: "#1d4ed8",
+              color: "var(--primary-hover)",
               marginBottom: 10,
             }}
           >
@@ -88,7 +88,7 @@ export default function UpgradeModal({ resource, limit, onClose }) {
               key={f}
               style={{
                 fontSize: 12,
-                color: "#1d4ed8",
+                color: "var(--primary-hover)",
                 marginBottom: 4,
               }}
             >
@@ -99,7 +99,7 @@ export default function UpgradeModal({ resource, limit, onClose }) {
             style={{
               fontSize: 18,
               fontWeight: 800,
-              color: "#1d4ed8",
+              color: "var(--primary-hover)",
               marginTop: 10,
             }}
           >
@@ -115,8 +115,8 @@ export default function UpgradeModal({ resource, limit, onClose }) {
               display: "block",
               padding: "12px 0",
               borderRadius: 10,
-              background: "#3b82f6",
-              color: "#fff",
+              background: "var(--primary-color)",
+              color: "var(--bg-card)",
               textDecoration: "none",
               fontWeight: 700,
               fontSize: 15,
@@ -130,7 +130,7 @@ export default function UpgradeModal({ resource, limit, onClose }) {
               flex: 1,
               padding: "12px 0",
               borderRadius: 10,
-              background: "#f1f5f9",
+              background: "var(--bg-hover)",
               border: "none",
               cursor: "pointer",
               fontSize: 14,

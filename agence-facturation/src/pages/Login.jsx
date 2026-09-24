@@ -48,13 +48,13 @@ export default function Login() {
     >
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 20,
           padding: "clamp(24px,5vw,40px)",
           width: "100%",
           maxWidth: 420,
           boxShadow: "0 20px 60px rgba(0,0,0,0.1)",
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
         }}
       >
         <div style={{ textAlign: "center", marginBottom: 22 }}>
@@ -76,7 +76,7 @@ export default function Login() {
           <h1 style={{ fontSize: "clamp(18px,4vw,22px)", fontWeight: 700, margin: 0 }}>
             {agency?.name || t("auth.defaultAgency")}
           </h1>
-          <p style={{ color: "#64748b", fontSize: 14, marginTop: 6 }}>
+          <p style={{ color: "var(--text-muted)", fontSize: 14, marginTop: 6 }}>
             {t("auth.loginSubtitle")}
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function Login() {
                 width: "100%",
                 padding: "12px 14px",
                 borderRadius: 10,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 fontSize: 14,
                 outline: "none",
                 boxSizing: "border-box",
@@ -118,7 +118,7 @@ export default function Login() {
                 width: "100%",
                 padding: "12px 14px",
                 borderRadius: 10,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 fontSize: 14,
                 outline: "none",
                 boxSizing: "border-box",
@@ -130,7 +130,7 @@ export default function Login() {
             <div
               style={{
                 background: "#fee2e2",
-                color: "#dc2626",
+                color: "var(--danger)",
                 padding: "10px 14px",
                 borderRadius: 8,
                 fontSize: 13,
@@ -150,7 +150,7 @@ export default function Login() {
               padding: "13px 0",
               borderRadius: 10,
               background: primary,
-              color: "#fff",
+              color: "var(--bg-card)",
               border: "none",
               cursor: "pointer",
               fontWeight: 800,
@@ -167,7 +167,7 @@ export default function Login() {
           <LanguageSwitcher />
         </div>
 
-        <p style={{ textAlign: "center", color: "#64748b", fontSize: 13, margin: 0 }}>
+        <p style={{ textAlign: "center", color: "var(--text-muted)", fontSize: 13, margin: 0 }}>
           {t("auth.newAgency")}{" "}
           <Link
             to="/register"

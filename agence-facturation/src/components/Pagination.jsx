@@ -9,8 +9,8 @@ export default function Pagination({ pagination, page, onChange }) {
   const btn = (disabled) => ({
     padding: "8px 16px",
     borderRadius: 8,
-    border: "1px solid #e2e8f0",
-    background: "#fff",
+    border: "1px solid var(--border-color)",
+    background: "var(--bg-card)",
     cursor: disabled ? "default" : "pointer",
     opacity: disabled ? 0.4 : 1,
     fontSize: 13,
@@ -31,7 +31,7 @@ export default function Pagination({ pagination, page, onChange }) {
       <button style={btn(page <= 1)} disabled={page <= 1} onClick={() => onChange(page - 1)}>
         {t("common.previous")}
       </button>
-      <span style={{ fontSize: 13, color: "#64748b" }}>
+      <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
         {t("common.pageOf", { page, pages, total })}
       </span>
       <button style={btn(page >= pages)} disabled={page >= pages} onClick={() => onChange(page + 1)}>

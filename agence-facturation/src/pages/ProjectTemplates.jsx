@@ -6,17 +6,17 @@ import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
 
 const SERVICE_CONFIG = {
-  META_ADS: { label: "Meta Ads", icon: "📘", color: "#2563eb", bg: "#eff6ff" },
+  META_ADS: { label: "Meta Ads", icon: "📘", color: "var(--primary-color)", bg: "#eff6ff" },
   WEBSITE: { label: "Site Web", icon: "🌐", color: "#0d9488", bg: "#f0fdfa" },
   TESTILI: { label: "Testili", icon: "🧪", color: "#7c3aed", bg: "#f5f3ff" },
-  VOICE_OFF: { label: "Voice Off", icon: "🎙️", color: "#d97706", bg: "#fffbeb" },
+  VOICE_OFF: { label: "Voice Off", icon: "🎙️", color: "var(--warning)", bg: "rgba(245, 158, 11, 0.1)" },
   VIDEO_EDITING: { label: "Montage Vidéo", icon: "🎬", color: "#e11d48", bg: "#fff1f2" },
-  CONTENT: { label: "Création Contenu", icon: "✍️", color: "#059669", bg: "#ecfdf5" },
+  CONTENT: { label: "Création Contenu", icon: "✍️", color: "var(--success)", bg: "rgba(16, 185, 129, 0.1)" },
 };
 
 const PRIORITY_CONFIG = {
-  HIGH: { label: "Haute", color: "#dc2626", bg: "#fee2e2" },
-  MEDIUM: { label: "Moyenne", color: "#d97706", bg: "#fef3c7" },
+  HIGH: { label: "Haute", color: "var(--danger)", bg: "#fee2e2" },
+  MEDIUM: { label: "Moyenne", color: "var(--warning)", bg: "#fef3c7" },
   LOW: { label: "Basse", color: "#16a34a", bg: "#dcfce7" },
 };
 
@@ -278,11 +278,11 @@ export default function ProjectTemplates() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 28 }}>📐</span>
-            <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "#0f172a" }}>
+            <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "var(--text-main)" }}>
               {t("projectTpl.title")}
             </h1>
           </div>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {t("projectTpl.subtitle")}
           </p>
         </div>
@@ -297,9 +297,9 @@ export default function ProjectTemplates() {
               style={{
                 padding: "9px 16px",
                 borderRadius: 8,
-                border: "1px solid #cbd5e1",
-                background: "#fff",
-                color: "#334155",
+                border: "1px solid var(--border-color)",
+                background: "var(--bg-card)",
+                color: "var(--text-main)",
                 fontWeight: 600,
                 fontSize: 13,
                 cursor: seeding ? "not-allowed" : "pointer",
@@ -321,7 +321,7 @@ export default function ProjectTemplates() {
                 borderRadius: 8,
                 border: "none",
                 background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-                color: "#fff",
+                color: "var(--bg-card)",
                 fontWeight: 600,
                 fontSize: 13,
                 cursor: "pointer",
@@ -357,8 +357,8 @@ export default function ProjectTemplates() {
             fontSize: 13,
             fontWeight: 600,
             cursor: "pointer",
-            background: selectedServiceType === "" ? "#0f172a" : "#e2e8f0",
-            color: selectedServiceType === "" ? "#fff" : "#475569",
+            background: selectedServiceType === "" ? "#0f172a" : "var(--border-color)",
+            color: selectedServiceType === "" ? "#fff" : "var(--text-main)",
             whiteSpace: "nowrap",
           }}
         >
@@ -396,21 +396,21 @@ export default function ProjectTemplates() {
 
       {/* Templates Grid */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: 80, color: "#64748b" }}>
+        <div style={{ textAlign: "center", padding: 80, color: "var(--text-muted)" }}>
           ⏳ {t("common.loading")}...
         </div>
       ) : templates.length === 0 ? (
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: 60,
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             textAlign: "center",
           }}
         >
           <div style={{ fontSize: 44, marginBottom: 12 }}>📐</div>
-          <h3 style={{ margin: 0, fontSize: 16, color: "#1e293b", fontWeight: 700 }}>
+          <h3 style={{ margin: 0, fontSize: 16, color: "var(--text-main)", fontWeight: 700 }}>
             {t("projectTpl.noTemplates")}
           </h3>
           {isAdmin && (
@@ -422,8 +422,8 @@ export default function ProjectTemplates() {
                 padding: "10px 22px",
                 borderRadius: 8,
                 border: "none",
-                background: "#2563eb",
-                color: "#fff",
+                background: "var(--primary-color)",
+                color: "var(--bg-card)",
                 fontWeight: 600,
                 cursor: "pointer",
               }}
@@ -452,10 +452,10 @@ export default function ProjectTemplates() {
               <div
                 key={tpl.id}
                 style={{
-                  background: "#fff",
+                  background: "var(--bg-card)",
                   borderRadius: 14,
                   padding: 22,
-                  border: "1px solid #e2e8f0",
+                  border: "1px solid var(--border-color)",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
@@ -488,7 +488,7 @@ export default function ProjectTemplates() {
                       {srv.icon} {srv.label}
                     </span>
 
-                    <span style={{ fontSize: 12, color: "#64748b", fontWeight: 600 }}>
+                    <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
                       ⏳ {t("projectTpl.durationDays", { days: duration })}
                     </span>
                   </div>
@@ -499,14 +499,14 @@ export default function ProjectTemplates() {
                       margin: "0 0 6px",
                       fontSize: 17,
                       fontWeight: 700,
-                      color: "#0f172a",
+                      color: "var(--text-main)",
                       lineHeight: 1.3,
                     }}
                   >
                     {tpl.name}
                   </h3>
                   {tpl.description && (
-                    <p style={{ margin: "0 0 16px", fontSize: 13, color: "#64748b", lineHeight: 1.5 }}>
+                    <p style={{ margin: "0 0 16px", fontSize: 13, color: "var(--text-muted)", lineHeight: 1.5 }}>
                       {tpl.description}
                     </p>
                   )}
@@ -514,7 +514,7 @@ export default function ProjectTemplates() {
                   {/* Tasks Milestones Preview */}
                   <div
                     style={{
-                      background: "#f8fafc",
+                      background: "var(--bg-app)",
                       borderRadius: 10,
                       padding: "10px 12px",
                       marginBottom: 18,
@@ -524,7 +524,7 @@ export default function ProjectTemplates() {
                       style={{
                         fontSize: 11,
                         fontWeight: 700,
-                        color: "#475569",
+                        color: "var(--text-main)",
                         textTransform: "uppercase",
                         marginBottom: 8,
                       }}
@@ -545,17 +545,17 @@ export default function ProjectTemplates() {
                             borderBottom: i < 3 ? "1px solid #f1f5f9" : "none",
                           }}
                         >
-                          <span style={{ fontWeight: 600, color: "#1e293b" }}>
+                          <span style={{ fontWeight: 600, color: "var(--text-main)" }}>
                             {i + 1}. {tsk.title}
                           </span>
                           <span
                             style={{
                               fontSize: 11,
-                              color: "#64748b",
-                              background: "#fff",
+                              color: "var(--text-muted)",
+                              background: "var(--bg-card)",
                               padding: "1px 6px",
                               borderRadius: 4,
-                              border: "1px solid #e2e8f0",
+                              border: "1px solid var(--border-color)",
                             }}
                           >
                             J+{tsk.dayOffsetFromStart}
@@ -563,7 +563,7 @@ export default function ProjectTemplates() {
                         </div>
                       ))}
                       {tasks.length > 4 && (
-                        <div style={{ fontSize: 11, color: "#2563eb", fontWeight: 600, marginTop: 4 }}>
+                        <div style={{ fontSize: 11, color: "var(--primary-color)", fontWeight: 600, marginTop: 4 }}>
                           + {tasks.length - 4} autres étapes...
                         </div>
                       )}
@@ -578,7 +578,7 @@ export default function ProjectTemplates() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     gap: 10,
-                    borderTop: "1px solid #f1f5f9",
+                    borderTop: "1px solid var(--border-color)",
                     paddingTop: 14,
                   }}
                 >
@@ -591,7 +591,7 @@ export default function ProjectTemplates() {
                         padding: "8px 14px",
                         borderRadius: 8,
                         background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-                        color: "#fff",
+                        color: "var(--bg-card)",
                         border: "none",
                         fontWeight: 600,
                         fontSize: 13,
@@ -616,9 +616,9 @@ export default function ProjectTemplates() {
                         style={{
                           padding: "8px 12px",
                           borderRadius: 8,
-                          border: "1px solid #cbd5e1",
-                          background: "#fff",
-                          color: "#334155",
+                          border: "1px solid var(--border-color)",
+                          background: "var(--bg-card)",
+                          color: "var(--text-main)",
                           cursor: "pointer",
                           fontWeight: 600,
                           fontSize: 13,
@@ -635,7 +635,7 @@ export default function ProjectTemplates() {
                           borderRadius: 8,
                           border: "1px solid #fecaca",
                           background: "#fee2e2",
-                          color: "#dc2626",
+                          color: "var(--danger)",
                           cursor: "pointer",
                           fontWeight: 600,
                           fontSize: 13,
@@ -669,7 +669,7 @@ export default function ProjectTemplates() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               width: "100%",
               maxWidth: 720,
@@ -695,7 +695,7 @@ export default function ProjectTemplates() {
               <button
                 type="button"
                 onClick={() => setIsEditModalOpen(false)}
-                style={{ background: "transparent", border: "none", fontSize: 18, cursor: "pointer", color: "#94a3b8" }}
+                style={{ background: "transparent", border: "none", fontSize: 18, cursor: "pointer", color: "var(--text-muted)" }}
               >
                 ✕
               </button>
@@ -718,7 +718,7 @@ export default function ProjectTemplates() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -736,10 +736,10 @@ export default function ProjectTemplates() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                     }}
                   >
                     {Object.entries(SERVICE_CONFIG).map(([k, cfg]) => (
@@ -765,7 +765,7 @@ export default function ProjectTemplates() {
                     width: "100%",
                     padding: "9px 12px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid var(--border-color)",
                     fontSize: 13,
                     boxSizing: "border-box",
                   }}
@@ -782,7 +782,7 @@ export default function ProjectTemplates() {
                     marginBottom: 10,
                   }}
                 >
-                  <label style={{ fontSize: 14, fontWeight: 700, color: "#1e293b" }}>
+                  <label style={{ fontSize: 14, fontWeight: 700, color: "var(--text-main)" }}>
                     Étapes et tâches séquentielles ({formData.tasks.length})
                   </label>
                   <button
@@ -790,7 +790,7 @@ export default function ProjectTemplates() {
                     onClick={handleAddTaskRow}
                     style={{
                       background: "#eff6ff",
-                      color: "#2563eb",
+                      color: "var(--primary-color)",
                       border: "1px solid #bfdbfe",
                       padding: "5px 12px",
                       borderRadius: 6,
@@ -808,17 +808,17 @@ export default function ProjectTemplates() {
                     <div
                       key={idx}
                       style={{
-                        background: "#f8fafc",
+                        background: "var(--bg-app)",
                         borderRadius: 8,
                         padding: 12,
-                        border: "1px solid #e2e8f0",
+                        border: "1px solid var(--border-color)",
                         display: "flex",
                         flexDirection: "column",
                         gap: 8,
                       }}
                     >
                       <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: "#64748b", minWidth: 20 }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: "var(--text-muted)", minWidth: 20 }}>
                           #{idx + 1}
                         </span>
                         <input
@@ -831,14 +831,14 @@ export default function ProjectTemplates() {
                             flex: 1,
                             padding: "8px 10px",
                             borderRadius: 6,
-                            border: "1px solid #cbd5e1",
+                            border: "1px solid var(--border-color)",
                             fontSize: 13,
                           }}
                         />
 
                         {/* Day offset */}
                         <div style={{ display: "flex", alignItems: "center", gap: 4, width: 110 }}>
-                          <span style={{ fontSize: 11, color: "#64748b" }}>J+</span>
+                          <span style={{ fontSize: 11, color: "var(--text-muted)" }}>J+</span>
                           <input
                             type="number"
                             min="0"
@@ -849,7 +849,7 @@ export default function ProjectTemplates() {
                               width: "100%",
                               padding: "8px",
                               borderRadius: 6,
-                              border: "1px solid #cbd5e1",
+                              border: "1px solid var(--border-color)",
                               fontSize: 13,
                             }}
                           />
@@ -862,9 +862,9 @@ export default function ProjectTemplates() {
                           style={{
                             padding: "8px",
                             borderRadius: 6,
-                            border: "1px solid #cbd5e1",
+                            border: "1px solid var(--border-color)",
                             fontSize: 12,
-                            background: "#fff",
+                            background: "var(--bg-card)",
                           }}
                         >
                           <option value="HIGH">Haute</option>
@@ -879,9 +879,9 @@ export default function ProjectTemplates() {
                           style={{
                             padding: "8px",
                             borderRadius: 6,
-                            border: "1px solid #cbd5e1",
+                            border: "1px solid var(--border-color)",
                             fontSize: 12,
-                            background: "#fff",
+                            background: "var(--bg-card)",
                           }}
                         >
                           <option value="">Rôle libre</option>
@@ -898,7 +898,7 @@ export default function ProjectTemplates() {
                           style={{
                             background: "transparent",
                             border: "none",
-                            color: "#ef4444",
+                            color: "var(--danger)",
                             cursor: "pointer",
                             fontSize: 16,
                             padding: "4px 8px",
@@ -920,9 +920,9 @@ export default function ProjectTemplates() {
                   style={{
                     padding: "9px 16px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#64748b",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-muted)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -937,8 +937,8 @@ export default function ProjectTemplates() {
                     padding: "9px 22px",
                     borderRadius: 8,
                     border: "none",
-                    background: "#2563eb",
-                    color: "#fff",
+                    background: "var(--primary-color)",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: formSaving ? "not-allowed" : "pointer",
@@ -970,7 +970,7 @@ export default function ProjectTemplates() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               width: "100%",
               maxWidth: 580,
@@ -994,14 +994,14 @@ export default function ProjectTemplates() {
                 <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700 }}>
                   🚀 {t("projectTpl.applyModalTitle", { name: targetTemplate.name })}
                 </h3>
-                <p style={{ margin: "4px 0 0", fontSize: 12, color: "#64748b" }}>
+                <p style={{ margin: "4px 0 0", fontSize: 12, color: "var(--text-muted)" }}>
                   Toutes les tâches seront automatiquement injectées dans le Kanban des tâches du client sélectionné.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setIsApplyModalOpen(false)}
-                style={{ background: "transparent", border: "none", fontSize: 18, cursor: "pointer", color: "#94a3b8" }}
+                style={{ background: "transparent", border: "none", fontSize: 18, cursor: "pointer", color: "var(--text-muted)" }}
               >
                 ✕
               </button>
@@ -1022,9 +1022,9 @@ export default function ProjectTemplates() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
-                      background: "#fff",
+                      background: "var(--bg-card)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -1050,7 +1050,7 @@ export default function ProjectTemplates() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1061,14 +1061,14 @@ export default function ProjectTemplates() {
               {/* Tasks Preview with Computed Dates */}
               <div
                 style={{
-                  background: "#f8fafc",
+                  background: "var(--bg-app)",
                   borderRadius: 10,
                   padding: 14,
-                  border: "1px solid #e2e8f0",
+                  border: "1px solid var(--border-color)",
                   marginBottom: 20,
                 }}
               >
-                <div style={{ fontSize: 12, fontWeight: 700, color: "#475569", marginBottom: 8 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-main)", marginBottom: 8 }}>
                   Aperçu du calendrier des livrables :
                 </div>
 
@@ -1086,9 +1086,9 @@ export default function ProjectTemplates() {
                           alignItems: "center",
                           fontSize: 12,
                           padding: "6px 8px",
-                          background: "#fff",
+                          background: "var(--bg-card)",
                           borderRadius: 6,
-                          border: "1px solid #f1f5f9",
+                          border: "1px solid var(--border-color)",
                         }}
                       >
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -1106,7 +1106,7 @@ export default function ProjectTemplates() {
                             {pCfg.label}
                           </span>
                         </div>
-                        <span style={{ color: "#2563eb", fontWeight: 600, fontSize: 11 }}>
+                        <span style={{ color: "var(--primary-color)", fontWeight: 600, fontSize: 11 }}>
                           📅 {duePreview} (J+{t.dayOffsetFromStart})
                         </span>
                       </div>
@@ -1123,9 +1123,9 @@ export default function ProjectTemplates() {
                   style={{
                     padding: "9px 16px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#64748b",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-muted)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -1141,7 +1141,7 @@ export default function ProjectTemplates() {
                     borderRadius: 8,
                     border: "none",
                     background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-                    color: "#fff",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: applying ? "not-allowed" : "pointer",

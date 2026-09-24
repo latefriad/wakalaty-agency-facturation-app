@@ -105,7 +105,7 @@ export default function ClientReports() {
       const canvas = await html2canvas(reportRef.current, {
         scale: 2,
         useCORS: true,
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--bg-card)",
       });
 
       const img = canvas.toDataURL("image/png");
@@ -167,11 +167,11 @@ export default function ClientReports() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 28 }}>📑</span>
-            <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "#0f172a" }}>
+            <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "var(--text-main)" }}>
               {t("clientReport.title")}
             </h1>
           </div>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {t("clientReport.subtitle")}
           </p>
         </div>
@@ -184,9 +184,9 @@ export default function ClientReports() {
             style={{
               padding: "9px 16px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
-              background: "#fff",
-              color: "#334155",
+              border: "1px solid var(--border-color)",
+              background: "var(--bg-card)",
+              color: "var(--text-main)",
               fontWeight: 600,
               fontSize: 13,
               cursor: "pointer",
@@ -203,7 +203,7 @@ export default function ClientReports() {
               borderRadius: 8,
               border: "none",
               background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-              color: "#fff",
+              color: "var(--bg-card)",
               fontWeight: 600,
               fontSize: 13,
               cursor: downloading ? "not-allowed" : "pointer",
@@ -221,10 +221,10 @@ export default function ClientReports() {
       {/* Control Panel (Client, Month, Lang, Notes) */}
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 14,
           padding: 18,
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
           marginBottom: 24,
         }}
       >
@@ -238,7 +238,7 @@ export default function ClientReports() {
         >
           {/* Select Client */}
           <div>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "#475569" }}>
+            <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "var(--text-main)" }}>
               👥 {t("clientReport.selectClient")}
             </label>
             <select
@@ -248,9 +248,9 @@ export default function ClientReports() {
                 width: "100%",
                 padding: "8px 12px",
                 borderRadius: 8,
-                border: "1px solid #cbd5e1",
+                border: "1px solid var(--border-color)",
                 fontSize: 13,
-                background: "#fff",
+                background: "var(--bg-card)",
                 cursor: "pointer",
                 boxSizing: "border-box",
               }}
@@ -265,7 +265,7 @@ export default function ClientReports() {
 
           {/* Select Month */}
           <div>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "#475569" }}>
+            <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "var(--text-main)" }}>
               🗓️ {t("clientReport.selectMonth")}
             </label>
             <input
@@ -276,7 +276,7 @@ export default function ClientReports() {
                 width: "100%",
                 padding: "8px 12px",
                 borderRadius: 8,
-                border: "1px solid #cbd5e1",
+                border: "1px solid var(--border-color)",
                 fontSize: 13,
                 boxSizing: "border-box",
               }}
@@ -285,7 +285,7 @@ export default function ClientReports() {
 
           {/* Select Report Language */}
           <div>
-            <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "#475569" }}>
+            <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "var(--text-main)" }}>
               🌐 {t("clientReport.reportLanguage")}
             </label>
             <div style={{ display: "flex", gap: 8 }}>
@@ -297,8 +297,8 @@ export default function ClientReports() {
                   padding: "8px 12px",
                   borderRadius: 8,
                   border: reportLang === "ar" ? "2px solid #2563eb" : "1px solid #cbd5e1",
-                  background: reportLang === "ar" ? "#eff6ff" : "#fff",
-                  color: reportLang === "ar" ? "#1d4ed8" : "#475569",
+                  background: reportLang === "ar" ? "#eff6ff" : "var(--bg-card)",
+                  color: reportLang === "ar" ? "#1d4ed8" : "var(--text-main)",
                   fontWeight: 700,
                   fontSize: 13,
                   cursor: "pointer",
@@ -314,8 +314,8 @@ export default function ClientReports() {
                   padding: "8px 12px",
                   borderRadius: 8,
                   border: reportLang === "fr" ? "2px solid #2563eb" : "1px solid #cbd5e1",
-                  background: reportLang === "fr" ? "#eff6ff" : "#fff",
-                  color: reportLang === "fr" ? "#1d4ed8" : "#475569",
+                  background: reportLang === "fr" ? "#eff6ff" : "var(--bg-card)",
+                  color: reportLang === "fr" ? "#1d4ed8" : "var(--text-main)",
                   fontWeight: 700,
                   fontSize: 13,
                   cursor: "pointer",
@@ -329,7 +329,7 @@ export default function ClientReports() {
 
         {/* Agency Notes Textarea */}
         <div>
-          <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "#475569" }}>
+          <label style={{ display: "block", fontSize: 12, fontWeight: 600, marginBottom: 5, color: "var(--text-main)" }}>
             ✍️ {t("clientReport.agencyNotes")}
           </label>
           <textarea
@@ -340,7 +340,7 @@ export default function ClientReports() {
               width: "100%",
               padding: "10px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               boxSizing: "border-box",
               direction: isRTL ? "rtl" : "ltr",
@@ -351,11 +351,11 @@ export default function ClientReports() {
 
       {/* Live Report Preview Container */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: 80, color: "#64748b" }}>
+        <div style={{ textAlign: "center", padding: 80, color: "var(--text-muted)" }}>
           ⏳ {t("common.loading")}...
         </div>
       ) : !reportData ? (
-        <div style={{ textAlign: "center", padding: 60, background: "#fff", borderRadius: 14, border: "1px solid #e2e8f0" }}>
+        <div style={{ textAlign: "center", padding: 60, background: "var(--bg-card)", borderRadius: 14, border: "1px solid var(--border-color)" }}>
           {t("clientReport.noClientSelected")}
         </div>
       ) : (
@@ -371,8 +371,8 @@ export default function ClientReports() {
             ref={reportRef}
             dir={isRTL ? "rtl" : "ltr"}
             style={{
-              background: "#ffffff",
-              color: "#0f172a",
+              background: "var(--bg-card)",
+              color: "var(--text-main)",
               padding: "40px 45px",
               fontFamily: isRTL
                 ? "'Segoe UI', Tahoma, 'Arial', sans-serif"
@@ -408,8 +408,8 @@ export default function ClientReports() {
                         width: 44,
                         height: 44,
                         borderRadius: 10,
-                        background: "#0f172a",
-                        color: "#fff",
+                        background: "var(--text-main)",
+                        color: "var(--bg-card)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -421,16 +421,16 @@ export default function ClientReports() {
                     </div>
                   )}
                   <div>
-                    <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+                    <h2 style={{ margin: 0, fontSize: 20, fontWeight: 800, color: "var(--text-main)" }}>
                       {reportData.agency?.name || "Adpowers Digital"}
                     </h2>
-                    <div style={{ fontSize: 11, color: "#2563eb", fontWeight: 600 }}>
+                    <div style={{ fontSize: 11, color: "var(--primary-color)", fontWeight: 600 }}>
                       {isRTL ? "وكالة نمو وتسويق رقمي" : "Agence de Croissance & Acquisition"}
                     </div>
                   </div>
                 </div>
 
-                <div style={{ fontSize: 11, color: "#475569", lineHeight: 1.5 }}>
+                <div style={{ fontSize: 11, color: "var(--text-main)", lineHeight: 1.5 }}>
                   {reportData.agency?.phone && <div>📞 {reportData.agency.phone}</div>}
                   {reportData.agency?.email && <div>✉️ {reportData.agency.email}</div>}
                   {reportData.agency?.website && <div>🌐 {reportData.agency.website}</div>}
@@ -444,8 +444,8 @@ export default function ClientReports() {
                     display: "inline-block",
                     padding: "4px 12px",
                     borderRadius: 6,
-                    background: "#0f172a",
-                    color: "#fff",
+                    background: "var(--text-main)",
+                    color: "var(--bg-card)",
                     fontSize: 12,
                     fontWeight: 700,
                     letterSpacing: "0.05em",
@@ -454,10 +454,10 @@ export default function ClientReports() {
                 >
                   {isRTL ? "تقرير الأداء الشهري" : "RAPPORT D'ACTIVITÉ MENSUEL"}
                 </div>
-                <div style={{ fontSize: 18, fontWeight: 800, color: "#2563eb" }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: "var(--primary-color)" }}>
                   {getFormattedMonth()}
                 </div>
-                <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
                   {isRTL ? "تاريخ الإصدار:" : "Émis le :"} {new Date().toLocaleDateString(isRTL ? "ar-DZ" : "fr-FR")}
                 </div>
               </div>
@@ -466,10 +466,10 @@ export default function ClientReports() {
             {/* Client Info Banner */}
             <div
               style={{
-                background: "#f8fafc",
+                background: "var(--bg-app)",
                 borderRadius: 10,
                 padding: "16px 20px",
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -479,20 +479,20 @@ export default function ClientReports() {
               }}
             >
               <div>
-                <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600, textTransform: "uppercase" }}>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600, textTransform: "uppercase" }}>
                   {isRTL ? "تقرير نشاط العميل" : "CLIENT BÉNÉFICIAIRE"}
                 </div>
-                <div style={{ fontSize: 17, fontWeight: 800, color: "#0f172a", marginTop: 2 }}>
+                <div style={{ fontSize: 17, fontWeight: 800, color: "var(--text-main)", marginTop: 2 }}>
                   {reportData.client?.name}
                 </div>
                 {reportData.client?.company && (
-                  <div style={{ fontSize: 13, color: "#2563eb", fontWeight: 600 }}>
+                  <div style={{ fontSize: 13, color: "var(--primary-color)", fontWeight: 600 }}>
                     {reportData.client.company}
                   </div>
                 )}
               </div>
 
-              <div style={{ fontSize: 12, color: "#475569", lineHeight: 1.6, textAlign: isRTL ? "left" : "right" }}>
+              <div style={{ fontSize: 12, color: "var(--text-main)", lineHeight: 1.6, textAlign: isRTL ? "left" : "right" }}>
                 {reportData.client?.phone && <div>📱 {reportData.client.phone}</div>}
                 {reportData.client?.email && <div>✉️ {reportData.client.email}</div>}
                 {reportData.client?.address && <div>📍 {reportData.client.address}</div>}
@@ -506,24 +506,24 @@ export default function ClientReports() {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
-                  borderBottom: "2px solid #e2e8f0",
+                  borderBottom: "2px solid var(--border-color)",
                   paddingBottom: 6,
                   marginBottom: 14,
                 }}
               >
                 <span style={{ fontSize: 16 }}>💰</span>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "var(--text-main)" }}>
                   {isRTL ? "1. الملخص المالي والفوترة" : "1. Synthèse Financière & Facturation"}
                 </h3>
               </div>
 
               {/* 3 Metric cards */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 14 }}>
-                <div style={{ background: "#f8fafc", padding: "12px 14px", borderRadius: 8, border: "1px solid #e2e8f0" }}>
-                  <div style={{ fontSize: 11, color: "#64748b" }}>
+                <div style={{ background: "var(--bg-app)", padding: "12px 14px", borderRadius: 8, border: "1px solid var(--border-color)" }}>
+                  <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
                     {isRTL ? "إجمالي الفواتير الصادرة هذا الشهر" : "Total Facturé ce mois"}
                   </div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: "#2563eb", marginTop: 2 }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: "var(--primary-color)", marginTop: 2 }}>
                     {fmt(reportData.financials?.totalInvoiced)} {cur}
                   </div>
                 </div>
@@ -537,11 +537,11 @@ export default function ClientReports() {
                   </div>
                 </div>
 
-                <div style={{ background: "#fffbeb", padding: "12px 14px", borderRadius: 8, border: "1px solid #fef08a" }}>
+                <div style={{ background: "rgba(245, 158, 11, 0.1)", padding: "12px 14px", borderRadius: 8, border: "1px solid #fef08a" }}>
                   <div style={{ fontSize: 11, color: "#854d0e" }}>
                     {isRTL ? "المستحقات المتبقية في الذمة" : "Solde restant dû"}
                   </div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: "#d97706", marginTop: 2 }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: "var(--warning)", marginTop: 2 }}>
                     {fmt(reportData.financials?.totalOutstanding)} {cur}
                   </div>
                 </div>
@@ -551,7 +551,7 @@ export default function ClientReports() {
               {reportData.financials?.invoices?.length > 0 && (
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
                   <thead>
-                    <tr style={{ background: "#f1f5f9", color: "#475569" }}>
+                    <tr style={{ background: "var(--bg-hover)", color: "var(--text-main)" }}>
                       <th style={{ padding: "6px 10px", textAlign: "start" }}>{isRTL ? "رقم الفاتورة" : "N° Facture"}</th>
                       <th style={{ padding: "6px 10px", textAlign: "start" }}>{isRTL ? "التاريخ" : "Date"}</th>
                       <th style={{ padding: "6px 10px", textAlign: "start" }}>{isRTL ? "الحالة" : "Statut"}</th>
@@ -560,9 +560,9 @@ export default function ClientReports() {
                   </thead>
                   <tbody>
                     {reportData.financials.invoices.map((inv) => (
-                      <tr key={inv.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "6px 10px", fontWeight: 700, color: "#0f172a" }}>{inv.number}</td>
-                        <td style={{ padding: "6px 10px", color: "#64748b" }}>{new Date(inv.createdAt).toLocaleDateString()}</td>
+                      <tr key={inv.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
+                        <td style={{ padding: "6px 10px", fontWeight: 700, color: "var(--text-main)" }}>{inv.number}</td>
+                        <td style={{ padding: "6px 10px", color: "var(--text-muted)" }}>{new Date(inv.createdAt).toLocaleDateString()}</td>
                         <td style={{ padding: "6px 10px" }}>{inv.status}</td>
                         <td style={{ padding: "6px 10px", textAlign: "end", fontWeight: 700 }}>
                           {fmt(inv.total)} {inv.currency || cur}
@@ -582,13 +582,13 @@ export default function ClientReports() {
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
-                    borderBottom: "2px solid #e2e8f0",
+                    borderBottom: "2px solid var(--border-color)",
                     paddingBottom: 6,
                     marginBottom: 14,
                   }}
                 >
                   <span style={{ fontSize: 16 }}>📈</span>
-                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
+                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "var(--text-main)" }}>
                     {isRTL ? "2. أداء الحملات الإعلانية (Media Buying)" : "2. Performance des Campagnes Publicitaires"}
                   </h3>
                 </div>
@@ -605,7 +605,7 @@ export default function ClientReports() {
                   >
                     <div style={{ background: "#eff6ff", padding: "10px 12px", borderRadius: 8, border: "1px solid #bfdbfe" }}>
                       <div style={{ fontSize: 10, color: "#1e40af" }}>{isRTL ? "المصروف الإعلاني" : "Budget Dépensé"}</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "#1d4ed8" }}>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: "var(--primary-hover)" }}>
                         {fmt(reportData.adSpend.summary.totalSpend)} {cur}
                       </div>
                     </div>
@@ -617,16 +617,16 @@ export default function ClientReports() {
                       </div>
                     </div>
 
-                    <div style={{ background: "#ecfdf5", padding: "10px 12px", borderRadius: 8, border: "1px solid #a7f3d0" }}>
+                    <div style={{ background: "rgba(16, 185, 129, 0.1)", padding: "10px 12px", borderRadius: 8, border: "1px solid #a7f3d0" }}>
                       <div style={{ fontSize: 10, color: "#065f46" }}>{isRTL ? "معدل العائد (ROAS)" : "ROAS Moyen"}</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "#059669" }}>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: "var(--success)" }}>
                         {reportData.adSpend.summary.avgROAS}x
                       </div>
                     </div>
 
-                    <div style={{ background: "#f8fafc", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0" }}>
-                      <div style={{ fontSize: 10, color: "#475569" }}>{isRTL ? "تكلفة الطلب (CPA)" : "CPA Moyen"}</div>
-                      <div style={{ fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
+                    <div style={{ background: "var(--bg-app)", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)" }}>
+                      <div style={{ fontSize: 10, color: "var(--text-main)" }}>{isRTL ? "تكلفة الطلب (CPA)" : "CPA Moyen"}</div>
+                      <div style={{ fontSize: 15, fontWeight: 800, color: "var(--text-main)" }}>
                         {fmt(reportData.adSpend.summary.avgCPA)} {cur}
                       </div>
                     </div>
@@ -636,7 +636,7 @@ export default function ClientReports() {
                 {/* Ad Entries Table */}
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
                   <thead>
-                    <tr style={{ background: "#f1f5f9", color: "#475569" }}>
+                    <tr style={{ background: "var(--bg-hover)", color: "var(--text-main)" }}>
                       <th style={{ padding: "6px 10px", textAlign: "start" }}>{isRTL ? "المنصة / الحملة" : "Plateforme / Campagne"}</th>
                       <th style={{ padding: "6px 10px", textAlign: "end" }}>{isRTL ? "المصروف" : "Dépense"}</th>
                       <th style={{ padding: "6px 10px", textAlign: "end" }}>{isRTL ? "الطلبات" : "Ordres"}</th>
@@ -646,11 +646,11 @@ export default function ClientReports() {
                   </thead>
                   <tbody>
                     {reportData.adSpend.entries.map((e) => (
-                      <tr key={e.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                      <tr key={e.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
                         <td style={{ padding: "6px 10px" }}>
-                          <span style={{ fontWeight: 700, color: "#0f172a" }}>{e.platform}</span>
+                          <span style={{ fontWeight: 700, color: "var(--text-main)" }}>{e.platform}</span>
                           {e.campaignName && (
-                            <span style={{ color: "#64748b", marginInlineStart: 6 }}>
+                            <span style={{ color: "var(--text-muted)", marginInlineStart: 6 }}>
                               ({e.campaignName})
                             </span>
                           )}
@@ -658,7 +658,7 @@ export default function ClientReports() {
                         <td style={{ padding: "6px 10px", textAlign: "end", fontWeight: 600 }}>{fmt(e.actualSpend)} {cur}</td>
                         <td style={{ padding: "6px 10px", textAlign: "end" }}>{e.orders}</td>
                         <td style={{ padding: "6px 10px", textAlign: "end" }}>{fmt(e.cpa)} {cur}</td>
-                        <td style={{ padding: "6px 10px", textAlign: "end", fontWeight: 700, color: e.roas >= 2.5 ? "#16a34a" : "#0f172a" }}>
+                        <td style={{ padding: "6px 10px", textAlign: "end", fontWeight: 700, color: e.roas >= 2.5 ? "#16a34a" : "var(--text-main)" }}>
                           {e.roas}x
                         </td>
                       </tr>
@@ -676,20 +676,20 @@ export default function ClientReports() {
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
-                    borderBottom: "2px solid #e2e8f0",
+                    borderBottom: "2px solid var(--border-color)",
                     paddingBottom: 6,
                     marginBottom: 14,
                   }}
                 >
                   <span style={{ fontSize: 16 }}>🧪</span>
-                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
+                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "var(--text-main)" }}>
                     {isRTL ? "3. نتائج اختبار المنتجات (مختبر Testili)" : "3. Tests Produits & Validation (Testili)"}
                   </h3>
                 </div>
 
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
                   <thead>
-                    <tr style={{ background: "#f1f5f9", color: "#475569" }}>
+                    <tr style={{ background: "var(--bg-hover)", color: "var(--text-main)" }}>
                       <th style={{ padding: "6px 10px", textAlign: "start" }}>{isRTL ? "اسم المنتج" : "Produit Testé"}</th>
                       <th style={{ padding: "6px 10px", textAlign: "start" }}>{isRTL ? "المنصة" : "Plateforme"}</th>
                       <th style={{ padding: "6px 10px", textAlign: "end" }}>{isRTL ? "المصروف" : "Dépensé"}</th>
@@ -700,8 +700,8 @@ export default function ClientReports() {
                   </thead>
                   <tbody>
                     {reportData.testili.map((tst) => (
-                      <tr key={tst.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
-                        <td style={{ padding: "6px 10px", fontWeight: 700, color: "#0f172a" }}>{tst.productName}</td>
+                      <tr key={tst.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
+                        <td style={{ padding: "6px 10px", fontWeight: 700, color: "var(--text-main)" }}>{tst.productName}</td>
                         <td style={{ padding: "6px 10px" }}>{tst.platform}</td>
                         <td style={{ padding: "6px 10px", textAlign: "end" }}>{fmt(tst.amountSpent)} {cur}</td>
                         <td style={{ padding: "6px 10px", textAlign: "end" }}>{tst.orders}</td>
@@ -718,13 +718,13 @@ export default function ClientReports() {
                                   ? "#dcfce7"
                                   : tst.verdict === "LOSER"
                                   ? "#fee2e2"
-                                  : "#f1f5f9",
+                                  : "var(--bg-hover)",
                               color:
                                 tst.verdict === "WINNER"
                                   ? "#16a34a"
                                   : tst.verdict === "LOSER"
                                   ? "#dc2626"
-                                  : "#475569",
+                                  : "var(--text-main)",
                             }}
                           >
                             {tst.verdict}
@@ -745,13 +745,13 @@ export default function ClientReports() {
                     display: "flex",
                     alignItems: "center",
                     gap: 8,
-                    borderBottom: "2px solid #e2e8f0",
+                    borderBottom: "2px solid var(--border-color)",
                     paddingBottom: 6,
                     marginBottom: 14,
                   }}
                 >
                   <span style={{ fontSize: 16 }}>📋</span>
-                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
+                  <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "var(--text-main)" }}>
                     {isRTL ? "4. المهام والخدمات المنفذة" : "4. Livrables & Prestations Réalisées"}
                   </h3>
                 </div>
@@ -762,9 +762,9 @@ export default function ClientReports() {
                       key={tsk.id}
                       style={{
                         padding: "8px 12px",
-                        background: "#f8fafc",
+                        background: "var(--bg-app)",
                         borderRadius: 6,
-                        border: "1px solid #e2e8f0",
+                        border: "1px solid var(--border-color)",
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
@@ -773,9 +773,9 @@ export default function ClientReports() {
                     >
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         <span style={{ color: "#16a34a", fontWeight: 700 }}>✓</span>
-                        <span style={{ fontWeight: 600, color: "#0f172a" }}>{tsk.title}</span>
+                        <span style={{ fontWeight: 600, color: "var(--text-main)" }}>{tsk.title}</span>
                       </div>
-                      <span style={{ color: "#94a3b8" }}>
+                      <span style={{ color: "var(--text-muted)" }}>
                         {new Date(tsk.updatedAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -791,26 +791,26 @@ export default function ClientReports() {
                   display: "flex",
                   alignItems: "center",
                   gap: 8,
-                  borderBottom: "2px solid #e2e8f0",
+                  borderBottom: "2px solid var(--border-color)",
                   paddingBottom: 6,
                   marginBottom: 12,
                 }}
               >
                 <span style={{ fontSize: 16 }}>💡</span>
-                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#0f172a" }}>
+                <h3 style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "var(--text-main)" }}>
                   {isRTL ? "5. ملاحظات وتوصيات الوكالة" : "5. Recommandations & Conclusion de l'Agence"}
                 </h3>
               </div>
 
               <div
                 style={{
-                  background: "#f8fafc",
+                  background: "var(--bg-app)",
                   borderRadius: 8,
                   padding: "14px 18px",
                   borderInlineStart: "4px solid #2563eb",
                   fontSize: 12,
                   lineHeight: 1.7,
-                  color: "#1e293b",
+                  color: "var(--text-main)",
                 }}
               >
                 {agencyNotes}
@@ -824,11 +824,11 @@ export default function ClientReports() {
                 justifyContent: "space-between",
                 alignItems: "flex-end",
                 paddingTop: 20,
-                borderTop: "1px solid #e2e8f0",
+                borderTop: "1px solid var(--border-color)",
                 marginTop: "auto",
               }}
             >
-              <div style={{ fontSize: 10, color: "#94a3b8", lineHeight: 1.4 }}>
+              <div style={{ fontSize: 10, color: "var(--text-muted)", lineHeight: 1.4 }}>
                 {reportData.agency?.nif && <span>NIF: {reportData.agency.nif} • </span>}
                 {reportData.agency?.rc && <span>RC: {reportData.agency.rc} • </span>}
                 {reportData.agency?.rib && <div>RIB: {reportData.agency.rib} ({reportData.agency.bankName || ""})</div>}
@@ -836,10 +836,10 @@ export default function ClientReports() {
               </div>
 
               <div style={{ textAlign: "center", minWidth: 160 }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#0f172a", marginBottom: 40 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-main)", marginBottom: 40 }}>
                   {isRTL ? "ختم وتوقيع الوكالة" : "Cachet & Signature de l'Agence"}
                 </div>
-                <div style={{ borderTop: "1px dashed #cbd5e1", width: 140, margin: "0 auto" }} />
+                <div style={{ borderTop: "1px dashed var(--border-color)", width: 140, margin: "0 auto" }} />
               </div>
             </div>
           </div>

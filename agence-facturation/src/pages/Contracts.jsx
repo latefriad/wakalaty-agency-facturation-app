@@ -19,7 +19,7 @@ const CONTRACT_TYPES = [
 
 const STATUS_OPTIONS = [
   { value: "active", key: "ct.active", color: "#16a34a", bg: "#dcfce7" },
-  { value: "expired", key: "ct.expired", color: "#dc2626", bg: "#fee2e2" },
+  { value: "expired", key: "ct.expired", color: "var(--danger)", bg: "#fee2e2" },
   { value: "cancelled", key: "ct.cancelled", color: "#9333ea", bg: "#f3e8ff" },
 ];
 
@@ -244,7 +244,7 @@ export default function Contracts() {
 
   if (!isAdmin && agencyId) {
     return (
-      <div style={{ padding: 40, direction: "inherit", textAlign: "center", color: "#94a3b8" }}>
+      <div style={{ padding: 40, direction: "inherit", textAlign: "center", color: "var(--text-muted)" }}>
         {t("ct.noAccess")}
       </div>
     );
@@ -258,7 +258,7 @@ export default function Contracts() {
             <FileText size={24} style={{ verticalAlign: "middle", marginLeft: 8 }} />
             {t("ct.title")}
           </h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {contracts.length} {t("ct.registered")}
           </p>
         </div>
@@ -282,8 +282,8 @@ export default function Contracts() {
             gap: 6,
             padding: "8px 14px",
             borderRadius: 10,
-            background: "#fff",
-            border: "1px solid #e2e8f0",
+            background: "var(--bg-card)",
+            border: "1px solid var(--border-color)",
             flex: "1 1 220px",
           }}
         >
@@ -320,11 +320,11 @@ export default function Contracts() {
             style={{
               padding: "8px 10px",
               borderRadius: 8,
-              border: "1px solid #e2e8f0",
-              background: "#fff",
+              border: "1px solid var(--border-color)",
+              background: "var(--bg-card)",
               fontSize: 12,
               fontFamily: "inherit",
-              color: "#475569",
+              color: "var(--text-main)",
             }}
           >
             <option value="">{t("ct.allTypes")}</option>
@@ -342,11 +342,11 @@ export default function Contracts() {
           style={{
             padding: "8px 10px",
             borderRadius: 8,
-            border: "1px solid #e2e8f0",
-            background: "#fff",
+            border: "1px solid var(--border-color)",
+            background: "var(--bg-card)",
             fontSize: 12,
             fontFamily: "inherit",
-            color: "#475569",
+            color: "var(--text-main)",
           }}
         >
           <option value="">{t("ct.allStatuses")}</option>
@@ -359,11 +359,11 @@ export default function Contracts() {
       </div>
 
       {loading && (
-        <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>{t("common.loading")}</div>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>{t("common.loading")}</div>
       )}
 
       {!loading && contracts.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <FileText size={48} style={{ marginBottom: 12 }} />
           <div>{t("ct.empty")}</div>
         </div>
@@ -379,18 +379,18 @@ export default function Contracts() {
                   <span style={{ fontSize: 24 }}>{ti.icon}</span>
                   <div>
                     <div style={{ fontWeight: 700, fontSize: 14 }}>{c.title || t("ct.untitled")}</div>
-                    <div style={{ fontSize: 12, color: "#64748b" }}>{typeLabel(ti)}</div>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{typeLabel(ti)}</div>
                   </div>
                 </div>
                 {getStatusBadge(c)}
               </div>
-              <div style={{ fontSize: 13, color: "#475569", marginBottom: 6 }}>
+              <div style={{ fontSize: 13, color: "var(--text-main)", marginBottom: 6 }}>
                 👤 {getClientName(c)}
               </div>
-              <div style={{ fontSize: 13, color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>
+              <div style={{ fontSize: 13, color: "var(--primary-color)", fontWeight: 600, marginBottom: 6 }}>
                 💰 {parseFloat(c.value || 0).toLocaleString()} دج
               </div>
-              <div style={{ fontSize: 12, color: "#94a3b8", marginBottom: 14 }}>
+              <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 14 }}>
                 📅 {formatDate(c.startDate)} → {formatDate(c.endDate) || t("ct.open")}
               </div>
               <div style={{ display: "flex", gap: 8 }}>
@@ -405,7 +405,7 @@ export default function Contracts() {
                     borderRadius: 8,
                     border: "1px solid #dbeafe",
                     background: "#eff6ff",
-                    color: "#3b82f6",
+                    color: "var(--primary-color)",
                     cursor: "pointer",
                     fontSize: 13,
                     display: "flex",
@@ -438,7 +438,7 @@ export default function Contracts() {
               </h2>
               <button
                 onClick={() => { setShowModal(false); setShowAiConfirm(false); setAiError(""); }}
-                style={{ background: "none", border: "none", cursor: "pointer", color: "#94a3b8" }}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}
               >
                 <X size={20} />
               </button>
@@ -457,8 +457,8 @@ export default function Contracts() {
                     border: "none",
                     cursor: "pointer",
                     fontSize: 12,
-                    background: form.type === t.value ? "#3b82f6" : "#f1f5f9",
-                    color: form.type === t.value ? "#fff" : "#64748b",
+                    background: form.type === t.value ? "#3b82f6" : "var(--bg-hover)",
+                    color: form.type === t.value ? "#fff" : "var(--text-muted)",
                   }}
                 >
                   {t.icon} {t.label}
@@ -527,7 +527,7 @@ export default function Contracts() {
             />
 
             {aiError && (
-              <div style={{ padding: "10px 14px", background: "#fee2e2", color: "#dc2626", borderRadius: 8, fontSize: 13, marginBottom: 12, textAlign: "center" }}>
+              <div style={{ padding: "10px 14px", background: "#fee2e2", color: "var(--danger)", borderRadius: 8, fontSize: 13, marginBottom: 12, textAlign: "center" }}>
                 ❌ {aiError}
               </div>
             )}
@@ -562,7 +562,7 @@ export default function Contracts() {
                   setShowAiConfirm(false);
                   setAiError("");
                 }}
-                style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}
+                style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}
               >
                 {t("common.cancel")}
               </button>
@@ -576,7 +576,7 @@ export default function Contracts() {
           <div className="modal-box" style={{ maxWidth: 440, textAlign: "center" }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>🤖</div>
             <h3 style={{ margin: "0 0 12px", fontSize: 17 }}>{t("ct.aiConfirmTitle")}</h3>
-            <p style={{ color: "#64748b", fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+            <p style={{ color: "var(--text-muted)", fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
               {t("ct.aiConfirmBody")}
               <br />
               {t("ct.aiConfirmNote")}
@@ -589,7 +589,7 @@ export default function Contracts() {
                   padding: "11px 0",
                   borderRadius: 8,
                   background: "#7c3aed",
-                  color: "#fff",
+                  color: "var(--bg-card)",
                   border: "none",
                   cursor: "pointer",
                   fontWeight: 600,
@@ -604,7 +604,7 @@ export default function Contracts() {
                   flex: 1,
                   padding: "11px 0",
                   borderRadius: 8,
-                  background: "#f1f5f9",
+                  background: "var(--bg-hover)",
                   border: "none",
                   cursor: "pointer",
                   fontSize: 14,
@@ -621,7 +621,7 @@ export default function Contracts() {
         <div className="modal-overlay">
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               width: "100%",
               maxWidth: 780,
@@ -637,10 +637,10 @@ export default function Contracts() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "14px 20px",
-                borderBottom: "1px solid #e2e8f0",
+                borderBottom: "1px solid var(--border-color)",
                 position: "sticky",
                 top: 0,
-                background: "#fff",
+                background: "var(--bg-card)",
                 zIndex: 10,
               }}
             >
@@ -653,7 +653,7 @@ export default function Contracts() {
                 </button>
                 <button
                   onClick={() => setShowPreview(false)}
-                  style={{ padding: "8px 14px", borderRadius: 8, background: "#f1f5f9", border: "none", cursor: "pointer", display: "flex", alignItems: "center" }}
+                  style={{ padding: "8px 14px", borderRadius: 8, background: "var(--bg-hover)", border: "none", cursor: "pointer", display: "flex", alignItems: "center" }}
                 >
                   <X size={16} />
                 </button>
@@ -687,7 +687,7 @@ function ContractTemplate({ contract, agency }) {
   const clientName = contract.client?.name || contract.clientName || "—";
 
   return (
-    <div style={{ fontFamily: "Arial,sans-serif", color: "#1e293b", direction: "inherit" }}>
+    <div style={{ fontFamily: "Arial,sans-serif", color: "var(--text-main)", direction: "inherit" }}>
       <div
         style={{
           textAlign: "center",
@@ -697,11 +697,11 @@ function ContractTemplate({ contract, agency }) {
         }}
       >
         <div style={{ fontSize: 20, fontWeight: "bold", marginBottom: 4 }}>{t.ar}</div>
-        <div style={{ fontSize: 12, color: "#64748b", marginBottom: 8 }}>{t.fr}</div>
-        <div style={{ fontSize: 13, color: "#3b82f6", fontWeight: 600 }}>
+        <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 8 }}>{t.fr}</div>
+        <div style={{ fontSize: 13, color: "var(--primary-color)", fontWeight: 600 }}>
           {contract.title || "عقد بدون عنوان"}
         </div>
-        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>تاريخ الإنشاء: {today}</div>
+        <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>تاريخ الإنشاء: {today}</div>
       </div>
 
       <div style={{ marginBottom: 22 }}>
@@ -710,7 +710,7 @@ function ContractTemplate({ contract, agency }) {
           style={{
             fontSize: 14,
             fontWeight: "bold",
-            borderBottom: "1px solid #e2e8f0",
+            borderBottom: "1px solid var(--border-color)",
             paddingBottom: 6,
             marginBottom: 14,
             color: "#1e40af",
@@ -724,7 +724,7 @@ function ContractTemplate({ contract, agency }) {
               flex: 1,
               minWidth: 200,
               padding: 14,
-              border: "1px solid #e2e8f0",
+              border: "1px solid var(--border-color)",
               borderRadius: 10,
               borderRight: "4px solid #3b82f6",
             }}
@@ -739,7 +739,7 @@ function ContractTemplate({ contract, agency }) {
             ]
               .filter(([, v]) => v)
               .map(([l, v]) => (
-                <div key={l} style={{ fontSize: 12, marginBottom: 4, color: "#475569" }}>
+                <div key={l} style={{ fontSize: 12, marginBottom: 4, color: "var(--text-main)" }}>
                   <strong>{l}:</strong> {v}
                 </div>
               ))}
@@ -749,7 +749,7 @@ function ContractTemplate({ contract, agency }) {
               flex: 1,
               minWidth: 200,
               padding: 14,
-              border: "1px solid #e2e8f0",
+              border: "1px solid var(--border-color)",
               borderRadius: 10,
               borderRight: "4px solid #10b981",
             }}
@@ -761,7 +761,7 @@ function ContractTemplate({ contract, agency }) {
             ]
               .filter(([, v]) => v)
               .map(([l, v]) => (
-                <div key={l} style={{ fontSize: 12, marginBottom: 4, color: "#475569" }}>
+                <div key={l} style={{ fontSize: 12, marginBottom: 4, color: "var(--text-main)" }}>
                   <strong>{l}:</strong> {v}
                 </div>
               ))}
@@ -770,7 +770,7 @@ function ContractTemplate({ contract, agency }) {
       </div>
 
       <div style={{ marginBottom: 22 }}>
-        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid #e2e8f0", paddingBottom: 6, marginBottom: 14, color: "#1e40af" }}>
+        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid var(--border-color)", paddingBottom: 6, marginBottom: 14, color: "#1e40af" }}>
           المادة 2 — مدة العقد / Article 2 — Durée
         </div>
         <div style={{ fontSize: 13, lineHeight: 2 }}>
@@ -783,7 +783,7 @@ function ContractTemplate({ contract, agency }) {
             <> {" "}لمدة غير محددة.</>
           )}
           <br />
-          <span style={{ color: "#64748b", fontSize: 11 }}>
+          <span style={{ color: "var(--text-muted)", fontSize: 11 }}>
             Ce contrat prend effet le {contract.startDate ? formatDateStr(contract.startDate) : "—"}
             {contract.endDate ? ` et se termine le ${formatDateStr(contract.endDate)}` : "."}
           </span>
@@ -791,17 +791,17 @@ function ContractTemplate({ contract, agency }) {
       </div>
 
       <div style={{ marginBottom: 22 }}>
-        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid #e2e8f0", paddingBottom: 6, marginBottom: 14, color: "#1e40af" }}>
+        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid var(--border-color)", paddingBottom: 6, marginBottom: 14, color: "#1e40af" }}>
           المادة 3 — المبالغ والدفع / Article 3 — Rémunération
         </div>
         <div style={{ background: "#eff6ff", border: "2px solid #bfdbfe", borderRadius: 10, padding: 16, textAlign: "center", marginBottom: 12 }}>
-          <div style={{ fontSize: 26, fontWeight: "bold", color: "#1d4ed8" }}>{parseFloat(contract.value || 0).toLocaleString()} دج</div>
-          <div style={{ fontSize: 11, color: "#64748b", marginTop: 4 }}>المبلغ الإجمالي / Montant Total TTC</div>
+          <div style={{ fontSize: 26, fontWeight: "bold", color: "var(--primary-hover)" }}>{parseFloat(contract.value || 0).toLocaleString()} دج</div>
+          <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>المبلغ الإجمالي / Montant Total TTC</div>
         </div>
       </div>
 
       <div style={{ marginBottom: 22 }}>
-        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid #e2e8f0", paddingBottom: 6, marginBottom: 14, color: "#1e40af" }}>
+        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid var(--border-color)", paddingBottom: 6, marginBottom: 14, color: "#1e40af" }}>
           المادة 4 — الشروط العامة / Article 4 — Conditions Générales
         </div>
         {[
@@ -814,10 +814,10 @@ function ContractTemplate({ contract, agency }) {
           { ar: "يتم تسوية الخلافات عن طريق التفاوض أولاً، وفي حالة تعذر ذلك يتم اللجوء إلى الجهة القضائية المختصة بمدينة مكان التنفيذ.", fr: "Les litiges sont réglés d'abord par voie de négociation ; à défaut, recours aux juridictions compétentes du lieu d'exécution." },
           { ar: "القوة القاهرة: لا يُسأل الطرف المتضرر عن أي تأخير أو إخلال بسبب حدث خارج عن إرادته وفقاً للقوانين المعمول بها، بشرط الإخطار.", fr: "Force majeure : aucune partie n'est responsable en cas de retard ou manquement dû à un événement indépendant de sa volonté, sous réserve de notification." },
         ].map((c, i) => (
-          <div key={i} style={{ marginBottom: 12, fontSize: 12, lineHeight: 1.7, paddingRight: 12, borderRight: "2px solid #e2e8f0" }}>
+          <div key={i} style={{ marginBottom: 12, fontSize: 12, lineHeight: 1.7, paddingRight: 12, borderRight: "2px solid var(--border-color)" }}>
             <span style={{ fontWeight: "bold" }}>{i + 1}. </span>
             {c.ar}
-            <div style={{ color: "#64748b", fontSize: 11, marginTop: 2 }}>{c.fr}</div>
+            <div style={{ color: "var(--text-muted)", fontSize: 11, marginTop: 2 }}>{c.fr}</div>
           </div>
         ))}
       </div>
@@ -829,7 +829,7 @@ function ContractTemplate({ contract, agency }) {
       ) : null}
 
       <div style={{ marginTop: 50 }}>
-        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid #e2e8f0", paddingBottom: 6, marginBottom: 30, color: "#1e40af" }}>
+        <div style={{ fontSize: 14, fontWeight: "bold", borderBottom: "1px solid var(--border-color)", paddingBottom: 6, marginBottom: 30, color: "#1e40af" }}>
           التوقيعات / Signatures
         </div>
         <div className="signatures" style={{ display: "flex", gap: 40, flexWrap: "wrap" }}>
@@ -839,7 +839,7 @@ function ContractTemplate({ contract, agency }) {
           ].map((sig) => (
             <div key={sig.title} style={{ flex: 1, minWidth: 180, textAlign: "center" }}>
               <div style={{ fontWeight: "bold", fontSize: 12, marginBottom: 6 }}>{sig.title}</div>
-              <div style={{ fontSize: 11, color: "#64748b", marginBottom: 4 }}>{sig.name}</div>
+              <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 4 }}>{sig.name}</div>
               <div
                 className="stamp"
                 style={{
@@ -851,22 +851,22 @@ function ContractTemplate({ contract, agency }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#94a3b8",
+                  color: "var(--text-muted)",
                   fontSize: 10,
                 }}
               >
                 الختم / Cachet
               </div>
               <div style={{ borderTop: "2px solid #1e293b", paddingTop: 8, marginTop: 8 }}>
-                <div style={{ fontSize: 11, color: "#64748b" }}>التوقيع / Signature</div>
-                <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>التاريخ: _______________</div>
+                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>التوقيع / Signature</div>
+                <div style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>التاريخ: _______________</div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ marginTop: 40, textAlign: "center", fontSize: 10, color: "#94a3b8", borderTop: "1px solid #f1f5f9", paddingTop: 16 }}>
+      <div style={{ marginTop: 40, textAlign: "center", fontSize: 10, color: "var(--text-muted)", borderTop: "1px solid var(--border-color)", paddingTop: 16 }}>
         {agency?.name} — {agency?.address} — {agency?.phone}
         <br />محرر من نسختين أصليتين / Établi en deux exemplaires originaux
       </div>
@@ -887,35 +887,35 @@ function MediaBuyerTemplate({ contract, agency }) {
   const today = new Date().toLocaleDateString("ar-DZ");
 
   const S = {
-    page: { fontFamily: "'Segoe UI', Arial, sans-serif", color: "#1e293b", direction: "rtl", lineHeight: 1.8 },
+    page: { fontFamily: "'Segoe UI', Arial, sans-serif", color: "var(--text-main)", direction: "rtl", lineHeight: 1.8 },
     header: { textAlign: "center", borderBottom: "4px double #1e293b", paddingBottom: 24, marginBottom: 32 },
     logoArea: { display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 8 },
     agencyName: { fontSize: 22, fontWeight: "bold", color: "#1e40af" },
     contractTitle: { fontSize: 18, fontWeight: "bold", marginBottom: 4 },
-    contractSub: { fontSize: 12, color: "#64748b", marginBottom: 8 },
-    dateRow: { fontSize: 12, color: "#475569" },
+    contractSub: { fontSize: 12, color: "var(--text-muted)", marginBottom: 8 },
+    dateRow: { fontSize: 12, color: "var(--text-main)" },
     sectionTitle: { fontSize: 14, fontWeight: "bold", borderBottom: "2px solid #3b82f6", paddingBottom: 6, marginBottom: 14, color: "#1e40af", marginTop: 24 },
     parties: { display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 8 },
     partyBox: (color) => ({ flex: 1, minWidth: 220, padding: 14, border: `1px solid #e2e8f0`, borderRadius: 10, borderRight: `4px solid ${color}` }),
     partyLabel: (color) => ({ fontWeight: "bold", fontSize: 13, marginBottom: 10, color }),
-    field: { fontSize: 12, marginBottom: 5, color: "#475569" },
+    field: { fontSize: 12, marginBottom: 5, color: "var(--text-main)" },
     blankLine: { display: "inline-block", borderBottom: "1px solid #475569", minWidth: 180, marginRight: 4 },
     listItem: { fontSize: 12.5, marginBottom: 6, paddingRight: 16, position: "relative" },
-    bullet: { position: "absolute", right: 0, color: "#3b82f6", fontWeight: "bold" },
+    bullet: { position: "absolute", right: 0, color: "var(--primary-color)", fontWeight: "bold" },
     amountBox: { background: "#eff6ff", border: "2px solid #bfdbfe", borderRadius: 10, padding: 16, textAlign: "center", marginBottom: 14 },
-    amountNum: { fontSize: 28, fontWeight: "bold", color: "#1d4ed8" },
-    amountSub: { fontSize: 11, color: "#64748b", marginTop: 4 },
+    amountNum: { fontSize: 28, fontWeight: "bold", color: "var(--primary-hover)" },
+    amountSub: { fontSize: 11, color: "var(--text-muted)", marginTop: 4 },
     calcTable: { width: "100%", borderCollapse: "collapse", marginBottom: 14, fontSize: 13 },
-    calcTd: { padding: "8px 12px", border: "1px solid #e2e8f0" },
-    calcTdBold: { padding: "8px 12px", border: "1px solid #e2e8f0", fontWeight: "bold", background: "#f8fafc" },
+    calcTd: { padding: "8px 12px", border: "1px solid var(--border-color)" },
+    calcTdBold: { padding: "8px 12px", border: "1px solid var(--border-color)", fontWeight: "bold", background: "var(--bg-app)" },
     checkRow: { display: "flex", gap: 24, flexWrap: "wrap", margin: "10px 0", fontSize: 13 },
     checkOpt: { display: "flex", alignItems: "center", gap: 8 },
     checkbox: { width: 16, height: 16, border: "1.5px solid #64748b", borderRadius: 3, display: "inline-block" },
     note: { background: "#fef9c3", borderRight: "4px solid #f59e0b", padding: "12px 16px", borderRadius: 8, fontSize: 12, marginBottom: 14 },
     sigBox: { flex: 1, minWidth: 200, textAlign: "center", padding: "0 20px" },
     sigLine: { borderTop: "2px solid #1e293b", paddingTop: 8, marginTop: 60 },
-    stamp: { width: 90, height: 90, border: "2px dashed #94a3b8", borderRadius: "50%", margin: "12px auto", display: "flex", alignItems: "center", justifyContent: "center", color: "#94a3b8", fontSize: 10 },
-    footer: { marginTop: 40, textAlign: "center", fontSize: 10, color: "#94a3b8", borderTop: "1px solid #f1f5f9", paddingTop: 16 },
+    stamp: { width: 90, height: 90, border: "2px dashed #94a3b8", borderRadius: "50%", margin: "12px auto", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: 10 },
+    footer: { marginTop: 40, textAlign: "center", fontSize: 10, color: "var(--text-muted)", borderTop: "1px solid var(--border-color)", paddingTop: 16 },
   };
 
   const Article = ({ num, title }) => (
@@ -933,12 +933,12 @@ function MediaBuyerTemplate({ contract, agency }) {
       {/* ── HEADER ── */}
       <div style={S.header}>
         <div style={S.agencyName}>{agency?.name || "Adpowers Digital"}</div>
-        <div style={{ fontSize: 11, color: "#64748b", marginBottom: 12 }}>
+        <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 12 }}>
           {agency?.address} {agency?.phone ? `| ${agency.phone}` : ""} {agency?.email ? `| ${agency.email}` : ""}
         </div>
         <div style={S.contractTitle}>عقد تقديم خدمات إدارة الإعلانات الرقمية</div>
         <div style={S.contractSub}>MEDIA BUYING AGREEMENT</div>
-        {contract.title && <div style={{ fontSize: 13, color: "#3b82f6", fontWeight: 600, marginBottom: 6 }}>{contract.title}</div>}
+        {contract.title && <div style={{ fontSize: 13, color: "var(--primary-color)", fontWeight: 600, marginBottom: 6 }}>{contract.title}</div>}
         <div style={S.dateRow}>تم إبرام هذا العقد بتاريخ: <strong>{today}</strong></div>
       </div>
 
@@ -968,7 +968,7 @@ function MediaBuyerTemplate({ contract, agency }) {
           <div style={S.field}><strong>ويُشار إليه بـ:</strong> "العميل"</div>
         </div>
       </div>
-      <div style={{ fontSize: 12, color: "#475569", marginBottom: 8, textAlign: "center" }}>
+      <div style={{ fontSize: 12, color: "var(--text-main)", marginBottom: 8, textAlign: "center" }}>
         ويُشار إلى الطرفين مجتمعين بـ <strong>"الطرفين"</strong>
       </div>
 
@@ -977,13 +977,13 @@ function MediaBuyerTemplate({ contract, agency }) {
       <div style={{ fontSize: 13, marginBottom: 8 }}>
         يهدف هذا العقد إلى تحديد شروط وأحكام تقديم خدمات <strong>Media Buying وإدارة الحملات الإعلانية الرقمية</strong> من طرف {agency?.name || "Adpowers Digital"} لصالح العميل.
       </div>
-      <div style={{ fontSize: 12.5, color: "#475569", marginBottom: 4 }}>تشمل الخدمات:</div>
+      <div style={{ fontSize: 12.5, color: "var(--text-main)", marginBottom: 4 }}>تشمل الخدمات:</div>
       {["إعداد وإدارة الحملات الإعلانية", "إعداد هيكلة الحملات الإعلانية", "تحديد واستهداف الجماهير المناسبة", "إعداد واختبار الحملات والإعلانات", "مراقبة أداء الحملات", "تحليل النتائج والبيانات", "تحسين الحملات والميزانيات", "اختبار الإعلانات والجماهير", "إعادة توزيع الميزانية حسب الأداء", "تقديم تقارير وملخصات حول النتائج"].map((s, i) => <Li key={i}>{s}</Li>)}
 
       {/* ── ART 2 ── */}
       <Article num="2" title="المنصات الإعلانية" />
       {["Meta Ads – Facebook / Instagram", "TikTok Ads", "Google Ads", "وغيرها من المنصات التي يتم الاتفاق عليها بين الطرفين"].map((s, i) => <Li key={i}>{s}</Li>)}
-      <div style={{ fontSize: 12, color: "#64748b", marginTop: 6 }}>تحدد المنصات المستخدمة حسب استراتيجية المشروع واحتياجات العميل.</div>
+      <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>تحدد المنصات المستخدمة حسب استراتيجية المشروع واحتياجات العميل.</div>
 
       {/* ── ART 3 ── */}
       <Article num="3" title="أتعاب Media Buyer" />
@@ -994,7 +994,7 @@ function MediaBuyerTemplate({ contract, agency }) {
             <tbody>
               <tr><td style={S.calcTdBold}>الإنفاق الإعلاني الفعلي</td><td style={S.calcTd}>{adBudget.toLocaleString("ar-DZ")} دج</td></tr>
               <tr><td style={S.calcTdBold}>أتعاب {agency?.name || "Adpowers Digital"} (30%)</td><td style={S.calcTd}>{agencyFee.toLocaleString("ar-DZ")} دج</td></tr>
-              <tr><td style={{ ...S.calcTdBold, background: "#dbeafe" }}>إجمالي ما يدفعه العميل</td><td style={{ ...S.calcTd, fontWeight: "bold", fontSize: 15, color: "#1d4ed8" }}>{totalClient.toLocaleString("ar-DZ")} دج</td></tr>
+              <tr><td style={{ ...S.calcTdBold, background: "#dbeafe" }}>إجمالي ما يدفعه العميل</td><td style={{ ...S.calcTd, fontWeight: "bold", fontSize: 15, color: "var(--primary-hover)" }}>{totalClient.toLocaleString("ar-DZ")} دج</td></tr>
             </tbody>
           </table>
         )}
@@ -1094,24 +1094,24 @@ function MediaBuyerTemplate({ contract, agency }) {
         <div style={{ display: "flex", gap: 40, flexWrap: "wrap", justifyContent: "space-around" }}>
           <div style={S.sigBox}>
             <div style={{ fontWeight: "bold", fontSize: 13, marginBottom: 4 }}>الطرف الأول – الوكالة</div>
-            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 2 }}>{agency?.name || "Adpowers Digital"}</div>
-            <div style={{ fontSize: 11, color: "#94a3b8" }}>الاسم: ___________________________</div>
-            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>الصفة: ___________________________</div>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 2 }}>{agency?.name || "Adpowers Digital"}</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>الاسم: ___________________________</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>الصفة: ___________________________</div>
             <div style={S.stamp}>الختم</div>
             <div style={S.sigLine}>
-              <div style={{ fontSize: 11, color: "#64748b" }}>التوقيع</div>
-              <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>التاريخ: _____ / _____ / _______</div>
+              <div style={{ fontSize: 11, color: "var(--text-muted)" }}>التوقيع</div>
+              <div style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>التاريخ: _____ / _____ / _______</div>
             </div>
           </div>
           <div style={S.sigBox}>
             <div style={{ fontWeight: "bold", fontSize: 13, marginBottom: 4 }}>الطرف الثاني – العميل</div>
-            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 2 }}>{clientName}</div>
-            <div style={{ fontSize: 11, color: "#94a3b8" }}>الاسم: ___________________________</div>
-            <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>الصفة: ___________________________</div>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 2 }}>{clientName}</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)" }}>الاسم: ___________________________</div>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>الصفة: ___________________________</div>
             <div style={S.stamp}>الختم</div>
             <div style={S.sigLine}>
-              <div style={{ fontSize: 11, color: "#64748b" }}>التوقيع</div>
-              <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>التاريخ: _____ / _____ / _______</div>
+              <div style={{ fontSize: 11, color: "var(--text-muted)" }}>التوقيع</div>
+              <div style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>التاريخ: _____ / _____ / _______</div>
             </div>
           </div>
         </div>

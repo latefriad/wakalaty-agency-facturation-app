@@ -129,9 +129,9 @@ export default function Suppliers() {
   const totalPayable = suppliers.reduce((s, x) => s + (x.outstanding || 0), 0);
 
   const BILL_STATUS = {
-    A_PAYER: { color: "#f59e0b", bg: "#fef3c7", key: "sup.toPay" },
-    PAYEE: { color: "#10b981", bg: "#d1fae5", key: "sup.paidStatus" },
-    ANNULEE: { color: "#64748b", bg: "#f1f5f9", key: "sup.cancelled" },
+    A_PAYER: { color: "var(--warning)", bg: "#fef3c7", key: "sup.toPay" },
+    PAYEE: { color: "var(--success)", bg: "#d1fae5", key: "sup.paidStatus" },
+    ANNULEE: { color: "var(--text-muted)", bg: "var(--bg-hover)", key: "sup.cancelled" },
   };
 
   return (
@@ -139,13 +139,13 @@ export default function Suppliers() {
       <div className="page-header">
         <div>
           <h1 className="page-title">🚚 {t("sup.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
-            {t("sup.totalPayable")} : <strong style={{ color: "#dc2626" }}>{fmt(totalPayable)} {t("common.currency")}</strong>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
+            {t("sup.totalPayable")} : <strong style={{ color: "var(--danger)" }}>{fmt(totalPayable)} {t("common.currency")}</strong>
           </p>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
           <button onClick={() => { setSupplierForm(emptySupplier); setEditSupplier(null); setShowSupplierModal(true); }}
-            style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+            style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
             + {t("sup.addSupplier")}
           </button>
           <button onClick={() => { setBillForm(emptyBill); setShowBillModal(true); }} className="btn-primary" disabled={suppliers.length === 0}>
@@ -165,7 +165,7 @@ export default function Suppliers() {
               { v: "", label: t("common.all") },
             ].map((f) => (
               <button key={f.v} onClick={() => setStatusFilter(f.v)}
-                style={{ padding: "5px 12px", borderRadius: 20, border: "1px solid", borderColor: statusFilter === f.v ? "#3b82f6" : "#e2e8f0", background: statusFilter === f.v ? "#dbeafe" : "#fff", color: "#475569", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+                style={{ padding: "5px 12px", borderRadius: 20, border: "1px solid", borderColor: statusFilter === f.v ? "#3b82f6" : "var(--border-color)", background: statusFilter === f.v ? "#dbeafe" : "var(--bg-card)", color: "var(--text-main)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
                 {f.label}
               </button>
             ))}
@@ -173,21 +173,21 @@ export default function Suppliers() {
         </div>
 
         {loading ? (
-          <div style={{ textAlign: "center", padding: 30, color: "#64748b" }}>{t("common.loading")}</div>
+          <div style={{ textAlign: "center", padding: 30, color: "var(--text-muted)" }}>{t("common.loading")}</div>
         ) : bills.length === 0 ? (
-          <div style={{ textAlign: "center", padding: 30, color: "#94a3b8" }}>{t("sup.noBills")}</div>
+          <div style={{ textAlign: "center", padding: 30, color: "var(--text-muted)" }}>{t("sup.noBills")}</div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {bills.map((b) => {
               const st = BILL_STATUS[b.status] || BILL_STATUS.A_PAYER;
               return (
-                <div key={b.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 10, background: isOverdue(b) ? "#fef2f2" : "#f8fafc", border: `1px solid ${isOverdue(b) ? "#fecaca" : "#f1f5f9"}`, flexWrap: "wrap" }}>
+                <div key={b.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 10, background: isOverdue(b) ? "#fef2f2" : "var(--bg-app)", border: `1px solid ${isOverdue(b) ? "#fecaca" : "var(--bg-hover)"}`, flexWrap: "wrap" }}>
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: 14, fontWeight: 600 }}>
                       {b.supplier?.name}
-                      {b.reference && <span style={{ color: "#64748b", fontWeight: 400 }}> · {b.reference}</span>}
+                      {b.reference && <span style={{ color: "var(--text-muted)", fontWeight: 400 }}> · {b.reference}</span>}
                     </div>
-                    <div style={{ fontSize: 12, color: isOverdue(b) ? "#dc2626" : "#94a3b8" }}>
+                    <div style={{ fontSize: 12, color: isOverdue(b) ? "#dc2626" : "var(--text-muted)" }}>
                       {b.dueDate ? `📅 ${new Date(b.dueDate).toLocaleDateString()}` : t("sup.noDueDate")}
                       {isOverdue(b) && ` ⚠️ ${t("sup.overdue")}`}
                       {" · "}{t(`exp.cat.${b.category}`)}
@@ -202,10 +202,10 @@ export default function Suppliers() {
                     </div>
                     {b.status === "A_PAYER" && (
                       <>
-                        <button onClick={() => payBill(b)} style={{ padding: "7px 14px", borderRadius: 8, border: "none", background: "#10b981", color: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
+                        <button onClick={() => payBill(b)} style={{ padding: "7px 14px", borderRadius: 8, border: "none", background: "var(--success)", color: "var(--bg-card)", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                           💸 {t("sup.pay")}
                         </button>
-                        <button onClick={() => cancelBill(b)} style={{ padding: "7px 10px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", color: "#64748b", cursor: "pointer", fontSize: 12 }}>
+                        <button onClick={() => cancelBill(b)} style={{ padding: "7px 10px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", color: "var(--text-muted)", cursor: "pointer", fontSize: 12 }}>
                           ✕
                         </button>
                       </>
@@ -223,25 +223,25 @@ export default function Suppliers() {
         {suppliers.map((s) => (
           <div key={s.id} className="card">
             <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>🚚 {s.name}</div>
-            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 10 }}>
+            <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10 }}>
               {s.phone || s.email || "—"}
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "8px 12px", borderRadius: 8, background: s.outstanding > 0 ? "#fef3c7" : "#f0fdf4", marginBottom: 10, fontSize: 13 }}>
-              <span style={{ color: "#64748b" }}>{t("sup.outstanding")}</span>
+              <span style={{ color: "var(--text-muted)" }}>{t("sup.outstanding")}</span>
               <strong style={{ color: s.outstanding > 0 ? "#92400e" : "#15803d" }}>
                 {fmt(s.outstanding)} {t("common.currency")} ({s.pendingBills})
               </strong>
             </div>
             <div style={{ display: "flex", gap: 8 }}>
               <button onClick={() => { setEditSupplier(s); setSupplierForm({ name: s.name, email: s.email || "", phone: s.phone || "", notes: s.notes || "" }); setShowSupplierModal(true); }}
-                style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 13 }}>
+                style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13 }}>
                 {t("common.edit")}
               </button>
               <button onClick={() => { setBillForm({ ...emptyBill, supplierId: s.id }); setShowBillModal(true); }}
-                style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #bfdbfe", background: "#eff6ff", color: "#1d4ed8", cursor: "pointer", fontSize: 13 }}>
+                style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #bfdbfe", background: "#eff6ff", color: "var(--primary-hover)", cursor: "pointer", fontSize: 13 }}>
                 + {t("sup.bill")}
               </button>
-              <button onClick={() => deleteSupplier(s)} style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#dc2626", cursor: "pointer", fontSize: 13 }}>
+              <button onClick={() => deleteSupplier(s)} style={{ padding: "8px 10px", borderRadius: 8, border: "1px solid #fecaca", background: "rgba(239, 68, 68, 0.1)", color: "var(--danger)", cursor: "pointer", fontSize: 13 }}>
                 🗑️
               </button>
             </div>
@@ -266,7 +266,7 @@ export default function Suppliers() {
               <button onClick={saveSupplier} disabled={saving} className="btn-primary" style={{ flex: 2, padding: "12px 0", fontSize: 15 }}>
                 {saving ? t("common.saving") : t("common.save")}
               </button>
-              <button onClick={() => { setShowSupplierModal(false); setEditSupplier(null); }} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>
+              <button onClick={() => { setShowSupplierModal(false); setEditSupplier(null); }} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>
                 {t("common.cancel")}
               </button>
             </div>
@@ -329,7 +329,7 @@ export default function Suppliers() {
               <button onClick={saveBill} disabled={saving} className="btn-primary" style={{ flex: 2, padding: "12px 0", fontSize: 15 }}>
                 {saving ? t("common.saving") : t("common.save")}
               </button>
-              <button onClick={() => setShowBillModal(false)} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>
+              <button onClick={() => setShowBillModal(false)} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>
                 {t("common.cancel")}
               </button>
             </div>

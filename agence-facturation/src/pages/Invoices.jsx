@@ -40,16 +40,16 @@ const emptyForm = {
 const CURRENCIES = ["DZD", "EUR", "USD"];
 
 const STATUS = {
-  DRAFT: { key: "status.DRAFT", color: "#64748b", bg: "#f1f5f9" },
+  DRAFT: { key: "status.DRAFT", color: "var(--text-muted)", bg: "var(--bg-hover)" },
   SENT: { key: "status.SENT", color: "#0ea5e9", bg: "#e0f2fe" },
   VUE: { key: "status.VUE", color: "#6366f1", bg: "#e0e7ff" },
-  EN_ATTENTE: { key: "status.EN_ATTENTE", color: "#f59e0b", bg: "#fef3c7" },
-  EN_RETARD: { key: "status.EN_RETARD", color: "#dc2626", bg: "#fee2e2" },
-  PAYEE: { key: "status.PAYEE", color: "#10b981", bg: "#d1fae5" },
-  ANNULEE: { key: "status.ANNULEE", color: "#ef4444", bg: "#fee2e2" },
-  en_attente: { key: "status.EN_ATTENTE", color: "#f59e0b", bg: "#fef3c7" },
-  payée: { key: "status.PAYEE", color: "#10b981", bg: "#d1fae5" },
-  annulée: { key: "status.ANNULEE", color: "#ef4444", bg: "#fee2e2" },
+  EN_ATTENTE: { key: "status.EN_ATTENTE", color: "var(--warning)", bg: "#fef3c7" },
+  EN_RETARD: { key: "status.EN_RETARD", color: "var(--danger)", bg: "#fee2e2" },
+  PAYEE: { key: "status.PAYEE", color: "var(--success)", bg: "#d1fae5" },
+  ANNULEE: { key: "status.ANNULEE", color: "var(--danger)", bg: "#fee2e2" },
+  en_attente: { key: "status.EN_ATTENTE", color: "var(--warning)", bg: "#fef3c7" },
+  payée: { key: "status.PAYEE", color: "var(--success)", bg: "#d1fae5" },
+  annulée: { key: "status.ANNULEE", color: "var(--danger)", bg: "#fee2e2" },
 };
 
 const STATUS_API_MAP = {
@@ -377,14 +377,14 @@ export default function Invoices() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>{t("inv.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {t("inv.summary", { total: pagination?.total ?? invoices.length, unpaid: unpaidCount })}
           </p>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
         <button
           onClick={handleExportCsv}
-          style={{ background: "#fff", color: "#334155", border: "1px solid #e2e8f0", borderRadius: 10, padding: "10px 16px", cursor: "pointer", fontSize: 14, fontWeight: 600 }}
+          style={{ background: "var(--bg-card)", color: "var(--text-main)", border: "1px solid var(--border-color)", borderRadius: 10, padding: "10px 16px", cursor: "pointer", fontSize: 14, fontWeight: 600 }}
         >
           📥 CSV
         </button>
@@ -396,7 +396,7 @@ export default function Invoices() {
             }
             setShowModal(true);
           }}
-          style={{ background: "#3b82f6", color: "#fff", border: "none", borderRadius: 10, padding: "10px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600 }}
+          style={{ background: "var(--primary-color)", color: "var(--bg-card)", border: "none", borderRadius: 10, padding: "10px 20px", cursor: "pointer", fontSize: 14, fontWeight: 600 }}
         >
           {docType === "DEVIS" ? t("inv.newQuote") : t("inv.newInvoice")}
         </button>
@@ -405,13 +405,13 @@ export default function Invoices() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px,1fr))", gap: 12, marginBottom: 24 }}>
         {[
-          { label: t("inv.totalRevenue"), value: `${totalRevenue.toFixed(2)} ${t("common.currency")}`, color: "#10b981" },
-          { label: t("inv.pendingInvoices"), value: unpaidCount, color: "#f59e0b" },
+          { label: t("inv.totalRevenue"), value: `${totalRevenue.toFixed(2)} ${t("common.currency")}`, color: "var(--success)" },
+          { label: t("inv.pendingInvoices"), value: unpaidCount, color: "var(--warning)" },
           { label: t("inv.totalInvoices"), value: pagination?.total ?? invoices.length, color: "#6366f1" },
         ].map((s) => (
-          <div key={s.label} style={{ background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid #e2e8f0" }}>
+          <div key={s.label} style={{ background: "var(--bg-card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border-color)" }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: s.color }}>{s.value}</div>
-            <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>{s.label}</div>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4 }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -425,7 +425,7 @@ export default function Invoices() {
           <button
             key={tab.key}
             onClick={() => { setDocType(tab.key); setPage(1); setFilter("all"); }}
-            style={{ padding: "9px 20px", borderRadius: 10, border: docType === tab.key ? "2px solid #3b82f6" : "1px solid #e2e8f0", cursor: "pointer", fontSize: 14, fontWeight: 700, background: docType === tab.key ? "#eff6ff" : "#fff", color: docType === tab.key ? "#1d4ed8" : "#64748b" }}
+            style={{ padding: "9px 20px", borderRadius: 10, border: docType === tab.key ? "2px solid #3b82f6" : "1px solid #e2e8f0", cursor: "pointer", fontSize: 14, fontWeight: 700, background: docType === tab.key ? "#eff6ff" : "var(--bg-card)", color: docType === tab.key ? "#1d4ed8" : "var(--text-muted)" }}
           >
             {tab.label}
           </button>
@@ -445,17 +445,17 @@ export default function Invoices() {
           <button
             key={tab.key}
             onClick={() => setFilter(tab.key)}
-            style={{ padding: "8px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 13, background: filter === tab.key ? "#3b82f6" : "#f1f5f9", color: filter === tab.key ? "#fff" : "#64748b" }}
+            style={{ padding: "8px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 13, background: filter === tab.key ? "#3b82f6" : "var(--bg-hover)", color: filter === tab.key ? "#fff" : "var(--text-muted)" }}
           >
             {tab.label}
           </button>
         ))}
       </div>
 
-      {loading && <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>{t("common.loading")}</div>}
+      {loading && <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>{t("common.loading")}</div>}
 
       {!loading && docType !== "RECURRING" && filtered.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>🧾</div>
           <div>{t("inv.empty")}</div>
         </div>
@@ -464,7 +464,7 @@ export default function Invoices() {
       {docType === "RECURRING" && !loading && (
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {recurring.length === 0 && (
-            <div style={{ textAlign: "center", padding: 40, color: "#94a3b8" }}>
+            <div style={{ textAlign: "center", padding: 40, color: "var(--text-muted)" }}>
               {t("inv.recurringEmpty")}
             </div>
           )}
@@ -472,21 +472,21 @@ export default function Invoices() {
             const FREQ = { MONTHLY: t("inv.monthly"), QUARTERLY: t("inv.quarterly"), YEARLY: t("inv.yearly") };
             const total = (rec.items || []).reduce((s, i) => s + i.quantity * i.unitPrice, 0);
             return (
-              <div key={rec.id} style={{ background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, opacity: rec.active ? 1 : 0.55 }}>
+              <div key={rec.id} style={{ background: "var(--bg-card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, opacity: rec.active ? 1 : 0.55 }}>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>
-                    🔁 {rec.clientName} <span style={{ fontSize: 12, fontWeight: 600, padding: "2px 10px", borderRadius: 20, background: "#eff6ff", color: "#3b82f6", marginRight: 8 }}>{FREQ[rec.frequency]}</span>
+                    🔁 {rec.clientName} <span style={{ fontSize: 12, fontWeight: 600, padding: "2px 10px", borderRadius: 20, background: "#eff6ff", color: "var(--primary-color)", marginRight: 8 }}>{FREQ[rec.frequency]}</span>
                   </div>
-                  <div style={{ color: "#64748b", fontSize: 13 }}>
+                  <div style={{ color: "var(--text-muted)", fontSize: 13 }}>
                     {t("inv.nextIssue")}: {new Date(rec.nextRunAt).toLocaleDateString("fr-DZ")} — {t("inv.servicesCount", { count: (rec.items || []).length })}
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div style={{ fontWeight: 700, fontSize: 16 }}>{total.toFixed(2)} {t("common.currency")}</div>
-                  <button onClick={() => handleToggleRecurring(rec)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13, color: rec.active ? "#f59e0b" : "#10b981" }}>
+                  <button onClick={() => handleToggleRecurring(rec)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer", fontSize: 13, color: rec.active ? "#f59e0b" : "var(--success)" }}>
                     {rec.active ? t("inv.pause") : t("inv.resume")}
                   </button>
-                  <button onClick={() => handleDeleteRecurring(rec.id)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #fee2e2", background: "#fff5f5", color: "#ef4444", cursor: "pointer", fontSize: 13 }}>🗑️</button>
+                  <button onClick={() => handleDeleteRecurring(rec.id)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #fee2e2", background: "#fff5f5", color: "var(--danger)", cursor: "pointer", fontSize: 13 }}>🗑️</button>
                 </div>
               </div>
             );
@@ -499,26 +499,26 @@ export default function Invoices() {
           const st = STATUS[inv.displayStatus || inv.status] || STATUS.EN_ATTENTE;
           const stLabel = t(st.key);
           return (
-            <div key={inv.id} style={{ background: "#fff", borderRadius: 12, padding: "16px 20px", border: "1px solid #e2e8f0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+            <div key={inv.id} style={{ background: "var(--bg-card)", borderRadius: 12, padding: "16px 20px", border: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
                   <span style={{ fontWeight: 700, fontSize: 15 }}>{inv.number || t("inv.draftLabel")}</span>
                   <span style={{ fontSize: 12, fontWeight: 600, padding: "2px 10px", borderRadius: 20, color: st.color, background: st.bg }}>{stLabel}</span>
                 </div>
-                <div style={{ color: "#475569", fontSize: 13 }}>📄 {inv.client?.name || t("dash.client")}</div>
-                {inv.dueDate && <div style={{ color: "#94a3b8", fontSize: 12, marginTop: 2 }}>{t("inv.dueDate")}: {new Date(inv.dueDate).toLocaleDateString("fr-DZ")}</div>}
+                <div style={{ color: "var(--text-main)", fontSize: 13 }}>📄 {inv.client?.name || t("dash.client")}</div>
+                {inv.dueDate && <div style={{ color: "var(--text-muted)", fontSize: 12, marginTop: 2 }}>{t("inv.dueDate")}: {new Date(inv.dueDate).toLocaleDateString("fr-DZ")}</div>}
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
                 <div style={{ textAlign: "left" }}>
                   <div style={{ fontWeight: 700, fontSize: 18 }}>{(inv.total || 0).toFixed(2)} {inv.currency || t("common.currency")}</div>
                   {inv.paidAmount > 0 && inv.balance > 0 && (
-                    <div style={{ fontSize: 12, color: "#f59e0b" }}>{t("inv.paid")}: {inv.paidAmount.toFixed(2)} — {t("inv.remaining")}: {inv.balance.toFixed(2)}</div>
+                    <div style={{ fontSize: 12, color: "var(--warning)" }}>{t("inv.paid")}: {inv.paidAmount.toFixed(2)} — {t("inv.remaining")}: {inv.balance.toFixed(2)}</div>
                   )}
                   {inv.depositAmount > 0 && (
                     <div style={{ fontSize: 12, color: "#4f46e5" }}>{t("inv.depositLabel")}: {inv.depositAmount.toFixed(2)} {inv.currency || t("common.currency")}</div>
                   )}
                   {inv.penaltyAmount > 0 && (
-                    <div style={{ fontSize: 12, color: "#dc2626" }}>⚠️ {t("inv.penaltyLabel")}: +{inv.penaltyAmount.toFixed(2)} {inv.currency || t("common.currency")}</div>
+                    <div style={{ fontSize: 12, color: "var(--danger)" }}>⚠️ {t("inv.penaltyLabel")}: +{inv.penaltyAmount.toFixed(2)} {inv.currency || t("common.currency")}</div>
                   )}
                 </div>
                 {inv.status === "DRAFT" ? (
@@ -528,7 +528,7 @@ export default function Invoices() {
                     <select
                       value={inv.status}
                       onChange={(e) => handleStatus(inv.id, e.target.value)}
-                      style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none" }}
+                      style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 13, outline: "none" }}
                     >
                       <option value="EN_ATTENTE">{t("status.EN_ATTENTE")}</option>
                       <option value="SENT">{t("status.SENT")}</option>
@@ -536,22 +536,22 @@ export default function Invoices() {
                       <option value="ANNULEE">{t("status.ANNULEE")}</option>
                     </select>
                     {inv.docType === "DEVIS" ? (
-                      <button onClick={() => handleConvert(inv)} title={t("inv.toInvoice")} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #d1fae5", background: "#ecfdf5", color: "#059669", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>{t("inv.toInvoice")}</button>
+                      <button onClick={() => handleConvert(inv)} title={t("inv.toInvoice")} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #d1fae5", background: "rgba(16, 185, 129, 0.1)", color: "var(--success)", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>{t("inv.toInvoice")}</button>
                     ) : (
                       inv.status !== "PAYEE" && inv.status !== "ANNULEE" && (
-                        <button onClick={() => handleAddPayment(inv)} title={t("inv.recordPayment")} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #fde68a", background: "#fffbeb", color: "#b45309", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>{t("inv.recordPayment")}</button>
+                        <button onClick={() => handleAddPayment(inv)} title={t("inv.recordPayment")} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #fde68a", background: "rgba(245, 158, 11, 0.1)", color: "#b45309", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>{t("inv.recordPayment")}</button>
                       )
                     )}
                   </>
                 )}
                 {inv.docType === "FACTURE" && (
-                  <button onClick={() => handleMakeRecurring(inv)} title={t("inv.makeRecurring")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13 }}>🔁</button>
+                  <button onClick={() => handleMakeRecurring(inv)} title={t("inv.makeRecurring")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer", fontSize: 13 }}>🔁</button>
                 )}
                 <WhatsAppReminderButton invoice={inv} />
-                <button onClick={() => handleSendEmail(inv)} title={t("inv.sendByEmail")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13 }}>✉️</button>
-                <button onClick={() => handleCopyLink(inv)} title={t("inv.copyClientLink")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13 }}>🔗</button>
-                <button onClick={() => setSelectedInvoice(inv)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #dbeafe", background: "#eff6ff", color: "#3b82f6", cursor: "pointer", fontSize: 13 }}>👁️</button>
-                <button onClick={() => handleDelete(inv.id)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #fee2e2", background: "#fff5f5", color: "#ef4444", cursor: "pointer", fontSize: 13 }}>🗑️</button>
+                <button onClick={() => handleSendEmail(inv)} title={t("inv.sendByEmail")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer", fontSize: 13 }}>✉️</button>
+                <button onClick={() => handleCopyLink(inv)} title={t("inv.copyClientLink")} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer", fontSize: 13 }}>🔗</button>
+                <button onClick={() => setSelectedInvoice(inv)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #dbeafe", background: "#eff6ff", color: "var(--primary-color)", cursor: "pointer", fontSize: 13 }}>👁️</button>
+                <button onClick={() => handleDelete(inv.id)} style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #fee2e2", background: "#fff5f5", color: "var(--danger)", cursor: "pointer", fontSize: 13 }}>🗑️</button>
               </div>
             </div>
           );
@@ -565,11 +565,11 @@ export default function Invoices() {
 
       {showModal && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }}>
-          <div style={{ background: "#fff", borderRadius: 16, padding: 28, width: "100%", maxWidth: 520, direction: "rtl", maxHeight: "90vh", overflowY: "auto" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 16, padding: 28, width: "100%", maxWidth: 520, direction: "rtl", maxHeight: "90vh", overflowY: "auto" }}>
             <h2 style={{ margin: "0 0 20px", fontSize: 18 }}>{docType === "DEVIS" ? t("inv.newQuoteModal") : t("inv.newInvoiceModal")}</h2>
 
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.clientRequired")}</label>
-            <select value={form.clientId} onChange={(e) => handleClientChange(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 16, outline: "none", boxSizing: "border-box" }}>
+            <select value={form.clientId} onChange={(e) => handleClientChange(e.target.value)} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 16, outline: "none", boxSizing: "border-box" }}>
               <option value="">{t("inv.chooseClientOpt")}</option>
               {clients.map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
@@ -579,27 +579,27 @@ export default function Invoices() {
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{t("inv.servicesRequired")}</label>
             {form.services.map((s, i) => (
               <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                <select value={s.serviceId} onChange={(e) => handleServiceChange(i, e.target.value)} style={{ flex: 2, padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", background: "#fff" }}>
+                <select value={s.serviceId} onChange={(e) => handleServiceChange(i, e.target.value)} style={{ flex: 2, padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", background: "var(--bg-card)" }}>
                   <option value="">{t("inv.chooseService")}</option>
                   {services.map((svc) => (
                     <option key={svc.id} value={svc.id}>{svc.name}</option>
                   ))}
                 </select>
-                <input placeholder={t("inv.pricePlaceholder")} type="number" value={s.price} onChange={(e) => updateServiceRow(i, "price", e.target.value)} style={{ flex: 1, padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none" }} />
+                <input placeholder={t("inv.pricePlaceholder")} type="number" value={s.price} onChange={(e) => updateServiceRow(i, "price", e.target.value)} style={{ flex: 1, padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none" }} />
                 {form.services.length > 1 && (
-                  <button onClick={() => removeService(i)} style={{ background: "#fee2e2", border: "none", borderRadius: 8, color: "#ef4444", cursor: "pointer", padding: "0 12px", fontSize: 16 }}>×</button>
+                  <button onClick={() => removeService(i)} style={{ background: "#fee2e2", border: "none", borderRadius: 8, color: "var(--danger)", cursor: "pointer", padding: "0 12px", fontSize: 16 }}>×</button>
                 )}
               </div>
             ))}
 
-            <button onClick={addServiceRow} style={{ background: "#f1f5f9", border: "1px dashed #cbd5e1", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, color: "#64748b", marginBottom: 16, width: "100%" }}>{t("inv.addService")}</button>
+            <button onClick={addServiceRow} style={{ background: "var(--bg-hover)", border: "1px dashed var(--border-color)", borderRadius: 8, padding: "8px 16px", cursor: "pointer", fontSize: 13, color: "var(--text-muted)", marginBottom: 16, width: "100%" }}>{t("inv.addService")}</button>
 
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 8 }}>{t("inv.templateLabel")}</label>
             <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
               {TEMPLATES.map((t) => (
-                <button key={t.id} type="button" onClick={() => setForm((f) => ({ ...f, template: t.id }))} style={{ flex: 1, border: form.template === t.id ? "2px solid #3b82f6" : "1px solid #e2e8f0", borderRadius: 10, padding: "10px 8px", cursor: "pointer", background: form.template === t.id ? "#eff6ff" : "#fff", textAlign: "center" }}>
+                <button key={t.id} type="button" onClick={() => setForm((f) => ({ ...f, template: t.id }))} style={{ flex: 1, border: form.template === t.id ? "2px solid #3b82f6" : "1px solid #e2e8f0", borderRadius: 10, padding: "10px 8px", cursor: "pointer", background: form.template === t.id ? "#eff6ff" : "var(--bg-card)", textAlign: "center" }}>
                   <div style={{ fontSize: 20, marginBottom: 4 }}>{t.emoji}</div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>{t.name}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: "var(--text-main)" }}>{t.name}</div>
                 </button>
               ))}
             </div>
@@ -607,11 +607,11 @@ export default function Invoices() {
             <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
               <div style={{ flex: 1 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.taxLabel")}</label>
-                <input type="number" min="0" max="100" value={form.tax} onChange={(e) => setForm((f) => ({ ...f, tax: Math.max(0, parseFloat(e.target.value) || 0) }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+                <input type="number" min="0" max="100" value={form.tax} onChange={(e) => setForm((f) => ({ ...f, tax: Math.max(0, parseFloat(e.target.value) || 0) }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
               <div style={{ flex: 1 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.dueDate")}</label>
-                <input type="date" value={form.dueDate} onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+                <input type="date" value={form.dueDate} onChange={(e) => setForm((f) => ({ ...f, dueDate: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
             </div>
 
@@ -619,14 +619,14 @@ export default function Invoices() {
             <div style={{ display: "flex", gap: 12, marginBottom: 16 }}>
               <div style={{ flex: 1 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.currencyLabel")}</label>
-                <select value={form.currency} onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value, ...(e.target.value === "DZD" ? { exchangeRate: 1 } : {}) }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box", background: "#fff" }}>
+                <select value={form.currency} onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value, ...(e.target.value === "DZD" ? { exchangeRate: 1 } : {}) }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box", background: "var(--bg-card)" }}>
                   {CURRENCIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               {form.currency !== "DZD" && (
                 <div style={{ flex: 1 }}>
                   <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.exchangeRateLabel", { currency: form.currency })}</label>
-                  <input type="number" min="0" step="0.01" value={form.exchangeRate} onChange={(e) => setForm((f) => ({ ...f, exchangeRate: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+                  <input type="number" min="0" step="0.01" value={form.exchangeRate} onChange={(e) => setForm((f) => ({ ...f, exchangeRate: e.target.value }))} style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
                 </div>
               )}
             </div>
@@ -636,28 +636,28 @@ export default function Invoices() {
               <div style={{ flex: 1.4 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.depositLabel")}</label>
                 <div style={{ display: "flex", gap: 6 }}>
-                  <select value={form.depositType} onChange={(e) => setForm((f) => ({ ...f, depositType: e.target.value }))} style={{ padding: "9px 8px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", background: "#fff" }}>
+                  <select value={form.depositType} onChange={(e) => setForm((f) => ({ ...f, depositType: e.target.value }))} style={{ padding: "9px 8px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 13, outline: "none", background: "var(--bg-card)" }}>
                     <option value="">{t("inv.depositNone")}</option>
                     <option value="PERCENT">%</option>
                     <option value="FIXED">{form.currency}</option>
                   </select>
-                  <input type="number" min="0" disabled={!form.depositType} value={form.depositValue} onChange={(e) => setForm((f) => ({ ...f, depositValue: e.target.value }))} placeholder={form.depositType === "PERCENT" ? "30" : "5000"} style={{ flex: 1, padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box", background: form.depositType ? "#fff" : "#f8fafc" }} />
+                  <input type="number" min="0" disabled={!form.depositType} value={form.depositValue} onChange={(e) => setForm((f) => ({ ...f, depositValue: e.target.value }))} placeholder={form.depositType === "PERCENT" ? "30" : "5000"} style={{ flex: 1, padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box", background: form.depositType ? "#fff" : "var(--bg-app)" }} />
                 </div>
               </div>
               <div style={{ flex: 1 }}>
                 <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("inv.penaltyLabel")}</label>
-                <input type="number" min="0" max="100" value={form.penaltyRate} onChange={(e) => setForm((f) => ({ ...f, penaltyRate: e.target.value }))} placeholder="0" style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
+                <input type="number" min="0" max="100" value={form.penaltyRate} onChange={(e) => setForm((f) => ({ ...f, penaltyRate: e.target.value }))} placeholder="0" style={{ width: "100%", padding: "9px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box" }} />
               </div>
             </div>
 
-            <div style={{ background: "#f8fafc", borderRadius: 10, padding: "12px 16px", marginBottom: 20, fontSize: 14 }}>
+            <div style={{ background: "var(--bg-app)", borderRadius: 10, padding: "12px 16px", marginBottom: 20, fontSize: 14 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                <span style={{ color: "#64748b" }}>{t("inv.subtotal")}</span>
+                <span style={{ color: "var(--text-muted)" }}>{t("inv.subtotal")}</span>
                 <span>{calcSubtotal(form.services).toFixed(2)} {form.currency}</span>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, borderTop: "1px solid #e2e8f0", paddingTop: 8 }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700, fontSize: 16, borderTop: "1px solid var(--border-color)", paddingTop: 8 }}>
                 <span>{t("inv.grandTotal")}</span>
-                <span style={{ color: "#3b82f6" }}>{calcTotal(form.services, form.tax).toFixed(2)} {form.currency}</span>
+                <span style={{ color: "var(--primary-color)" }}>{calcTotal(form.services, form.tax).toFixed(2)} {form.currency}</span>
               </div>
               {form.depositType && parseFloat(form.depositValue) > 0 && (
                 <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6, fontSize: 13, color: "#4f46e5" }}>
@@ -668,13 +668,13 @@ export default function Invoices() {
             </div>
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => handleSave(false)} disabled={saving} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
+              <button onClick={() => handleSave(false)} disabled={saving} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "var(--primary-color)", color: "var(--bg-card)", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
                 {saving ? t("common.saving") : t("inv.createBtn")}
               </button>
               <button onClick={() => handleSave(true)} disabled={saving} title={t("inv.draftHint")} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "#eef2ff", color: "#4f46e5", border: "1px solid #c7d2fe", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
                 📝 {t("inv.saveDraft")}
               </button>
-              <button onClick={() => { setShowModal(false); setForm(emptyForm); }} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>{t("common.cancel")}</button>
+              <button onClick={() => { setShowModal(false); setForm(emptyForm); }} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>{t("common.cancel")}</button>
             </div>
           </div>
         </div>

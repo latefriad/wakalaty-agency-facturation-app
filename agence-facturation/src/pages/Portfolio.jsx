@@ -148,7 +148,7 @@ export default function Portfolio() {
         style={{
           textAlign: "center",
           padding: 60,
-          color: "#64748b",
+          color: "var(--text-muted)",
           direction: "inherit",
           fontFamily: "'Segoe UI', Tahoma, sans-serif",
         }}
@@ -172,7 +172,7 @@ export default function Portfolio() {
       >
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>📁 {t("pf.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {items.length} {t("pf.item")}
           </p>
         </div>
@@ -181,8 +181,8 @@ export default function Portfolio() {
           <button
             onClick={handleOpenCreate}
             style={{
-              background: "#3b82f6",
-              color: "#fff",
+              background: "var(--primary-color)",
+              color: "var(--bg-card)",
               border: "none",
               borderRadius: 10,
               padding: "10px 20px",
@@ -203,7 +203,7 @@ export default function Portfolio() {
       )}
 
       {items.length === 0 ? (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>📁</div>
           <div>{t("pf.empty")}</div>
         </div>
@@ -215,10 +215,10 @@ export default function Portfolio() {
               <div
                 key={item.id}
                 style={{
-                  background: "#fff",
+                  background: "var(--bg-card)",
                   borderRadius: 14,
                   padding: 18,
-                  border: "1px solid #e2e8f0",
+                  border: "1px solid var(--border-color)",
                   display: "flex",
                   flexDirection: "column",
                   gap: 12,
@@ -226,10 +226,10 @@ export default function Portfolio() {
               >
                 <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
                   <div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", marginBottom: 4 }}>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-main)", marginBottom: 4 }}>
                       {item.title}
                     </div>
-                    <div style={{ fontSize: 12, color: "#64748b" }}>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>
                       {item.clientName ? `${t("pf.client")} ${item.clientName}` : "—"}
                     </div>
                   </div>
@@ -240,7 +240,7 @@ export default function Portfolio() {
                       fontWeight: 700,
                       padding: "3px 10px",
                       borderRadius: 20,
-                      color: "#2563eb",
+                      color: "var(--primary-color)",
                       background: "#dbeafe",
                       width: "fit-content",
                     }}
@@ -255,8 +255,8 @@ export default function Portfolio() {
                       width: "100%",
                       borderRadius: 12,
                       overflow: "hidden",
-                      border: "1px solid #f1f5f9",
-                      background: "#f8fafc",
+                      border: "1px solid var(--border-color)",
+                      background: "var(--bg-app)",
                     }}
                   >
                     <img
@@ -271,7 +271,7 @@ export default function Portfolio() {
                 ) : null}
 
                 {item.description ? (
-                  <div style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}>{item.description}</div>
+                  <div style={{ fontSize: 13, color: "var(--text-main)", lineHeight: 1.6 }}>{item.description}</div>
                 ) : null}
 
                 {tags.length > 0 && (
@@ -283,8 +283,8 @@ export default function Portfolio() {
                           fontSize: 12,
                           padding: "3px 10px",
                           borderRadius: 999,
-                          background: "#f1f5f9",
-                          color: "#334155",
+                          background: "var(--bg-hover)",
+                          color: "var(--text-main)",
                           fontWeight: 600,
                         }}
                       >
@@ -301,7 +301,7 @@ export default function Portfolio() {
                     rel="noreferrer"
                     style={{
                       textDecoration: "none",
-                      color: "#3b82f6",
+                      color: "var(--primary-color)",
                       fontWeight: 700,
                       fontSize: 13,
                       marginTop: 2,
@@ -322,11 +322,11 @@ export default function Portfolio() {
                         flex: 1,
                         padding: "8px 0",
                         borderRadius: 8,
-                        border: "1px solid #e2e8f0",
-                        background: "#f8fafc",
+                        border: "1px solid var(--border-color)",
+                        background: "var(--bg-app)",
                         cursor: "pointer",
                         fontSize: 13,
-                        color: "#475569",
+                        color: "var(--text-main)",
                         fontWeight: 700,
                       }}
                     >
@@ -342,7 +342,7 @@ export default function Portfolio() {
                         background: "#fff5f5",
                         cursor: "pointer",
                         fontSize: 13,
-                        color: "#ef4444",
+                        color: "var(--danger)",
                         fontWeight: 700,
                       }}
                     >
@@ -371,7 +371,7 @@ export default function Portfolio() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               padding: 26,
               width: "100%",
@@ -379,7 +379,7 @@ export default function Portfolio() {
               direction: "inherit",
               maxHeight: "90vh",
               overflowY: "auto",
-              border: "1px solid #e2e8f0",
+              border: "1px solid var(--border-color)",
             }}
           >
             <h2 style={{ margin: "0 0 18px", fontSize: 18 }}>
@@ -395,7 +395,7 @@ export default function Portfolio() {
                 width: "100%",
                 padding: "10px 12px",
                 borderRadius: 10,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 fontSize: 14,
                 marginBottom: 14,
                 outline: "none",
@@ -413,7 +413,7 @@ export default function Portfolio() {
                 width: "100%",
                 padding: "10px 12px",
                 borderRadius: 10,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 fontSize: 14,
                 marginBottom: 14,
                 outline: "none",
@@ -429,7 +429,7 @@ export default function Portfolio() {
                   value={form.clientName}
                   onChange={(e) => setForm((f) => ({ ...f, clientName: e.target.value }))}
                   placeholder={t("pf.clientCompany")}
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 14, outline: "none" }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid var(--border-color)", fontSize: 14, outline: "none" }}
                 />
               </div>
 
@@ -438,7 +438,7 @@ export default function Portfolio() {
                 <select
                   value={form.category}
                   onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 14, outline: "none" }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid var(--border-color)", fontSize: 14, outline: "none" }}
                 >
                   {CATEGORIES.map((c) => (
                     <option key={c} value={c}>
@@ -456,7 +456,7 @@ export default function Portfolio() {
                   value={form.website}
                   onChange={(e) => setForm((f) => ({ ...f, website: e.target.value }))}
                   placeholder="https://example.com"
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 14, outline: "none" }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid var(--border-color)", fontSize: 14, outline: "none" }}
                 />
               </div>
               <div>
@@ -465,7 +465,7 @@ export default function Portfolio() {
                   value={form.image}
                   onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
                   placeholder="https://example.com/image.jpg"
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 14, outline: "none" }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid var(--border-color)", fontSize: 14, outline: "none" }}
                 />
               </div>
             </div>
@@ -475,7 +475,7 @@ export default function Portfolio() {
               value={form.tags}
               onChange={(e) => setForm((f) => ({ ...f, tags: e.target.value }))}
               placeholder="مثال: branding, seo, ads"
-              style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 18, outline: "none" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 18, outline: "none" }}
             />
 
             <div style={{ display: "flex", gap: 12 }}>
@@ -486,8 +486,8 @@ export default function Portfolio() {
                   flex: 1,
                   padding: "11px 0",
                   borderRadius: 10,
-                  background: "#3b82f6",
-                  color: "#fff",
+                  background: "var(--primary-color)",
+                  color: "var(--bg-card)",
                   border: "none",
                   cursor: "pointer",
                   fontWeight: 800,
@@ -506,8 +506,8 @@ export default function Portfolio() {
                   flex: 1,
                   padding: "11px 0",
                   borderRadius: 10,
-                  background: "#f1f5f9",
-                  color: "#334155",
+                  background: "var(--bg-hover)",
+                  color: "var(--text-main)",
                   border: "none",
                   cursor: "pointer",
                   fontWeight: 800,

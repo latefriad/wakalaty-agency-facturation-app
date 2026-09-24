@@ -20,15 +20,15 @@ import {
 // module, où t n'existe pas).
 const STATUSES = {
   TODO: { key: "tasks.todo", color: "#6b7280", bg: "#f3f4f6" },
-  INPROGRESS: { key: "tasks.inprogress", color: "#3b82f6", bg: "#dbeafe" },
-  DONE: { key: "tasks.done", color: "#10b981", bg: "#d1fae5" },
+  INPROGRESS: { key: "tasks.inprogress", color: "var(--primary-color)", bg: "#dbeafe" },
+  DONE: { key: "tasks.done", color: "var(--success)", bg: "#d1fae5" },
 };
 const STATUS_ORDER = ["TODO", "INPROGRESS", "DONE"];
 
 const PRIORITIES = {
-  HIGH: { key: "tasks.high", color: "#ef4444", bg: "#fee2e2" },
-  MEDIUM: { key: "tasks.medium", color: "#f59e0b", bg: "#fef3c7" },
-  LOW: { key: "tasks.low", color: "#10b981", bg: "#d1fae5" },
+  HIGH: { key: "tasks.high", color: "var(--danger)", bg: "#fee2e2" },
+  MEDIUM: { key: "tasks.medium", color: "var(--warning)", bg: "#fef3c7" },
+  LOW: { key: "tasks.low", color: "var(--success)", bg: "#d1fae5" },
 };
 const PRIORITY_ORDER = ["HIGH", "MEDIUM", "LOW"];
 
@@ -335,7 +335,7 @@ export default function Tasks() {
                 {type && chip(`${type.icon} ${t(type.key)}`, "#64748b", "#f1f5f9")}
               </div>
               {task.description && (
-                <div style={{ fontSize: 12, color: "#64748b", marginBottom: 6 }}>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>
                   {task.description}
                 </div>
               )}
@@ -343,7 +343,7 @@ export default function Tasks() {
                 {task.employee?.name && chip(`👤 ${task.employee.name}`, "#6d28d9", "#ede9fe")}
                 {task.client?.name && chip(`🏢 ${task.client.name}`, "#0369a1", "#e0f2fe")}
                 {(task.startDate || task.dueDate) && (
-                  <span style={{ fontSize: 11, color: task.isOverdue ? "#ef4444" : "#94a3b8", fontWeight: 700 }}>
+                  <span style={{ fontSize: 11, color: task.isOverdue ? "#ef4444" : "var(--text-muted)", fontWeight: 700 }}>
                     📅 {task.startDate ? format(new Date(task.startDate), "dd/MM") + " → " : ""}
                     {task.dueDate ? format(new Date(task.dueDate), "dd/MM/yyyy") : ""}
                   </span>
@@ -356,8 +356,8 @@ export default function Tasks() {
                 <button
                   onClick={() => openEditModal(task)}
                   style={{
-                    padding: 6, borderRadius: 8, border: "1px solid #e2e8f0",
-                    background: "#fff", cursor: "pointer", color: "#3b82f6",
+                    padding: 6, borderRadius: 8, border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)", cursor: "pointer", color: "var(--primary-color)",
                   }}
                   title={t("tasks.modify")}
                 >
@@ -367,7 +367,7 @@ export default function Tasks() {
                   onClick={() => handleDelete(task.id)}
                   style={{
                     padding: 6, borderRadius: 8, border: "1px solid #fca5a5",
-                    background: "#fff", cursor: "pointer", color: "#ef4444",
+                    background: "var(--bg-card)", cursor: "pointer", color: "var(--danger)",
                   }}
                   title={t("common.delete")}
                 >
@@ -385,7 +385,7 @@ export default function Tasks() {
             style={{
               width: "100%", padding: "6px 8px", borderRadius: 8,
               border: `1px solid ${st.color}`, fontSize: 11, color: st.color,
-              fontWeight: 800, outline: "none", cursor: "pointer", background: "#fff",
+              fontWeight: 800, outline: "none", cursor: "pointer", background: "var(--bg-card)",
               marginTop: 8,
             }}
           >
@@ -438,8 +438,8 @@ export default function Tasks() {
             <div style={{ minHeight: 60 }}>
               {colTasks.length === 0 && (
                 <div style={{
-                  textAlign: "center", padding: 24, color: "#cbd5e1",
-                  border: "2px dashed #e2e8f0", borderRadius: 10, fontSize: 12,
+                  textAlign: "center", padding: 24, color: "var(--border-color)",
+                  border: "2px dashed var(--border-color)", borderRadius: 10, fontSize: 12,
                 }}>
                   {t("tasks.empty")}
                 </div>
@@ -456,9 +456,9 @@ export default function Tasks() {
     <div className="card" style={{ overflowX: "auto" }}>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
         <thead>
-          <tr style={{ textAlign: "start", color: "#64748b", fontSize: 11 }}>
+          <tr style={{ textAlign: "start", color: "var(--text-muted)", fontSize: 11 }}>
             {[t("tasks.taskTitle"), t("tasks.client"), t("tasks.employee"), t("tasks.priority"), t("common.status"), t("tasks.startDate"), t("tasks.deadline"), t("common.actions")].map((h) => (
-              <th key={h} style={{ padding: "10px 12px", borderBottom: "2px solid #e2e8f0", textAlign: "start", whiteSpace: "nowrap" }}>{h}</th>
+              <th key={h} style={{ padding: "10px 12px", borderBottom: "2px solid var(--border-color)", textAlign: "start", whiteSpace: "nowrap" }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -467,7 +467,7 @@ export default function Tasks() {
             const st = STATUSES[task.status] || STATUSES.TODO;
             const pr = PRIORITIES[task.priority] || PRIORITIES.MEDIUM;
             return (
-              <tr key={task.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+              <tr key={task.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
                 <td style={{ padding: "10px 12px", fontWeight: 700 }}>
                   {task.title}
                   {task.isOverdue && <span style={{ marginInlineStart: 6 }}>{chip(`⚠️ ${t("tasks.late")}`, "#ef4444", "#fee2e2")}</span>}
@@ -481,7 +481,7 @@ export default function Tasks() {
                     onChange={(e) => moveTask(task.id, e.target.value)}
                     style={{
                       padding: "4px 8px", borderRadius: 8, border: `1px solid ${st.color}`,
-                      fontSize: 11, color: st.color, fontWeight: 800, cursor: "pointer", background: "#fff",
+                      fontSize: 11, color: st.color, fontWeight: 800, cursor: "pointer", background: "var(--bg-card)",
                     }}
                   >
                     {STATUS_ORDER.map((s) => (
@@ -489,19 +489,19 @@ export default function Tasks() {
                     ))}
                   </select>
                 </td>
-                <td style={{ padding: "10px 12px", color: "#94a3b8", whiteSpace: "nowrap" }}>
+                <td style={{ padding: "10px 12px", color: "var(--text-muted)", whiteSpace: "nowrap" }}>
                   {task.startDate ? format(new Date(task.startDate), "dd/MM/yyyy") : "—"}
                 </td>
-                <td style={{ padding: "10px 12px", color: task.isOverdue ? "#ef4444" : "#94a3b8", fontWeight: task.isOverdue ? 800 : 400, whiteSpace: "nowrap" }}>
+                <td style={{ padding: "10px 12px", color: task.isOverdue ? "#ef4444" : "var(--text-muted)", fontWeight: task.isOverdue ? 800 : 400, whiteSpace: "nowrap" }}>
                   {task.dueDate ? format(new Date(task.dueDate), "dd/MM/yyyy") : "—"}
                 </td>
                 <td style={{ padding: "10px 12px" }}>
                   {isAdmin && (
                     <div style={{ display: "flex", gap: 4 }}>
-                      <button onClick={() => openEditModal(task)} style={{ padding: 5, borderRadius: 6, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", color: "#3b82f6" }}>
+                      <button onClick={() => openEditModal(task)} style={{ padding: 5, borderRadius: 6, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer", color: "var(--primary-color)" }}>
                         <Edit size={13} />
                       </button>
-                      <button onClick={() => handleDelete(task.id)} style={{ padding: 5, borderRadius: 6, border: "1px solid #fca5a5", background: "#fff", cursor: "pointer", color: "#ef4444" }}>
+                      <button onClick={() => handleDelete(task.id)} style={{ padding: 5, borderRadius: 6, border: "1px solid #fca5a5", background: "var(--bg-card)", cursor: "pointer", color: "var(--danger)" }}>
                         <Trash2 size={13} />
                       </button>
                     </div>
@@ -513,7 +513,7 @@ export default function Tasks() {
         </tbody>
       </table>
       {filteredTasks.length === 0 && (
-        <div style={{ textAlign: "center", padding: 30, color: "#94a3b8", fontSize: 13 }}>{t("tasks.empty")}</div>
+        <div style={{ textAlign: "center", padding: 30, color: "var(--text-muted)", fontSize: 13 }}>{t("tasks.empty")}</div>
       )}
     </div>
   );
@@ -532,26 +532,26 @@ export default function Tasks() {
     return (
       <div className="card" style={{ padding: 16 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-          <button onClick={() => setCalendarMonth((m) => addMonths(m, -1))} style={{ padding: 8, borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer" }}>
+          <button onClick={() => setCalendarMonth((m) => addMonths(m, -1))} style={{ padding: 8, borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer" }}>
             <ChevronLeft size={16} />
           </button>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontWeight: 900, fontSize: 16 }}>{format(calendarMonth, "MM/yyyy")}</span>
             <button
               onClick={() => setCalendarMonth(new Date())}
-              style={{ padding: "5px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 12, fontWeight: 700 }}
+              style={{ padding: "5px 12px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 12, fontWeight: 700 }}
             >
               {t("tasks.today")}
             </button>
           </div>
-          <button onClick={() => setCalendarMonth((m) => addMonths(m, 1))} style={{ padding: 8, borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer" }}>
+          <button onClick={() => setCalendarMonth((m) => addMonths(m, 1))} style={{ padding: 8, borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer" }}>
             <ChevronRight size={16} />
           </button>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 4 }}>
           {days.slice(0, 7).map((d) => (
-            <div key={`h-${d}`} style={{ textAlign: "center", fontSize: 11, fontWeight: 800, color: "#94a3b8", padding: 4 }}>
+            <div key={`h-${d}`} style={{ textAlign: "center", fontSize: 11, fontWeight: 800, color: "var(--text-muted)", padding: 4 }}>
               {format(d, "EEE")}
             </div>
           ))}
@@ -564,12 +564,12 @@ export default function Tasks() {
                 key={day.toISOString()}
                 style={{
                   minHeight: 84, borderRadius: 8, padding: 4,
-                  background: inMonth ? "#fff" : "#f8fafc",
+                  background: inMonth ? "#fff" : "var(--bg-app)",
                   border: isToday ? "2px solid #3b82f6" : "1px solid #f1f5f9",
                   opacity: inMonth ? 1 : 0.55,
                 }}
               >
-                <div style={{ fontSize: 11, fontWeight: 800, color: isToday ? "#3b82f6" : "#94a3b8", marginBottom: 3 }}>
+                <div style={{ fontSize: 11, fontWeight: 800, color: isToday ? "#3b82f6" : "var(--text-muted)", marginBottom: 3 }}>
                   {format(day, "d")}
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -593,7 +593,7 @@ export default function Tasks() {
                     );
                   })}
                   {dayTasks.length > 3 && (
-                    <div style={{ fontSize: 9, color: "#94a3b8", fontWeight: 700 }}>+{dayTasks.length - 3}</div>
+                    <div style={{ fontSize: 9, color: "var(--text-muted)", fontWeight: 700 }}>+{dayTasks.length - 3}</div>
                   )}
                 </div>
               </div>
@@ -609,7 +609,7 @@ export default function Tasks() {
       <div className="page-header">
         <div>
           <h1 className="page-title">{t("tasks.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {tasks.length} {t("tasks.totalCount")}
           </p>
         </div>
@@ -641,7 +641,7 @@ export default function Tasks() {
         {STATUS_ORDER.map((s) => (
           <div key={s} className="card" style={{ textAlign: "center", background: STATUSES[s].bg, border: "none" }}>
             <div style={{ fontSize: 28, fontWeight: 700, color: STATUSES[s].color }}>{stats[s]}</div>
-            <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>{t(STATUSES[s].key)}</div>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4 }}>{t(STATUSES[s].key)}</div>
           </div>
         ))}
         <div
@@ -653,13 +653,13 @@ export default function Tasks() {
           }}
           title={t("tasks.overdueOnly")}
         >
-          <div style={{ fontSize: 28, fontWeight: 700, color: "#ef4444" }}>{stats.OVERDUE}</div>
-          <div style={{ fontSize: 13, color: "#64748b", marginTop: 4 }}>⚠️ {t("tasks.late")}</div>
+          <div style={{ fontSize: 28, fontWeight: 700, color: "var(--danger)" }}>{stats.OVERDUE}</div>
+          <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 4 }}>⚠️ {t("tasks.late")}</div>
         </div>
       </div>
 
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20, alignItems: "center" }}>
-        <div style={{ display: "flex", gap: 2, background: "#f1f5f9", borderRadius: 10, padding: 3 }}>
+        <div style={{ display: "flex", gap: 2, background: "var(--bg-hover)", borderRadius: 10, padding: 3 }}>
           {VIEWS.map((v) => {
             const Icon = v.icon;
             const active = view === v.value;
@@ -671,7 +671,7 @@ export default function Tasks() {
                   padding: "8px 14px", borderRadius: 8, border: "none", cursor: "pointer",
                   fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", gap: 6,
                   background: active ? "#fff" : "transparent",
-                  color: active ? "#1e293b" : "#64748b",
+                  color: active ? "#1e293b" : "var(--text-muted)",
                   boxShadow: active ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
                 }}
               >
@@ -682,14 +682,14 @@ export default function Tasks() {
         </div>
 
         <div style={{ position: "relative", flex: "1 1 200px" }}>
-          <Search size={16} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", color: "#94a3b8" }} />
+          <Search size={16} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", color: "var(--text-muted)" }} />
           <input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={t("tasks.searchPlaceholder")}
             style={{
               width: "100%", padding: "9px 36px 9px 12px", borderRadius: 10,
-              border: "1px solid #e2e8f0", fontSize: 13, outline: "none", boxSizing: "border-box",
+              border: "1px solid var(--border-color)", fontSize: 13, outline: "none", boxSizing: "border-box",
             }}
           />
           {searchQuery && (
@@ -697,7 +697,7 @@ export default function Tasks() {
               onClick={() => setSearchQuery("")}
               style={{
                 position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)",
-                background: "none", border: "none", cursor: "pointer", color: "#94a3b8",
+                background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)",
               }}
             >
               <X size={14} />
@@ -707,8 +707,8 @@ export default function Tasks() {
         <button
           onClick={() => setShowFilters(!showFilters)}
           style={{
-            padding: "9px 14px", borderRadius: 10, border: "1px solid #e2e8f0",
-            background: showFilters ? "#1e293b" : "#fff", color: showFilters ? "#fff" : "#64748b",
+            padding: "9px 14px", borderRadius: 10, border: "1px solid var(--border-color)",
+            background: showFilters ? "#1e293b" : "var(--bg-card)", color: showFilters ? "#fff" : "var(--text-muted)",
             cursor: "pointer", fontSize: 12, display: "flex", alignItems: "center", gap: 4,
           }}
         >
@@ -717,9 +717,9 @@ export default function Tasks() {
       </div>
 
       {showFilters && (
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 20, padding: 12, background: "#f8fafc", borderRadius: 10 }}>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 20, padding: 12, background: "var(--bg-app)", borderRadius: 10 }}>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-            <span style={{ fontSize: 12, color: "#64748b", fontWeight: 800 }}>{t("tasks.priority")} :</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 800 }}>{t("tasks.priority")} :</span>
             {["all", ...PRIORITY_ORDER].map((v) => (
               <button
                 key={v}
@@ -727,8 +727,8 @@ export default function Tasks() {
                 style={{
                   padding: "6px 12px", borderRadius: 8, cursor: "pointer",
                   fontSize: 11, fontWeight: 700,
-                  background: filterPriority === v ? "#3b82f6" : "#fff",
-                  color: filterPriority === v ? "#fff" : "#64748b",
+                  background: filterPriority === v ? "#3b82f6" : "var(--bg-card)",
+                  color: filterPriority === v ? "#fff" : "var(--text-muted)",
                   border: filterPriority === v ? "none" : "1px solid #e2e8f0",
                 }}
               >
@@ -737,7 +737,7 @@ export default function Tasks() {
             ))}
           </div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-            <span style={{ fontSize: 12, color: "#64748b", fontWeight: 800 }}>{t("common.status")} :</span>
+            <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 800 }}>{t("common.status")} :</span>
             {["all", ...STATUS_ORDER].map((v) => (
               <button
                 key={v}
@@ -745,8 +745,8 @@ export default function Tasks() {
                 style={{
                   padding: "6px 12px", borderRadius: 8, cursor: "pointer",
                   fontSize: 11, fontWeight: 700,
-                  background: filterStatus === v ? "#1e293b" : "#fff",
-                  color: filterStatus === v ? "#fff" : "#64748b",
+                  background: filterStatus === v ? "#1e293b" : "var(--bg-card)",
+                  color: filterStatus === v ? "#fff" : "var(--text-muted)",
                   border: filterStatus === v ? "none" : "1px solid #e2e8f0",
                 }}
               >
@@ -756,11 +756,11 @@ export default function Tasks() {
           </div>
           {isAdmin && employees.length > 0 && (
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
-              <span style={{ fontSize: 12, color: "#64748b", fontWeight: 800 }}>{t("tasks.employee")} :</span>
+              <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 800 }}>{t("tasks.employee")} :</span>
               <select
                 value={filterEmployee}
                 onChange={(e) => setFilterEmployee(e.target.value)}
-                style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 12, background: "#fff", cursor: "pointer" }}
+                style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 12, background: "var(--bg-card)", cursor: "pointer" }}
               >
                 <option value="all">{t("common.all")}</option>
                 {employees.map((emp) => (
@@ -773,14 +773,14 @@ export default function Tasks() {
       )}
 
       {loading && (
-        <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <Clock size={24} style={{ marginBottom: 8, animation: "spin 1s linear infinite" }} />
           <div>{t("common.loading")}</div>
         </div>
       )}
 
       {!loading && tasks.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <AlertCircle size={48} style={{ marginBottom: 12 }} />
           <div>{t("tasks.empty")}</div>
         </div>
@@ -797,21 +797,21 @@ export default function Tasks() {
                   key={g.employeeId}
                   className="card"
                   style={{
-                    padding: "10px 12px", minWidth: 230, background: "#fff",
-                    border: "1px solid #e2e8f0", borderRight: "4px solid #10b981",
+                    padding: "10px 12px", minWidth: 230, background: "var(--bg-card)",
+                    border: "1px solid var(--border-color)", borderRight: "4px solid #10b981",
                   }}
                 >
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <div style={{ fontWeight: 800, fontSize: 13 }}>👤 {g.name}</div>
-                    <div style={{ fontWeight: 800, color: "#10b981", fontSize: 13 }}>{pct}%</div>
+                    <div style={{ fontWeight: 800, color: "var(--success)", fontSize: 13 }}>{pct}%</div>
                   </div>
-                  <div style={{ height: 10, background: "#f1f5f9", borderRadius: 999, marginTop: 10 }}>
+                  <div style={{ height: 10, background: "var(--bg-hover)", borderRadius: 999, marginTop: 10 }}>
                     <div style={{
                       width: `${pct}%`, height: 10, borderRadius: 999,
-                      background: "#10b981", transition: "width 0.4s ease",
+                      background: "var(--success)", transition: "width 0.4s ease",
                     }} />
                   </div>
-                  <div style={{ marginTop: 8, fontSize: 12, color: "#64748b" }}>
+                  <div style={{ marginTop: 8, fontSize: 12, color: "var(--text-muted)" }}>
                     {t("tasks.done")} : {g.done} / {g.total}
                   </div>
                 </div>
@@ -838,7 +838,7 @@ export default function Tasks() {
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                style={{ background: "none", border: "none", cursor: "pointer", color: "#64748b" }}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)" }}
               >
                 <X size={20} />
               </button>
@@ -872,8 +872,8 @@ export default function Tasks() {
                   style={{
                     flex: 1, padding: "9px 0", borderRadius: 8, border: "none",
                     cursor: "pointer", fontSize: 13,
-                    background: form.type === tt.value ? "#3b82f6" : "#f1f5f9",
-                    color: form.type === tt.value ? "#fff" : "#64748b",
+                    background: form.type === tt.value ? "#3b82f6" : "var(--bg-hover)",
+                    color: form.type === tt.value ? "#fff" : "var(--text-muted)",
                   }}
                 >
                   {tt.icon} {t(tt.key)}
@@ -891,8 +891,8 @@ export default function Tasks() {
                   style={{
                     flex: 1, padding: "9px 0", borderRadius: 8, border: "none",
                     cursor: "pointer", fontSize: 13, fontWeight: 600,
-                    background: form.priority === p ? PRIORITIES[p].color : "#f1f5f9",
-                    color: form.priority === p ? "#fff" : "#64748b",
+                    background: form.priority === p ? PRIORITIES[p].color : "var(--bg-hover)",
+                    color: form.priority === p ? "#fff" : "var(--text-muted)",
                   }}
                 >
                   {t(PRIORITIES[p].key)}
@@ -912,8 +912,8 @@ export default function Tasks() {
                       style={{
                         flex: 1, padding: "9px 0", borderRadius: 8, border: "none",
                         cursor: "pointer", fontSize: 13, fontWeight: 600,
-                        background: form.status === s ? STATUSES[s].color : "#f1f5f9",
-                        color: form.status === s ? "#fff" : "#64748b",
+                        background: form.status === s ? STATUSES[s].color : "var(--bg-hover)",
+                        color: form.status === s ? "#fff" : "var(--text-muted)",
                       }}
                     >
                       {t(STATUSES[s].key)}
@@ -967,8 +967,8 @@ export default function Tasks() {
                 style={{
                   padding: "6px 12px", borderRadius: 20, border: "none",
                   cursor: "pointer", fontSize: 12, fontWeight: 800,
-                  background: !form.employeeId ? "#334155" : "#f1f5f9",
-                  color: !form.employeeId ? "#fff" : "#64748b",
+                  background: !form.employeeId ? "#334155" : "var(--bg-hover)",
+                  color: !form.employeeId ? "#fff" : "var(--text-muted)",
                 }}
               >
                 {t("tasks.unassigned")}
@@ -983,8 +983,8 @@ export default function Tasks() {
                     style={{
                       padding: "6px 12px", borderRadius: 20, border: "none",
                       cursor: "pointer", fontSize: 12, fontWeight: 800,
-                      background: selected ? "#6d28d9" : "#f1f5f9",
-                      color: selected ? "#fff" : "#64748b",
+                      background: selected ? "#6d28d9" : "var(--bg-hover)",
+                      color: selected ? "#fff" : "var(--text-muted)",
                     }}
                   >
                     {selected ? "✓ " : ""}{emp.name}
@@ -992,7 +992,7 @@ export default function Tasks() {
                 );
               })}
               {employees.length === 0 && (
-                <div style={{ fontSize: 12, color: "#94a3b8" }}>{t("tasks.noEmployee")}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{t("tasks.noEmployee")}</div>
               )}
             </div>
 
@@ -1013,7 +1013,7 @@ export default function Tasks() {
                 onClick={() => setShowModal(false)}
                 style={{
                   flex: 1, padding: "12px 0", borderRadius: 10,
-                  background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14,
+                  background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14,
                 }}
               >
                 {t("common.cancel")}

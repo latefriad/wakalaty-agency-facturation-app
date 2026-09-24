@@ -17,21 +17,21 @@ import {
 import { normalizePhoneNumber } from "../components/WhatsAppReminderButton";
 
 const STAGES = [
-  { id: "NEW", key: "leadStage.NEW", color: "#2563eb", bg: "#eff6ff", border: "#bfdbfe" },
+  { id: "NEW", key: "leadStage.NEW", color: "var(--primary-color)", bg: "#eff6ff", border: "#bfdbfe" },
   { id: "CONTACTED", key: "leadStage.CONTACTED", color: "#7c3aed", bg: "#f5f3ff", border: "#ddd6fe" },
-  { id: "QUOTE_SENT", key: "leadStage.QUOTE_SENT", color: "#d97706", bg: "#fffbeb", border: "#fde68a" },
+  { id: "QUOTE_SENT", key: "leadStage.QUOTE_SENT", color: "var(--warning)", bg: "rgba(245, 158, 11, 0.1)", border: "#fde68a" },
   { id: "NEGOTIATION", key: "leadStage.NEGOTIATION", color: "#0891b2", bg: "#ecfeff", border: "#a5f3fc" },
-  { id: "WON", key: "leadStage.WON", color: "#059669", bg: "#ecfdf5", border: "#a7f3d0" },
-  { id: "LOST", key: "leadStage.LOST", color: "#dc2626", bg: "#fef2f2", border: "#fecaca" },
+  { id: "WON", key: "leadStage.WON", color: "var(--success)", bg: "rgba(16, 185, 129, 0.1)", border: "#a7f3d0" },
+  { id: "LOST", key: "leadStage.LOST", color: "var(--danger)", bg: "rgba(239, 68, 68, 0.1)", border: "#fecaca" },
 ];
 
 const SOURCES = [
   { id: "WHATSAPP", key: "leadSource.WHATSAPP", icon: "💬", color: "#16a34a", bg: "#dcfce7" },
-  { id: "ADS", key: "leadSource.ADS", icon: "📢", color: "#2563eb", bg: "#dbeafe" },
+  { id: "ADS", key: "leadSource.ADS", icon: "📢", color: "var(--primary-color)", bg: "#dbeafe" },
   { id: "FORM", key: "leadSource.FORM", icon: "📋", color: "#9333ea", bg: "#f3e8ff" },
   { id: "CHATBOT", key: "leadSource.CHATBOT", icon: "🤖", color: "#0891b2", bg: "#cffafe" },
   { id: "REFERRAL", key: "leadSource.REFERRAL", icon: "👥", color: "#ca8a04", bg: "#fef08a" },
-  { id: "OTHER", key: "leadSource.OTHER", icon: "🌐", color: "#475569", bg: "#f1f5f9" },
+  { id: "OTHER", key: "leadSource.OTHER", icon: "🌐", color: "var(--text-main)", bg: "var(--bg-hover)" },
 ];
 
 const emptyForm = {
@@ -355,7 +355,7 @@ export default function Leads() {
       <div style={{ padding: 32, textAlign: "center", direction: "inherit" }}>
         <div style={{ fontSize: 48, marginBottom: 12 }}>🔒</div>
         <h2>{t("common.error")}</h2>
-        <p style={{ color: "#64748b" }}>Accès restreint aux rôles ADMIN, ACCOUNTANT, ADS.</p>
+        <p style={{ color: "var(--text-muted)" }}>Accès restreint aux rôles ADMIN, ACCOUNTANT, ADS.</p>
       </div>
     );
   }
@@ -378,11 +378,11 @@ export default function Leads() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 28 }}>🎯</span>
-            <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "#0f172a" }}>
+            <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "var(--text-main)" }}>
               {t("leads.title")}
             </h1>
           </div>
-          <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748b" }}>
+          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-muted)" }}>
             {t("leads.subtitle")}
           </p>
         </div>
@@ -392,10 +392,10 @@ export default function Leads() {
           <div
             style={{
               display: "flex",
-              background: "#f1f5f9",
+              background: "var(--bg-hover)",
               borderRadius: 10,
               padding: 3,
-              border: "1px solid #e2e8f0",
+              border: "1px solid var(--border-color)",
             }}
           >
             <button
@@ -409,7 +409,7 @@ export default function Leads() {
                 fontWeight: 600,
                 cursor: "pointer",
                 background: viewMode === "kanban" ? "#fff" : "transparent",
-                color: viewMode === "kanban" ? "#0f172a" : "#64748b",
+                color: viewMode === "kanban" ? "#0f172a" : "var(--text-muted)",
                 boxShadow: viewMode === "kanban" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
@@ -426,7 +426,7 @@ export default function Leads() {
                 fontWeight: 600,
                 cursor: "pointer",
                 background: viewMode === "table" ? "#fff" : "transparent",
-                color: viewMode === "table" ? "#0f172a" : "#64748b",
+                color: viewMode === "table" ? "#0f172a" : "var(--text-muted)",
                 boxShadow: viewMode === "table" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
@@ -445,8 +445,8 @@ export default function Leads() {
               padding: "10px 18px",
               borderRadius: 10,
               border: "none",
-              background: "#2563eb",
-              color: "#fff",
+              background: "var(--primary-color)",
+              color: "var(--bg-card)",
               fontSize: 14,
               fontWeight: 700,
               cursor: "pointer",
@@ -469,10 +469,10 @@ export default function Leads() {
       >
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -484,7 +484,7 @@ export default function Leads() {
               height: 44,
               borderRadius: 12,
               background: "#eff6ff",
-              color: "#2563eb",
+              color: "var(--primary-color)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -494,10 +494,10 @@ export default function Leads() {
             👥
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("leads.totalLeads")}
             </div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#0f172a" }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "var(--text-main)" }}>
               {stats.totalLeads}
             </div>
           </div>
@@ -505,10 +505,10 @@ export default function Leads() {
 
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -519,8 +519,8 @@ export default function Leads() {
               width: 44,
               height: 44,
               borderRadius: 12,
-              background: "#ecfdf5",
-              color: "#059669",
+              background: "rgba(16, 185, 129, 0.1)",
+              color: "var(--success)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -530,12 +530,12 @@ export default function Leads() {
             🎯
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("leads.conversionRate")}
             </div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: "#059669" }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: "var(--success)" }}>
               {stats.conversionRate}%{" "}
-              <span style={{ fontSize: 12, color: "#64748b", fontWeight: 500 }}>
+              <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 500 }}>
                 ({stats.wonCount} {t("leadStage.WON")})
               </span>
             </div>
@@ -544,10 +544,10 @@ export default function Leads() {
 
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -559,7 +559,7 @@ export default function Leads() {
               height: 44,
               borderRadius: 12,
               background: "#fef3c7",
-              color: "#d97706",
+              color: "var(--warning)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -569,10 +569,10 @@ export default function Leads() {
             💰
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("leads.pipelineValue")}
             </div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-main)" }}>
               {stats.pipelineValue.toLocaleString("fr-DZ")} {agencyCurrency}
             </div>
           </div>
@@ -580,7 +580,7 @@ export default function Leads() {
 
         <div
           style={{
-            background: stats.overdueCount > 0 ? "#fff1f2" : "#fff",
+            background: stats.overdueCount > 0 ? "#fff1f2" : "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
             border: stats.overdueCount > 0 ? "1px solid #fecdd3" : "1px solid #e2e8f0",
@@ -594,8 +594,8 @@ export default function Leads() {
               width: 44,
               height: 44,
               borderRadius: 12,
-              background: stats.overdueCount > 0 ? "#ffe4e6" : "#f1f5f9",
-              color: stats.overdueCount > 0 ? "#e11d48" : "#64748b",
+              background: stats.overdueCount > 0 ? "#ffe4e6" : "var(--bg-hover)",
+              color: stats.overdueCount > 0 ? "#e11d48" : "var(--text-muted)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -609,7 +609,7 @@ export default function Leads() {
               style={{
                 fontSize: 12,
                 fontWeight: 600,
-                color: stats.overdueCount > 0 ? "#e11d48" : "#64748b",
+                color: stats.overdueCount > 0 ? "#e11d48" : "var(--text-muted)",
               }}
             >
               {t("leads.overdueFollowUps")}
@@ -618,7 +618,7 @@ export default function Leads() {
               style={{
                 fontSize: 22,
                 fontWeight: 800,
-                color: stats.overdueCount > 0 ? "#e11d48" : "#0f172a",
+                color: stats.overdueCount > 0 ? "#e11d48" : "var(--text-main)",
               }}
             >
               {stats.overdueCount}
@@ -630,10 +630,10 @@ export default function Leads() {
       {/* ── Search & Filter Toolbar ── */}
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 14,
           padding: "12px 18px",
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
           marginBottom: 20,
           display: "flex",
           alignItems: "center",
@@ -652,7 +652,7 @@ export default function Leads() {
               width: "100%",
               padding: "9px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
               boxSizing: "border-box",
@@ -662,7 +662,7 @@ export default function Leads() {
 
         {/* Source Filter */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 12, color: "#64748b", fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
             {t("leads.filterSource")}:
           </span>
           <select
@@ -671,10 +671,10 @@ export default function Leads() {
             style={{
               padding: "8px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
-              background: "#fff",
+              background: "var(--bg-card)",
             }}
           >
             <option value="">{t("leads.filterAllSources")}</option>
@@ -688,7 +688,7 @@ export default function Leads() {
 
         {/* Assignee Filter */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 12, color: "#64748b", fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
             {t("leads.filterAssignee")}:
           </span>
           <select
@@ -697,10 +697,10 @@ export default function Leads() {
             style={{
               padding: "8px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
-              background: "#fff",
+              background: "var(--bg-card)",
             }}
           >
             <option value="">{t("leads.filterAllAssignees")}</option>
@@ -720,8 +720,8 @@ export default function Leads() {
             padding: "8px 14px",
             borderRadius: 8,
             border: onlyOverdue ? "1px solid #fca5a5" : "1px solid #e2e8f0",
-            background: onlyOverdue ? "#fee2e2" : "#f8fafc",
-            color: onlyOverdue ? "#dc2626" : "#475569",
+            background: onlyOverdue ? "#fee2e2" : "var(--bg-app)",
+            color: onlyOverdue ? "#dc2626" : "var(--text-main)",
             cursor: "pointer",
             fontSize: 12,
             fontWeight: 700,
@@ -734,7 +734,7 @@ export default function Leads() {
 
       {/* ── Main View: Kanban or Table ── */}
       {loading ? (
-        <div style={{ padding: 48, textAlign: "center", color: "#64748b" }}>
+        <div style={{ padding: 48, textAlign: "center", color: "var(--text-muted)" }}>
           <div style={{ fontSize: 32, marginBottom: 8 }}>⏳</div>
           <div>{t("common.loading") || "Chargement..."}</div>
         </div>
@@ -772,7 +772,7 @@ export default function Leads() {
                   }
                 }}
                 style={{
-                  background: isOver ? `${col.color}10` : "#f8fafc",
+                  background: isOver ? `${col.color}10` : "var(--bg-app)",
                   borderRadius: 14,
                   border: isOver ? `2px dashed ${col.color}` : "1px solid #e2e8f0",
                   padding: 12,
@@ -821,7 +821,7 @@ export default function Leads() {
                   </div>
 
                   {colValue > 0 && (
-                    <span style={{ fontSize: 11, fontWeight: 700, color: "#64748b" }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "var(--text-muted)" }}>
                       {colValue.toLocaleString("fr-DZ")} {agencyCurrency}
                     </span>
                   )}
@@ -834,9 +834,9 @@ export default function Leads() {
                       style={{
                         padding: "24px 12px",
                         textAlign: "center",
-                        color: "#94a3b8",
+                        color: "var(--text-muted)",
                         fontSize: 12,
-                        border: "1px dashed #cbd5e1",
+                        border: "1px dashed var(--border-color)",
                         borderRadius: 10,
                         margin: "10px 0",
                       }}
@@ -863,10 +863,10 @@ export default function Leads() {
                           }}
                           onClick={() => openDrawer(lead)}
                           style={{
-                            background: "#fff",
+                            background: "var(--bg-card)",
                             borderRadius: 12,
                             padding: "14px",
-                            border: "1px solid #e2e8f0",
+                            border: "1px solid var(--border-color)",
                             boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
                             cursor: "grab",
                             transition: "all 0.15s ease",
@@ -911,8 +911,8 @@ export default function Leads() {
                                 style={{
                                   fontSize: 10,
                                   fontWeight: 800,
-                                  color: "#059669",
-                                  background: "#ecfdf5",
+                                  color: "var(--success)",
+                                  background: "rgba(16, 185, 129, 0.1)",
                                   padding: "2px 6px",
                                   borderRadius: 6,
                                   border: "1px solid #a7f3d0",
@@ -924,11 +924,11 @@ export default function Leads() {
                           </div>
 
                           {/* Name & Company */}
-                          <div style={{ fontWeight: 700, fontSize: 14, color: "#0f172a", marginBottom: 2 }}>
+                          <div style={{ fontWeight: 700, fontSize: 14, color: "var(--text-main)", marginBottom: 2 }}>
                             {lead.name}
                           </div>
                           {lead.company && (
-                            <div style={{ fontSize: 12, color: "#64748b", marginBottom: 6 }}>
+                            <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>
                               🏢 {lead.company}
                             </div>
                           )}
@@ -939,7 +939,7 @@ export default function Leads() {
                               style={{
                                 fontSize: 13,
                                 fontWeight: 800,
-                                color: "#059669",
+                                color: "var(--success)",
                                 marginBottom: 6,
                               }}
                             >
@@ -955,8 +955,8 @@ export default function Leads() {
                                 fontWeight: 600,
                                 padding: "3px 7px",
                                 borderRadius: 6,
-                                background: isOverdue ? "#fee2e2" : "#f1f5f9",
-                                color: isOverdue ? "#dc2626" : "#475569",
+                                background: isOverdue ? "#fee2e2" : "var(--bg-hover)",
+                                color: isOverdue ? "#dc2626" : "var(--text-main)",
                                 border: isOverdue ? "1px solid #fca5a5" : "1px solid #e2e8f0",
                                 display: "inline-flex",
                                 alignItems: "center",
@@ -980,7 +980,7 @@ export default function Leads() {
                               justifyContent: "space-between",
                               marginTop: 6,
                               paddingTop: 8,
-                              borderTop: "1px solid #f1f5f9",
+                              borderTop: "1px solid var(--border-color)",
                             }}
                           >
                             {/* Assignee */}
@@ -990,8 +990,8 @@ export default function Leads() {
                                   width: 24,
                                   height: 24,
                                   borderRadius: "50%",
-                                  background: "#e2e8f0",
-                                  color: "#334155",
+                                  background: "var(--border-color)",
+                                  color: "var(--text-main)",
                                   fontSize: 11,
                                   fontWeight: 700,
                                   display: "flex",
@@ -1003,7 +1003,7 @@ export default function Leads() {
                                   ? lead.assignedTo.name.charAt(0).toUpperCase()
                                   : "👤"}
                               </div>
-                              <span style={{ fontSize: 11, color: "#64748b" }}>
+                              <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
                                 {lead.assignedTo?.name || t("leads.chooseAssignee")}
                               </span>
                             </div>
@@ -1039,8 +1039,8 @@ export default function Leads() {
                                   title={t("leads.convertToClient")}
                                   style={{
                                     border: "1px solid #a7f3d0",
-                                    background: "#ecfdf5",
-                                    color: "#059669",
+                                    background: "rgba(16, 185, 129, 0.1)",
+                                    color: "var(--success)",
                                     borderRadius: 6,
                                     padding: "4px 6px",
                                     fontSize: 12,
@@ -1056,8 +1056,8 @@ export default function Leads() {
                                 onClick={() => openEditModal(lead)}
                                 title={t("common.edit")}
                                 style={{
-                                  border: "1px solid #e2e8f0",
-                                  background: "#fff",
+                                  border: "1px solid var(--border-color)",
+                                  background: "var(--bg-card)",
                                   borderRadius: 6,
                                   padding: "4px 6px",
                                   fontSize: 12,
@@ -1079,7 +1079,7 @@ export default function Leads() {
                                 padding: "4px 8px",
                                 borderRadius: 6,
                                 border: `1px solid ${col.border}`,
-                                background: "#fff",
+                                background: "var(--bg-card)",
                                 fontSize: 11,
                                 fontWeight: 700,
                                 color: col.color,
@@ -1107,28 +1107,28 @@ export default function Leads() {
         /* ── Table View ── */
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             overflowX: "auto",
           }}
         >
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
-              <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", textAlign: "inherit" }}>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.name")}</th>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.source")}</th>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.stage")}</th>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.estimatedValue")}</th>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.followUpDate")}</th>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.assignedTo")}</th>
-                <th style={{ padding: "12px 16px", fontWeight: 700, color: "#475569" }}>{t("leads.actions")}</th>
+              <tr style={{ background: "var(--bg-app)", borderBottom: "1px solid var(--border-color)", textAlign: "inherit" }}>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.name")}</th>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.source")}</th>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.stage")}</th>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.estimatedValue")}</th>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.followUpDate")}</th>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.assignedTo")}</th>
+                <th style={{ padding: "12px 16px", fontWeight: 700, color: "var(--text-main)" }}>{t("leads.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {leads.length === 0 ? (
                 <tr>
-                  <td colSpan={7} style={{ padding: 32, textAlign: "center", color: "#94a3b8" }}>
+                  <td colSpan={7} style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>
                     {t("leads.emptyList")}
                   </td>
                 </tr>
@@ -1145,13 +1145,13 @@ export default function Leads() {
                   return (
                     <tr
                       key={lead.id}
-                      style={{ borderBottom: "1px solid #f1f5f9", cursor: "pointer" }}
+                      style={{ borderBottom: "1px solid var(--border-color)", cursor: "pointer" }}
                       onClick={() => openDrawer(lead)}
                     >
                       <td style={{ padding: "12px 16px" }}>
-                        <div style={{ fontWeight: 700, color: "#0f172a" }}>{lead.name}</div>
-                        {lead.company && <div style={{ fontSize: 12, color: "#64748b" }}>{lead.company}</div>}
-                        {lead.phone && <div style={{ fontSize: 11, color: "#94a3b8" }}>{lead.phone}</div>}
+                        <div style={{ fontWeight: 700, color: "var(--text-main)" }}>{lead.name}</div>
+                        {lead.company && <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{lead.company}</div>}
+                        {lead.phone && <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{lead.phone}</div>}
                       </td>
                       <td style={{ padding: "12px 16px" }}>
                         <span
@@ -1182,7 +1182,7 @@ export default function Leads() {
                           {t(stageMeta.key)}
                         </span>
                       </td>
-                      <td style={{ padding: "12px 16px", fontWeight: 700, color: "#059669" }}>
+                      <td style={{ padding: "12px 16px", fontWeight: 700, color: "var(--success)" }}>
                         {lead.estimatedValue != null
                           ? `${lead.estimatedValue.toLocaleString("fr-DZ")} ${agencyCurrency}`
                           : "—"}
@@ -1193,7 +1193,7 @@ export default function Leads() {
                             style={{
                               fontSize: 12,
                               fontWeight: 600,
-                              color: isOverdue ? "#dc2626" : "#475569",
+                              color: isOverdue ? "#dc2626" : "var(--text-main)",
                               background: isOverdue ? "#fee2e2" : "transparent",
                               padding: isOverdue ? "2px 6px" : "0",
                               borderRadius: 4,
@@ -1206,7 +1206,7 @@ export default function Leads() {
                           "—"
                         )}
                       </td>
-                      <td style={{ padding: "12px 16px", color: "#475569" }}>
+                      <td style={{ padding: "12px 16px", color: "var(--text-main)" }}>
                         {lead.assignedTo?.name || "—"}
                       </td>
                       <td style={{ padding: "12px 16px" }} onClick={(e) => e.stopPropagation()}>
@@ -1235,8 +1235,8 @@ export default function Leads() {
                               title={t("leads.convertToClient")}
                               style={{
                                 border: "1px solid #a7f3d0",
-                                background: "#ecfdf5",
-                                color: "#059669",
+                                background: "rgba(16, 185, 129, 0.1)",
+                                color: "var(--success)",
                                 borderRadius: 6,
                                 padding: "5px 8px",
                                 cursor: "pointer",
@@ -1250,8 +1250,8 @@ export default function Leads() {
                             onClick={() => openEditModal(lead)}
                             title={t("common.edit")}
                             style={{
-                              border: "1px solid #e2e8f0",
-                              background: "#fff",
+                              border: "1px solid var(--border-color)",
+                              background: "var(--bg-card)",
                               borderRadius: 6,
                               padding: "5px 8px",
                               cursor: "pointer",
@@ -1266,7 +1266,7 @@ export default function Leads() {
                             style={{
                               border: "1px solid #fecaca",
                               background: "#fff5f5",
-                              color: "#ef4444",
+                              color: "var(--danger)",
                               borderRadius: 6,
                               padding: "5px 8px",
                               cursor: "pointer",
@@ -1303,7 +1303,7 @@ export default function Leads() {
               width: "100%",
               maxWidth: 480,
               height: "100%",
-              background: "#fff",
+              background: "var(--bg-card)",
               boxShadow: "0 25px 50px -12px rgba(0,0,0,0.25)",
               overflowY: "auto",
               padding: 24,
@@ -1320,16 +1320,16 @@ export default function Leads() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 paddingBottom: 16,
-                borderBottom: "1px solid #e2e8f0",
+                borderBottom: "1px solid var(--border-color)",
                 marginBottom: 20,
               }}
             >
               <div>
-                <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "#0f172a" }}>
+                <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
                   {selectedLead.name}
                 </h2>
                 {selectedLead.company && (
-                  <div style={{ fontSize: 13, color: "#64748b", marginTop: 2 }}>
+                  <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
                     🏢 {selectedLead.company}
                   </div>
                 )}
@@ -1339,13 +1339,13 @@ export default function Leads() {
                 onClick={closeDrawer}
                 style={{
                   border: "none",
-                  background: "#f1f5f9",
+                  background: "var(--bg-hover)",
                   width: 32,
                   height: 32,
                   borderRadius: "50%",
                   cursor: "pointer",
                   fontSize: 14,
-                  color: "#64748b",
+                  color: "var(--text-muted)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -1356,14 +1356,14 @@ export default function Leads() {
             </div>
 
             {drawerLoading ? (
-              <div style={{ padding: 40, textAlign: "center", color: "#64748b" }}>
+              <div style={{ padding: 40, textAlign: "center", color: "var(--text-muted)" }}>
                 ⏳ {t("common.loading") || "Chargement..."}
               </div>
             ) : (
               <>
                 {/* Stage selector in Drawer */}
                 <div style={{ marginBottom: 20 }}>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, color: "#475569", marginBottom: 6 }}>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, color: "var(--text-main)", marginBottom: 6 }}>
                     {t("leads.stage")}
                   </label>
                   <select
@@ -1373,7 +1373,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "8px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       fontWeight: 700,
                       outline: "none",
@@ -1399,7 +1399,7 @@ export default function Leads() {
                         borderRadius: 8,
                         border: "none",
                         background: "#25D366",
-                        color: "#fff",
+                        color: "var(--bg-card)",
                         fontSize: 13,
                         fontWeight: 700,
                         cursor: "pointer",
@@ -1423,8 +1423,8 @@ export default function Leads() {
                         padding: "9px 12px",
                         borderRadius: 8,
                         border: "1px solid #10b981",
-                        background: "#ecfdf5",
-                        color: "#059669",
+                        background: "rgba(16, 185, 129, 0.1)",
+                        color: "var(--success)",
                         fontSize: 13,
                         fontWeight: 700,
                         cursor: "pointer",
@@ -1443,8 +1443,8 @@ export default function Leads() {
                         flex: 1,
                         padding: "9px 12px",
                         borderRadius: 8,
-                        background: "#ecfdf5",
-                        color: "#059669",
+                        background: "rgba(16, 185, 129, 0.1)",
+                        color: "var(--success)",
                         fontSize: 12,
                         fontWeight: 700,
                         textAlign: "center",
@@ -1459,10 +1459,10 @@ export default function Leads() {
                 {/* Contact & Lead Info Card */}
                 <div
                   style={{
-                    background: "#f8fafc",
+                    background: "var(--bg-app)",
                     borderRadius: 12,
                     padding: 14,
-                    border: "1px solid #e2e8f0",
+                    border: "1px solid var(--border-color)",
                     marginBottom: 20,
                     fontSize: 13,
                     display: "flex",
@@ -1472,18 +1472,18 @@ export default function Leads() {
                 >
                   {selectedLead.phone && (
                     <div>
-                      <span style={{ color: "#64748b" }}>📞 {t("leads.phone")}:</span>{" "}
+                      <span style={{ color: "var(--text-muted)" }}>📞 {t("leads.phone")}:</span>{" "}
                       <b>{selectedLead.phone}</b>
                     </div>
                   )}
                   {selectedLead.email && (
                     <div>
-                      <span style={{ color: "#64748b" }}>✉️ {t("leads.email")}:</span>{" "}
+                      <span style={{ color: "var(--text-muted)" }}>✉️ {t("leads.email")}:</span>{" "}
                       <b>{selectedLead.email}</b>
                     </div>
                   )}
                   <div>
-                    <span style={{ color: "#64748b" }}>💰 {t("leads.estimatedValue")}:</span>{" "}
+                    <span style={{ color: "var(--text-muted)" }}>💰 {t("leads.estimatedValue")}:</span>{" "}
                     <b>
                       {selectedLead.estimatedValue != null
                         ? `${selectedLead.estimatedValue.toLocaleString("fr-DZ")} ${agencyCurrency}`
@@ -1491,7 +1491,7 @@ export default function Leads() {
                     </b>
                   </div>
                   <div>
-                    <span style={{ color: "#64748b" }}>📅 {t("leads.followUpDate")}:</span>{" "}
+                    <span style={{ color: "var(--text-muted)" }}>📅 {t("leads.followUpDate")}:</span>{" "}
                     <b>
                       {selectedLead.followUpDate
                         ? new Date(selectedLead.followUpDate).toLocaleDateString("fr-DZ")
@@ -1499,20 +1499,20 @@ export default function Leads() {
                     </b>
                   </div>
                   <div>
-                    <span style={{ color: "#64748b" }}>👤 {t("leads.assignedTo")}:</span>{" "}
+                    <span style={{ color: "var(--text-muted)" }}>👤 {t("leads.assignedTo")}:</span>{" "}
                     <b>{selectedLead.assignedTo?.name || t("leads.chooseAssignee")}</b>
                   </div>
                   {selectedLead.lostReason && (
-                    <div style={{ color: "#dc2626" }}>
+                    <div style={{ color: "var(--danger)" }}>
                       <span>⚠️ {t("leads.lostReason")}:</span> <b>{selectedLead.lostReason}</b>
                     </div>
                   )}
                   {selectedLead.notes && (
-                    <div style={{ marginTop: 4, paddingTop: 6, borderTop: "1px solid #e2e8f0" }}>
-                      <span style={{ color: "#64748b", display: "block", marginBottom: 2 }}>
+                    <div style={{ marginTop: 4, paddingTop: 6, borderTop: "1px solid var(--border-color)" }}>
+                      <span style={{ color: "var(--text-muted)", display: "block", marginBottom: 2 }}>
                         📝 {t("leads.notes")}:
                       </span>
-                      <div style={{ whiteSpace: "pre-wrap", color: "#334155" }}>
+                      <div style={{ whiteSpace: "pre-wrap", color: "var(--text-main)" }}>
                         {selectedLead.notes}
                       </div>
                     </div>
@@ -1525,7 +1525,7 @@ export default function Leads() {
                     style={{
                       fontSize: 15,
                       fontWeight: 700,
-                      color: "#0f172a",
+                      color: "var(--text-main)",
                       margin: "0 0 12px",
                       display: "flex",
                       alignItems: "center",
@@ -1547,7 +1547,7 @@ export default function Leads() {
                         width: "100%",
                         padding: "10px 12px",
                         borderRadius: 8,
-                        border: "1px solid #cbd5e1",
+                        border: "1px solid var(--border-color)",
                         fontSize: 13,
                         outline: "none",
                         boxSizing: "border-box",
@@ -1564,8 +1564,8 @@ export default function Leads() {
                           padding: "8px 16px",
                           borderRadius: 8,
                           border: "none",
-                          background: "#2563eb",
-                          color: "#fff",
+                          background: "var(--primary-color)",
+                          color: "var(--bg-card)",
                           fontSize: 13,
                           fontWeight: 700,
                           cursor: noteSubmitting || !newNote.trim() ? "not-allowed" : "pointer",
@@ -1584,9 +1584,9 @@ export default function Leads() {
                         style={{
                           padding: "20px 12px",
                           textAlign: "center",
-                          color: "#94a3b8",
+                          color: "var(--text-muted)",
                           fontSize: 12,
-                          background: "#f8fafc",
+                          background: "var(--bg-app)",
                           borderRadius: 8,
                         }}
                       >
@@ -1597,10 +1597,10 @@ export default function Leads() {
                         <div
                           key={n.id}
                           style={{
-                            background: "#f8fafc",
+                            background: "var(--bg-app)",
                             borderRadius: 10,
                             padding: "12px 14px",
-                            border: "1px solid #e2e8f0",
+                            border: "1px solid var(--border-color)",
                           }}
                         >
                           <div
@@ -1611,10 +1611,10 @@ export default function Leads() {
                               marginBottom: 6,
                             }}
                           >
-                            <span style={{ fontWeight: 700, fontSize: 12, color: "#334155" }}>
+                            <span style={{ fontWeight: 700, fontSize: 12, color: "var(--text-main)" }}>
                               👤 {n.author?.name || "Membre"}
                             </span>
-                            <span style={{ fontSize: 11, color: "#94a3b8" }}>
+                            <span style={{ fontSize: 11, color: "var(--text-muted)" }}>
                               {new Date(n.createdAt).toLocaleDateString("fr-DZ")}{" "}
                               {new Date(n.createdAt).toLocaleTimeString("fr-DZ", {
                                 hour: "2-digit",
@@ -1622,7 +1622,7 @@ export default function Leads() {
                               })}
                             </span>
                           </div>
-                          <div style={{ fontSize: 13, color: "#1e293b", whiteSpace: "pre-wrap" }}>
+                          <div style={{ fontSize: 13, color: "var(--text-main)", whiteSpace: "pre-wrap" }}>
                             {n.content}
                           </div>
                         </div>
@@ -1653,7 +1653,7 @@ export default function Leads() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               padding: 24,
               maxWidth: 580,
@@ -1674,7 +1674,7 @@ export default function Leads() {
                 marginBottom: 20,
               }}
             >
-              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "#0f172a" }}>
+              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
                 {editingLead ? t("leads.editTitle") : t("leads.createTitle")}
               </h2>
               <button
@@ -1682,13 +1682,13 @@ export default function Leads() {
                 onClick={() => setShowModal(false)}
                 style={{
                   border: "none",
-                  background: "#f1f5f9",
+                  background: "var(--bg-hover)",
                   width: 30,
                   height: 30,
                   borderRadius: "50%",
                   cursor: "pointer",
                   fontSize: 14,
-                  color: "#64748b",
+                  color: "var(--text-muted)",
                 }}
               >
                 ✕
@@ -1711,7 +1711,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1732,7 +1732,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1754,7 +1754,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1776,7 +1776,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1797,10 +1797,10 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -1824,10 +1824,10 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -1855,7 +1855,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1876,7 +1876,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1896,10 +1896,10 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -1915,7 +1915,7 @@ export default function Leads() {
                 {/* Lost Reason (conditional) */}
                 {form.stage === "LOST" && (
                   <div style={{ gridColumn: "span 2" }}>
-                    <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "#dc2626" }}>
+                    <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "var(--danger)" }}>
                       {t("leads.lostReason")}
                     </label>
                     <input
@@ -1949,7 +1949,7 @@ export default function Leads() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1967,7 +1967,7 @@ export default function Leads() {
                   gap: 10,
                   marginTop: 20,
                   paddingTop: 16,
-                  borderTop: "1px solid #e2e8f0",
+                  borderTop: "1px solid var(--border-color)",
                 }}
               >
                 <button
@@ -1976,9 +1976,9 @@ export default function Leads() {
                   style={{
                     padding: "9px 16px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#475569",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-main)",
                     fontSize: 13,
                     cursor: "pointer",
                   }}
@@ -1992,8 +1992,8 @@ export default function Leads() {
                     padding: "9px 20px",
                     borderRadius: 8,
                     border: "none",
-                    background: "#2563eb",
-                    color: "#fff",
+                    background: "var(--primary-color)",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 700,
                     cursor: submitting ? "not-allowed" : "pointer",

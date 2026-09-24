@@ -55,7 +55,7 @@ export default function InvoicePDF({ invoice, onClose }) {
       const canvas = await html2canvas(previewRef.current, {
         scale: 2,
         useCORS: true,
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--bg-card)",
       });
       const img = canvas.toDataURL("image/png");
       const pdf = new jsPDF({ unit: "mm", format: "a4" });
@@ -106,7 +106,7 @@ export default function InvoicePDF({ invoice, onClose }) {
     >
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 16,
           width: "100%",
           maxWidth: 700,
@@ -121,10 +121,10 @@ export default function InvoicePDF({ invoice, onClose }) {
             justifyContent: "space-between",
             alignItems: "center",
             padding: "16px 24px",
-            borderBottom: "1px solid #e2e8f0",
+            borderBottom: "1px solid var(--border-color)",
             position: "sticky",
             top: 0,
-            background: "#fff",
+            background: "var(--bg-card)",
             zIndex: 10,
             flexWrap: "wrap",
             gap: 10,
@@ -140,10 +140,10 @@ export default function InvoicePDF({ invoice, onClose }) {
               style={{
                 padding: "6px 10px",
                 borderRadius: 8,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 fontSize: 13,
                 outline: "none",
-                background: "#fff",
+                background: "var(--bg-card)",
               }}
             >
               {TEMPLATES.map((t) => (
@@ -155,14 +155,14 @@ export default function InvoicePDF({ invoice, onClose }) {
             <button
               onClick={handleDownload}
               disabled={downloading}
-              style={{ ...btnStyle, background: "#10b981", color: "#fff", opacity: downloading ? 0.7 : 1 }}
+              style={{ ...btnStyle, background: "var(--success)", color: "var(--bg-card)", opacity: downloading ? 0.7 : 1 }}
             >
               {downloading ? "..." : t("inv.download")}
             </button>
-            <button onClick={handlePrint} style={{ ...btnStyle, background: "#3b82f6", color: "#fff" }}>
+            <button onClick={handlePrint} style={{ ...btnStyle, background: "var(--primary-color)", color: "var(--bg-card)" }}>
               {t("inv.print")}
             </button>
-            <button onClick={onClose} style={{ ...btnStyle, background: "#f1f5f9", fontWeight: 400 }}>
+            <button onClick={onClose} style={{ ...btnStyle, background: "var(--bg-hover)", fontWeight: 400 }}>
               {t("common.close")}
             </button>
           </div>
@@ -170,7 +170,7 @@ export default function InvoicePDF({ invoice, onClose }) {
 
         <div
           ref={previewRef}
-          style={{ background: "#fff" }}
+          style={{ background: "var(--bg-card)" }}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>

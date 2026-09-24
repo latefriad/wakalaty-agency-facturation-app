@@ -7,8 +7,8 @@
 
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
-  background: #f8fafc;
-  color: #0f172a;
+  background: var(--bg-app);
+  color: var(--text-main);
   min-height: 100vh;
 }
 
@@ -18,7 +18,7 @@ body {
   min-height: 100vh;
   width: 100%;
   position: relative;
-  background: #f8fafc;
+  background: var(--bg-app);
 }
 
 .main-content {
@@ -39,7 +39,7 @@ body {
   right: 0;
   left: 0;
   height: 60px;
-  background: #0f172a;
+  background: var(--text-main);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0 18px;
   align-items: center;
@@ -49,7 +49,7 @@ body {
 }
 
 .mobile-topbar-title {
-  color: #fff;
+  color: var(--bg-card);
   font-weight: 700;
   font-size: 16px;
   display: flex;
@@ -60,7 +60,7 @@ body {
 .hamburger-btn {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fff;
+  color: var(--bg-card);
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -118,8 +118,8 @@ body {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   border-radius: 12px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   margin-bottom: 20px;
 }
@@ -145,7 +145,7 @@ body {
 }
 
 .modal-box {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 20px;
   padding: clamp(20px, 4vw, 32px);
   width: 100%;
@@ -153,7 +153,7 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
 }
 
 /* ── Form Inputs ── */
@@ -161,25 +161,25 @@ body {
   width: 100%;
   padding: 11px 14px;
   border-radius: 10px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-color);
   font-size: 14px;
   outline: none;
   box-sizing: border-box;
   font-family: inherit;
   text-align: start;
-  color: #0f172a;
-  background: #fff;
+  color: var(--text-main);
+  background: var(--bg-card);
   transition: all 0.2s;
 }
 
 .form-input:focus {
-  border-color: #2563eb;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .form-input:disabled {
-  background: #f1f5f9;
-  color: #94a3b8;
+  background: var(--bg-hover);
+  color: var(--text-muted);
   cursor: not-allowed;
 }
 
@@ -188,13 +188,13 @@ body {
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #334155;
+  color: var(--text-main);
 }
 
 /* ── Buttons ── */
 .btn-primary {
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-  color: #fff;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+  color: var(--bg-card);
   border: none;
   border-radius: 10px;
   padding: 11px 22px;
@@ -208,7 +208,7 @@ body {
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  background: linear-gradient(135deg, var(--primary-hover) 0%, #1e40af 100%);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
 }
@@ -235,9 +235,9 @@ body {
 }
 
 .btn-secondary {
-  background: #f1f5f9;
-  color: #334155;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-hover);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
@@ -248,7 +248,7 @@ body {
 }
 
 .btn-secondary:hover {
-  background: #e2e8f0;
+  background: var(--border-color);
 }
 
 /* ── Page Header ── */
@@ -264,17 +264,17 @@ body {
 .page-title {
   font-size: clamp(20px, 3vw, 26px);
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-main);
   letter-spacing: -0.02em;
   margin: 0;
 }
 
 /* ── Card Component ── */
 .card {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 24px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
   transition: box-shadow 0.2s;
 }
@@ -359,6 +359,6 @@ body {
     width: 100% !important;
   }
   body {
-    background: #fff !important;
+    background: var(--bg-card) !important;
   }
 }

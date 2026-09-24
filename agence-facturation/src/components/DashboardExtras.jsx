@@ -71,7 +71,7 @@ export default function DashboardExtras({ range }) {
 
   if (!extras && loading) {
     return (
-      <div style={{ marginTop: 28, padding: 30, textAlign: "center", color: "#94a3b8", fontSize: 14 }}>
+      <div style={{ marginTop: 28, padding: 30, textAlign: "center", color: "var(--text-muted)", fontSize: 14 }}>
         ⏳ {t("common.loading")}...
       </div>
     );
@@ -80,7 +80,7 @@ export default function DashboardExtras({ range }) {
   if (!extras) return null;
 
   const collectionRate = extras.collectionRate?.rate ?? 0;
-  const collectionColor = collectionRate >= 80 ? "#10b981" : collectionRate >= 50 ? "#f59e0b" : "#ef4444";
+  const collectionColor = collectionRate >= 80 ? "#10b981" : collectionRate >= 50 ? "#f59e0b" : "var(--danger)";
   const collectionBg = collectionRate >= 80 ? "#d1fae5" : collectionRate >= 50 ? "#fef3c7" : "#fee2e2";
 
   const goalProgress = extras.goalProgress?.progress ?? 0;
@@ -110,13 +110,13 @@ export default function DashboardExtras({ range }) {
               height: 32,
               borderRadius: 8,
               background: "#eff6ff",
-              color: "#2563eb",
+              color: "var(--primary-color)",
               fontSize: 16,
             }}
           >
             ⚡
           </span>
-          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#1e293b" }}>
+          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "var(--text-main)" }}>
             {t("dashExtras.title")}
           </h2>
         </div>
@@ -130,10 +130,10 @@ export default function DashboardExtras({ range }) {
             style={{
               padding: "6px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
-              background: "#fff",
-              color: "#334155",
+              background: "var(--bg-card)",
+              color: "var(--text-main)",
               cursor: "pointer",
             }}
           />
@@ -152,10 +152,10 @@ export default function DashboardExtras({ range }) {
         {/* Card 1: MRR */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "20px 22px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -169,7 +169,7 @@ export default function DashboardExtras({ range }) {
                 height: 48,
                 borderRadius: 12,
                 background: "#eff6ff",
-                color: "#2563eb",
+                color: "var(--primary-color)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -180,10 +180,10 @@ export default function DashboardExtras({ range }) {
               🔄
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ fontSize: 13, color: "#64748b", fontWeight: 600 }}>
+              <div style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 600 }}>
                 {t("dashExtras.mrr")}
               </div>
-              <div style={{ fontSize: 22, fontWeight: 700, color: "#2563eb", marginTop: 2 }}>
+              <div style={{ fontSize: 22, fontWeight: 700, color: "var(--primary-color)", marginTop: 2 }}>
                 {fmt(extras.mrr)} <span style={{ fontSize: 14, fontWeight: 600 }}>{cur}</span>
               </div>
             </div>
@@ -191,11 +191,11 @@ export default function DashboardExtras({ range }) {
           <div
             style={{
               fontSize: 12,
-              color: "#64748b",
-              background: "#f8fafc",
+              color: "var(--text-muted)",
+              background: "var(--bg-app)",
               padding: "8px 12px",
               borderRadius: 8,
-              border: "1px solid #f1f5f9",
+              border: "1px solid var(--border-color)",
             }}
           >
             {t("dashExtras.activeSubscriptions", { count: extras.activeSubscriptionsCount })}
@@ -205,10 +205,10 @@ export default function DashboardExtras({ range }) {
         {/* Card 2: Collection Rate */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "20px 22px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -233,7 +233,7 @@ export default function DashboardExtras({ range }) {
               🎯
             </div>
             <div style={{ minWidth: 0, flex: 1 }}>
-              <div style={{ fontSize: 13, color: "#64748b", fontWeight: 600 }}>
+              <div style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 600 }}>
                 {t("dashExtras.collectionRate")}
               </div>
               <div style={{ fontSize: 22, fontWeight: 700, color: collectionColor, marginTop: 2 }}>
@@ -245,7 +245,7 @@ export default function DashboardExtras({ range }) {
           <div>
             <div
               style={{
-                background: "#f1f5f9",
+                background: "var(--bg-hover)",
                 borderRadius: 99,
                 height: 8,
                 overflow: "hidden",
@@ -262,7 +262,7 @@ export default function DashboardExtras({ range }) {
                 }}
               />
             </div>
-            <div style={{ fontSize: 11, color: "#64748b", textAlign: "start" }}>
+            <div style={{ fontSize: 11, color: "var(--text-muted)", textAlign: "start" }}>
               {t("dashExtras.collectedVsBilled", {
                 received: `${fmt(extras.collectionRate?.totalReceived)} ${cur}`,
                 billed: `${fmt(extras.collectionRate?.totalBilled)} ${cur}`,
@@ -274,10 +274,10 @@ export default function DashboardExtras({ range }) {
         {/* Card 3: Monthly Revenue Goal */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "20px 22px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
@@ -303,19 +303,19 @@ export default function DashboardExtras({ range }) {
                 🏆
               </div>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 13, color: "#64748b", fontWeight: 600 }}>
+                <div style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 600 }}>
                   {t("dashExtras.goalTitle")}
                 </div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: "#1e293b", marginTop: 2 }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "var(--text-main)", marginTop: 2 }}>
                   {goalTarget > 0 ? (
                     <>
                       {fmt(goalCollected)}{" "}
-                      <span style={{ fontSize: 13, color: "#64748b", fontWeight: 400 }}>
+                      <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 400 }}>
                         / {fmt(goalTarget)} {cur}
                       </span>
                     </>
                   ) : (
-                    <span style={{ fontSize: 13, color: "#94a3b8", fontWeight: 500 }}>
+                    <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>
                       {t("dashExtras.noGoalSet")}
                     </span>
                   )}
@@ -331,9 +331,9 @@ export default function DashboardExtras({ range }) {
                 style={{
                   padding: "6px 12px",
                   borderRadius: 8,
-                  border: "1px solid #e2e8f0",
-                  background: "#f8fafc",
-                  color: "#475569",
+                  border: "1px solid var(--border-color)",
+                  background: "var(--bg-app)",
+                  color: "var(--text-main)",
                   fontSize: 12,
                   fontWeight: 600,
                   cursor: "pointer",
@@ -355,14 +355,14 @@ export default function DashboardExtras({ range }) {
                 marginBottom: 4,
               }}
             >
-              <span style={{ color: "#64748b" }}>{t("dashExtras.goalHint")}</span>
+              <span style={{ color: "var(--text-muted)" }}>{t("dashExtras.goalHint")}</span>
               <span style={{ color: goalProgress >= 100 ? "#10b981" : "#8b5cf6" }}>
                 {goalProgress}%
               </span>
             </div>
             <div
               style={{
-                background: "#f1f5f9",
+                background: "var(--bg-hover)",
                 borderRadius: 99,
                 height: 8,
                 overflow: "hidden",
@@ -385,30 +385,30 @@ export default function DashboardExtras({ range }) {
       {/* Top 5 Clients by Profit Table */}
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 14,
           padding: 24,
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
         }}
       >
         <div style={{ marginBottom: 14 }}>
           <h3 style={{ margin: "0 0 6px", fontSize: 15, fontWeight: 600 }}>
             {t("dashExtras.topClients")}
           </h3>
-          <div style={{ fontSize: 11, color: "#94a3b8" }}>
+          <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
             {t("dashExtras.topClientsHint")}
           </div>
         </div>
 
         {(!extras.topClientsProfit || extras.topClientsProfit.length === 0) ? (
-          <div style={{ textAlign: "center", color: "#94a3b8", padding: "24px 0", fontSize: 13 }}>
+          <div style={{ textAlign: "center", color: "var(--text-muted)", padding: "24px 0", fontSize: 13 }}>
             {t("dashExtras.noClientsYet")}
           </div>
         ) : (
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
               <thead>
-                <tr style={{ textAlign: "start", color: "#64748b", fontSize: 12 }}>
+                <tr style={{ textAlign: "start", color: "var(--text-muted)", fontSize: 12 }}>
                   <th style={{ padding: "8px 10px", textAlign: "start" }}>{t("dash.client")}</th>
                   <th style={{ padding: "8px 10px", textAlign: "end" }}>{t("dash.received")}</th>
                   <th style={{ padding: "8px 10px", textAlign: "end" }}>{t("dash.outstandingCard")}</th>
@@ -418,18 +418,18 @@ export default function DashboardExtras({ range }) {
               </thead>
               <tbody>
                 {extras.topClientsProfit.map((c, idx) => (
-                  <tr key={c.clientId || idx} style={{ borderTop: "1px solid #f1f5f9" }}>
+                  <tr key={c.clientId || idx} style={{ borderTop: "1px solid var(--border-color)" }}>
                     <td style={{ padding: "10px 10px" }}>
-                      <div style={{ fontWeight: 600, color: "#1e293b" }}>{c.name}</div>
+                      <div style={{ fontWeight: 600, color: "var(--text-main)" }}>{c.name}</div>
                       {c.company && (
-                        <div style={{ fontSize: 11, color: "#64748b" }}>{c.company}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{c.company}</div>
                       )}
                     </td>
                     <td
                       style={{
                         padding: "10px 10px",
                         textAlign: "end",
-                        color: "#10b981",
+                        color: "var(--success)",
                         fontWeight: 600,
                       }}
                     >
@@ -439,7 +439,7 @@ export default function DashboardExtras({ range }) {
                       style={{
                         padding: "10px 10px",
                         textAlign: "end",
-                        color: "#f59e0b",
+                        color: "var(--warning)",
                       }}
                     >
                       {fmt(c.outstanding)}
@@ -448,7 +448,7 @@ export default function DashboardExtras({ range }) {
                       style={{
                         padding: "10px 10px",
                         textAlign: "end",
-                        color: "#64748b",
+                        color: "var(--text-muted)",
                       }}
                     >
                       {fmt(c.directCosts)}
@@ -458,7 +458,7 @@ export default function DashboardExtras({ range }) {
                         padding: "10px 10px",
                         textAlign: "end",
                         fontWeight: 700,
-                        color: c.profit >= 0 ? "#10b981" : "#ef4444",
+                        color: c.profit >= 0 ? "#10b981" : "var(--danger)",
                       }}
                     >
                       {fmt(c.profit)} {cur}
@@ -488,7 +488,7 @@ export default function DashboardExtras({ range }) {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               width: "100%",
               maxWidth: 440,
@@ -517,7 +517,7 @@ export default function DashboardExtras({ range }) {
                   border: "none",
                   fontSize: 18,
                   cursor: "pointer",
-                  color: "#94a3b8",
+                  color: "var(--text-muted)",
                 }}
               >
                 ✕
@@ -532,7 +532,7 @@ export default function DashboardExtras({ range }) {
                     fontSize: 13,
                     fontWeight: 600,
                     marginBottom: 6,
-                    color: "#334155",
+                    color: "var(--text-main)",
                   }}
                 >
                   {t("dashExtras.targetAmount")}
@@ -549,7 +549,7 @@ export default function DashboardExtras({ range }) {
                     width: "100%",
                     padding: "10px 14px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid var(--border-color)",
                     fontSize: 15,
                     boxSizing: "border-box",
                   }}
@@ -563,9 +563,9 @@ export default function DashboardExtras({ range }) {
                   style={{
                     padding: "9px 16px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#64748b",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-muted)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -580,8 +580,8 @@ export default function DashboardExtras({ range }) {
                     padding: "9px 20px",
                     borderRadius: 8,
                     border: "none",
-                    background: "#2563eb",
-                    color: "#fff",
+                    background: "var(--primary-color)",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: goalSaving ? "not-allowed" : "pointer",

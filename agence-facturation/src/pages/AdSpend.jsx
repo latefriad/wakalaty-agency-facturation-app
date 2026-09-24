@@ -15,9 +15,9 @@ import {
 
 const PLATFORMS = [
   { id: "META", key: "platform.META", icon: "🌐", color: "#1877F2", bg: "#e7f3ff" },
-  { id: "TIKTOK", key: "platform.TIKTOK", icon: "🎵", color: "#000000", bg: "#f1f5f9" },
-  { id: "GOOGLE", key: "platform.GOOGLE", icon: "🔍", color: "#EA4335", bg: "#fef2f2" },
-  { id: "OTHER", key: "platform.OTHER", icon: "📢", color: "#475569", bg: "#f8fafc" },
+  { id: "TIKTOK", key: "platform.TIKTOK", icon: "🎵", color: "#000000", bg: "var(--bg-hover)" },
+  { id: "GOOGLE", key: "platform.GOOGLE", icon: "🔍", color: "#EA4335", bg: "rgba(239, 68, 68, 0.1)" },
+  { id: "OTHER", key: "platform.OTHER", icon: "📢", color: "var(--text-main)", bg: "var(--bg-app)" },
 ];
 
 function currentMonthStr() {
@@ -371,7 +371,7 @@ export default function AdSpend() {
       <div style={{ padding: 32, textAlign: "center", direction: "inherit" }}>
         <div style={{ fontSize: 48, marginBottom: 12 }}>🔒</div>
         <h2>{t("common.error")}</h2>
-        <p style={{ color: "#64748b" }}>Accès restreint aux rôles ADMIN, ACCOUNTANT, ADS.</p>
+        <p style={{ color: "var(--text-muted)" }}>Accès restreint aux rôles ADMIN, ACCOUNTANT, ADS.</p>
       </div>
     );
   }
@@ -392,11 +392,11 @@ export default function AdSpend() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 28 }}>📊</span>
-            <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "#0f172a" }}>
+            <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "var(--text-main)" }}>
               {t("adspend.title")}
             </h1>
           </div>
-          <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748b" }}>
+          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--text-muted)" }}>
             {t("adspend.subtitle")}
           </p>
         </div>
@@ -413,9 +413,9 @@ export default function AdSpend() {
               gap: 8,
               padding: "10px 16px",
               borderRadius: 10,
-              border: "1px solid #cbd5e1",
-              background: "#fff",
-              color: "#334155",
+              border: "1px solid var(--border-color)",
+              background: "var(--bg-card)",
+              color: "var(--text-main)",
               fontSize: 13,
               fontWeight: 700,
               cursor: exporting ? "not-allowed" : "pointer",
@@ -436,8 +436,8 @@ export default function AdSpend() {
               padding: "10px 18px",
               borderRadius: 10,
               border: "none",
-              background: "#2563eb",
-              color: "#fff",
+              background: "var(--primary-color)",
+              color: "var(--bg-card)",
               fontSize: 14,
               fontWeight: 700,
               cursor: "pointer",
@@ -461,10 +461,10 @@ export default function AdSpend() {
         {/* Total Spend */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -475,8 +475,8 @@ export default function AdSpend() {
               width: 44,
               height: 44,
               borderRadius: 12,
-              background: "#fef2f2",
-              color: "#ef4444",
+              background: "rgba(239, 68, 68, 0.1)",
+              color: "var(--danger)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -486,10 +486,10 @@ export default function AdSpend() {
             💸
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("adspend.totalSpend")}
             </div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-main)" }}>
               {summaryData.totalSpend.toLocaleString("fr-DZ")} {agencyCurrency}
             </div>
           </div>
@@ -498,10 +498,10 @@ export default function AdSpend() {
         {/* Total Billed */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -513,7 +513,7 @@ export default function AdSpend() {
               height: 44,
               borderRadius: 12,
               background: "#eff6ff",
-              color: "#2563eb",
+              color: "var(--primary-color)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -523,10 +523,10 @@ export default function AdSpend() {
             🧾
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("adspend.totalBilled")}
             </div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-main)" }}>
               {summaryData.totalBilled.toLocaleString("fr-DZ")} {agencyCurrency}
             </div>
           </div>
@@ -535,10 +535,10 @@ export default function AdSpend() {
         {/* Total Margin */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -549,8 +549,8 @@ export default function AdSpend() {
               width: 44,
               height: 44,
               borderRadius: 12,
-              background: "#ecfdf5",
-              color: "#059669",
+              background: "rgba(16, 185, 129, 0.1)",
+              color: "var(--success)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -560,14 +560,14 @@ export default function AdSpend() {
             📈
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("adspend.totalMargin")}
             </div>
             <div
               style={{
                 fontSize: 20,
                 fontWeight: 800,
-                color: summaryData.totalMargin >= 0 ? "#059669" : "#dc2626",
+                color: summaryData.totalMargin >= 0 ? "#059669" : "var(--danger)",
               }}
             >
               {summaryData.totalMargin.toLocaleString("fr-DZ")} {agencyCurrency}
@@ -578,10 +578,10 @@ export default function AdSpend() {
         {/* Avg ROAS */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -593,7 +593,7 @@ export default function AdSpend() {
               height: 44,
               borderRadius: 12,
               background: "#fef3c7",
-              color: "#d97706",
+              color: "var(--warning)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -603,10 +603,10 @@ export default function AdSpend() {
             🎯
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("adspend.avgROAS")}
             </div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-main)" }}>
               {summaryData.avgROAS > 0 ? `${summaryData.avgROAS}x` : "—"}
             </div>
           </div>
@@ -615,10 +615,10 @@ export default function AdSpend() {
         {/* Avg CPA */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "16px 20px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 14,
@@ -640,10 +640,10 @@ export default function AdSpend() {
             📦
           </div>
           <div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#64748b" }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: "var(--text-muted)" }}>
               {t("adspend.avgCPA")}
             </div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "var(--text-main)" }}>
               {summaryData.avgCPA > 0 ? `${summaryData.avgCPA.toLocaleString("fr-DZ")} ${agencyCurrency}` : "—"}
             </div>
           </div>
@@ -654,10 +654,10 @@ export default function AdSpend() {
       {monthlyChart.length > 0 && (
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: 24,
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             marginBottom: 24,
           }}
         >
@@ -672,10 +672,10 @@ export default function AdSpend() {
             }}
           >
             <div>
-              <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+              <h3 style={{ margin: "0 0 4px", fontSize: 16, fontWeight: 700, color: "var(--text-main)" }}>
                 {t("adspend.chartTitle")}
               </h3>
-              <div style={{ fontSize: 12, color: "#64748b" }}>
+              <div style={{ fontSize: 12, color: "var(--text-muted)" }}>
                 {monthlyChart.length} mois enregistrés
               </div>
             </div>
@@ -683,11 +683,11 @@ export default function AdSpend() {
             {/* Legend */}
             <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 12, fontWeight: 600 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 12, height: 12, borderRadius: 3, background: "#ef4444" }} />
+                <div style={{ width: 12, height: 12, borderRadius: 3, background: "var(--danger)" }} />
                 <span>{t("adspend.chartSpend")}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <div style={{ width: 12, height: 12, borderRadius: 3, background: "#10b981" }} />
+                <div style={{ width: 12, height: 12, borderRadius: 3, background: "var(--success)" }} />
                 <span>{t("adspend.chartRevenue")}</span>
               </div>
             </div>
@@ -727,7 +727,7 @@ export default function AdSpend() {
                       style={{
                         width: 16,
                         height: `${spendHeight}px`,
-                        background: "#ef4444",
+                        background: "var(--danger)",
                         borderRadius: "4px 4px 0 0",
                         transition: "height 0.3s ease",
                       }}
@@ -736,7 +736,7 @@ export default function AdSpend() {
                       style={{
                         width: 16,
                         height: `${revenueHeight}px`,
-                        background: "#10b981",
+                        background: "var(--success)",
                         borderRadius: "4px 4px 0 0",
                         transition: "height 0.3s ease",
                       }}
@@ -745,11 +745,11 @@ export default function AdSpend() {
 
                   {/* Month Label & ROAS tag */}
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: "#334155" }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "var(--text-main)" }}>
                       {m.month.slice(2)}
                     </div>
                     {m.roas > 0 && (
-                      <div style={{ fontSize: 10, fontWeight: 800, color: m.roas >= 3 ? "#059669" : "#d97706" }}>
+                      <div style={{ fontSize: 10, fontWeight: 800, color: m.roas >= 3 ? "#059669" : "var(--warning)" }}>
                         {m.roas}x
                       </div>
                     )}
@@ -764,10 +764,10 @@ export default function AdSpend() {
       {/* ── Filters Toolbar ── */}
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 14,
           padding: "12px 18px",
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
           marginBottom: 20,
           display: "flex",
           alignItems: "center",
@@ -777,7 +777,7 @@ export default function AdSpend() {
       >
         {/* Month Picker */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 12, color: "#64748b", fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
             {t("adspend.filterMonth")}:
           </span>
           <input
@@ -787,7 +787,7 @@ export default function AdSpend() {
             style={{
               padding: "7px 10px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
             }}
@@ -798,12 +798,12 @@ export default function AdSpend() {
               onClick={() => setSelectedMonth("")}
               style={{
                 border: "none",
-                background: "#f1f5f9",
+                background: "var(--bg-hover)",
                 borderRadius: 6,
                 padding: "6px 8px",
                 fontSize: 11,
                 cursor: "pointer",
-                color: "#64748b",
+                color: "var(--text-muted)",
               }}
             >
               ✕ {t("adspend.allMonths")}
@@ -813,7 +813,7 @@ export default function AdSpend() {
 
         {/* Client Filter */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 12, color: "#64748b", fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
             {t("adspend.filterClient")}:
           </span>
           <select
@@ -822,10 +822,10 @@ export default function AdSpend() {
             style={{
               padding: "8px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
-              background: "#fff",
+              background: "var(--bg-card)",
             }}
           >
             <option value="">{t("adspend.allClients")}</option>
@@ -839,7 +839,7 @@ export default function AdSpend() {
 
         {/* Platform Filter */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <span style={{ fontSize: 12, color: "#64748b", fontWeight: 600 }}>
+          <span style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 600 }}>
             {t("adspend.filterPlatform")}:
           </span>
           <select
@@ -848,10 +848,10 @@ export default function AdSpend() {
             style={{
               padding: "8px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
-              background: "#fff",
+              background: "var(--bg-card)",
             }}
           >
             <option value="">{t("adspend.allPlatforms")}</option>
@@ -874,7 +874,7 @@ export default function AdSpend() {
               width: "100%",
               padding: "8px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               outline: "none",
               boxSizing: "border-box",
@@ -884,33 +884,33 @@ export default function AdSpend() {
       </div>
 
       {/* ── Table View (.table-wrapper) ── */}
-      <div className="table-wrapper" style={{ background: "#fff", borderRadius: 14, border: "1px solid #e2e8f0", overflowX: "auto" }}>
+      <div className="table-wrapper" style={{ background: "var(--bg-card)", borderRadius: 14, border: "1px solid var(--border-color)", overflowX: "auto" }}>
         {loading ? (
-          <div style={{ padding: 48, textAlign: "center", color: "#64748b" }}>
+          <div style={{ padding: 48, textAlign: "center", color: "var(--text-muted)" }}>
             ⏳ {t("common.loading") || "Chargement..."}
           </div>
         ) : entries.length === 0 ? (
-          <div style={{ padding: 48, textAlign: "center", color: "#94a3b8" }}>
+          <div style={{ padding: 48, textAlign: "center", color: "var(--text-muted)" }}>
             <div style={{ fontSize: 32, marginBottom: 8 }}>📊</div>
             <div>{t("adspend.noData")}</div>
           </div>
         ) : (
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
-              <tr style={{ background: "#f8fafc", borderBottom: "1px solid #e2e8f0", textAlign: "inherit" }}>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.filterMonth")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.client")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.filterPlatform")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.campaign")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.budget")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.spend")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.billed")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.orders")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.revenue")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.roas")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.cpa")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("adspend.margin")}</th>
-                <th style={{ padding: "12px 14px", fontWeight: 700, color: "#475569" }}>{t("common.actions")}</th>
+              <tr style={{ background: "var(--bg-app)", borderBottom: "1px solid var(--border-color)", textAlign: "inherit" }}>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.filterMonth")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.client")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.filterPlatform")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.campaign")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.budget")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.spend")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.billed")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.orders")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.revenue")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.roas")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.cpa")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("adspend.margin")}</th>
+                <th style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>{t("common.actions")}</th>
               </tr>
             </thead>
             <tbody>
@@ -918,19 +918,19 @@ export default function AdSpend() {
                 const pMeta = PLATFORMS.find((p) => p.id === item.platform) || PLATFORMS[0];
 
                 return (
-                  <tr key={item.id} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  <tr key={item.id} style={{ borderBottom: "1px solid var(--border-color)" }}>
                     {/* Month */}
-                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "#334155" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>
                       {item.month}
                     </td>
 
                     {/* Client */}
                     <td style={{ padding: "12px 14px" }}>
-                      <div style={{ fontWeight: 700, color: "#0f172a" }}>
+                      <div style={{ fontWeight: 700, color: "var(--text-main)" }}>
                         {item.client?.name || "Client"}
                       </div>
                       {item.client?.company && (
-                        <div style={{ fontSize: 11, color: "#64748b" }}>{item.client.company}</div>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{item.client.company}</div>
                       )}
                     </td>
 
@@ -951,34 +951,34 @@ export default function AdSpend() {
                     </td>
 
                     {/* Campaign */}
-                    <td style={{ padding: "12px 14px", color: "#334155" }}>
+                    <td style={{ padding: "12px 14px", color: "var(--text-main)" }}>
                       {item.campaignName || "—"}
                     </td>
 
                     {/* Client Budget */}
-                    <td style={{ padding: "12px 14px", color: "#64748b" }}>
+                    <td style={{ padding: "12px 14px", color: "var(--text-muted)" }}>
                       {item.clientAdBudget > 0
                         ? `${item.clientAdBudget.toLocaleString("fr-DZ")} ${agencyCurrency}`
                         : "—"}
                     </td>
 
                     {/* Actual Spend */}
-                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "#ef4444" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "var(--danger)" }}>
                       {item.actualSpend.toLocaleString("fr-DZ")} {agencyCurrency}
                     </td>
 
                     {/* Amount Billed */}
-                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "#2563eb" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "var(--primary-color)" }}>
                       {item.amountBilled.toLocaleString("fr-DZ")} {agencyCurrency}
                     </td>
 
                     {/* Orders */}
-                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "#334155" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "var(--text-main)" }}>
                       {item.orders}
                     </td>
 
                     {/* Revenue */}
-                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "#059669" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: 700, color: "var(--success)" }}>
                       {item.revenueGenerated > 0
                         ? `${item.revenueGenerated.toLocaleString("fr-DZ")} ${agencyCurrency}`
                         : "—"}
@@ -990,7 +990,7 @@ export default function AdSpend() {
                     </td>
 
                     {/* CPA */}
-                    <td style={{ padding: "12px 14px", fontWeight: 600, color: "#475569" }}>
+                    <td style={{ padding: "12px 14px", fontWeight: 600, color: "var(--text-main)" }}>
                       {item.cpa > 0 ? `${item.cpa.toLocaleString("fr-DZ")} ${agencyCurrency}` : "—"}
                     </td>
 
@@ -999,7 +999,7 @@ export default function AdSpend() {
                       style={{
                         padding: "12px 14px",
                         fontWeight: 800,
-                        color: item.agencyMargin >= 0 ? "#059669" : "#dc2626",
+                        color: item.agencyMargin >= 0 ? "#059669" : "var(--danger)",
                       }}
                     >
                       {item.agencyMargin.toLocaleString("fr-DZ")} {agencyCurrency}
@@ -1013,8 +1013,8 @@ export default function AdSpend() {
                           onClick={() => openEditModal(item)}
                           title={t("common.edit")}
                           style={{
-                            border: "1px solid #e2e8f0",
-                            background: "#fff",
+                            border: "1px solid var(--border-color)",
+                            background: "var(--bg-card)",
                             borderRadius: 6,
                             padding: "4px 8px",
                             fontSize: 12,
@@ -1050,7 +1050,7 @@ export default function AdSpend() {
                           style={{
                             border: "1px solid #fecaca",
                             background: "#fff5f5",
-                            color: "#ef4444",
+                            color: "var(--danger)",
                             borderRadius: 6,
                             padding: "4px 8px",
                             fontSize: 12,
@@ -1087,7 +1087,7 @@ export default function AdSpend() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               padding: 24,
               maxWidth: 620,
@@ -1109,7 +1109,7 @@ export default function AdSpend() {
                 marginBottom: 20,
               }}
             >
-              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "#0f172a" }}>
+              <h2 style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
                 {editingEntry ? t("adspend.modalEditTitle") : t("adspend.modalCreateTitle")}
               </h2>
               <button
@@ -1117,13 +1117,13 @@ export default function AdSpend() {
                 onClick={() => setShowModal(false)}
                 style={{
                   border: "none",
-                  background: "#f1f5f9",
+                  background: "var(--bg-hover)",
                   width: 30,
                   height: 30,
                   borderRadius: "50%",
                   cursor: "pointer",
                   fontSize: 14,
-                  color: "#64748b",
+                  color: "var(--text-muted)",
                 }}
               >
                 ✕
@@ -1145,10 +1145,10 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -1175,7 +1175,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "8px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1195,10 +1195,10 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -1224,7 +1224,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1248,7 +1248,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1258,7 +1258,7 @@ export default function AdSpend() {
 
                 {/* Actual Spend */}
                 <div>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "#dc2626" }}>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "var(--danger)" }}>
                     {t("adspend.spend")} * ({agencyCurrency})
                   </label>
                   <input
@@ -1272,7 +1272,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1282,7 +1282,7 @@ export default function AdSpend() {
 
                 {/* Amount Billed to Client */}
                 <div>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "#2563eb" }}>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "var(--primary-color)" }}>
                     {t("adspend.billed")} * ({agencyCurrency})
                   </label>
                   <input
@@ -1296,7 +1296,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1320,7 +1320,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1330,7 +1330,7 @@ export default function AdSpend() {
 
                 {/* Revenue Generated */}
                 <div style={{ gridColumn: "span 2" }}>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "#059669" }}>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5, color: "var(--success)" }}>
                     {t("adspend.revenue")} ({agencyCurrency})
                   </label>
                   <input
@@ -1344,7 +1344,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1356,10 +1356,10 @@ export default function AdSpend() {
                 <div
                   style={{
                     gridColumn: "span 2",
-                    background: "#f8fafc",
+                    background: "var(--bg-app)",
                     borderRadius: 10,
                     padding: "12px 16px",
-                    border: "1px solid #e2e8f0",
+                    border: "1px solid var(--border-color)",
                     display: "flex",
                     justifyContent: "space-around",
                     alignItems: "center",
@@ -1368,20 +1368,20 @@ export default function AdSpend() {
                   }}
                 >
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600 }}>ROAS المحسوب</div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: Number(modalROAS) >= 3 ? "#059669" : "#d97706" }}>
+                    <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>ROAS المحسوب</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: Number(modalROAS) >= 3 ? "#059669" : "var(--warning)" }}>
                       {modalROAS}x
                     </div>
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600 }}>CPA (تكلفة الطلب)</div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "#334155" }}>
+                    <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>CPA (تكلفة الطلب)</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--text-main)" }}>
                       {modalCPA} {agencyCurrency}
                     </div>
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: 11, color: "#64748b", fontWeight: 600 }}>هامش الوكالة</div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: Number(modalMargin) >= 0 ? "#059669" : "#dc2626" }}>
+                    <div style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 600 }}>هامش الوكالة</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: Number(modalMargin) >= 0 ? "#059669" : "var(--danger)" }}>
                       {modalMargin} {agencyCurrency}
                     </div>
                   </div>
@@ -1400,7 +1400,7 @@ export default function AdSpend() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       outline: "none",
                       boxSizing: "border-box",
@@ -1418,7 +1418,7 @@ export default function AdSpend() {
                   gap: 10,
                   marginTop: 20,
                   paddingTop: 16,
-                  borderTop: "1px solid #e2e8f0",
+                  borderTop: "1px solid var(--border-color)",
                 }}
               >
                 <button
@@ -1427,9 +1427,9 @@ export default function AdSpend() {
                   style={{
                     padding: "9px 16px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#475569",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-main)",
                     fontSize: 13,
                     cursor: "pointer",
                   }}
@@ -1443,8 +1443,8 @@ export default function AdSpend() {
                     padding: "9px 20px",
                     borderRadius: 8,
                     border: "none",
-                    background: "#2563eb",
-                    color: "#fff",
+                    background: "var(--primary-color)",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 700,
                     cursor: submitting ? "not-allowed" : "pointer",

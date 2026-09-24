@@ -63,7 +63,7 @@ export function ConfirmProvider({ children }) {
             role="dialog"
             aria-modal="true"
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 18,
               padding: "26px 26px 22px",
               width: "100%",
@@ -87,10 +87,10 @@ export function ConfirmProvider({ children }) {
             >
               {state.danger ? "⚠️" : "❓"}
             </div>
-            <h3 style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 800, color: "#0f172a" }}>
+            <h3 style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 800, color: "var(--text-main)" }}>
               {state.title || t("confirm.title")}
             </h3>
-            <p style={{ margin: "0 0 22px", fontSize: 15, color: "#475569", lineHeight: 1.6, whiteSpace: "pre-wrap", textAlign: "start" }}>
+            <p style={{ margin: "0 0 22px", fontSize: 15, color: "var(--text-main)", lineHeight: 1.6, whiteSpace: "pre-wrap", textAlign: "start" }}>
               {state.message}
             </p>
             <div style={{ display: "flex", gap: 10 }}>
@@ -100,9 +100,9 @@ export function ConfirmProvider({ children }) {
                   flex: 1,
                   padding: "11px 0",
                   borderRadius: 11,
-                  border: "1px solid #e2e8f0",
-                  background: "#f8fafc",
-                  color: "#334155",
+                  border: "1px solid var(--border-color)",
+                  background: "var(--bg-app)",
+                  color: "var(--text-main)",
                   fontWeight: 600,
                   fontSize: 14,
                   cursor: "pointer",
@@ -119,8 +119,8 @@ export function ConfirmProvider({ children }) {
                   padding: "11px 0",
                   borderRadius: 11,
                   border: "none",
-                  background: state.danger ? "#dc2626" : "#2563eb",
-                  color: "#fff",
+                  background: state.danger ? "#dc2626" : "var(--primary-color)",
+                  color: "var(--bg-card)",
                   fontWeight: 700,
                   fontSize: 14,
                   cursor: "pointer",

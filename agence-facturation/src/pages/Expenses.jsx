@@ -178,10 +178,10 @@ export default function Expenses() {
       <div className="page-header">
         <div>
           <h1 className="page-title">💸 {t("exp.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>{total} {t("exp.registered")}</p>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>{total} {t("exp.registered")}</p>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={openBudget} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
+          <button onClick={openBudget} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
             🎯 {t("budget.button")}
           </button>
           <button onClick={() => { setForm(emptyForm); setEditExp(null); setShowModal(true); }} className="btn-primary">
@@ -193,21 +193,21 @@ export default function Expenses() {
       {/* Filtre par catégorie */}
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 20 }}>
         <button onClick={() => setFilterCat("")}
-          style={{ padding: "6px 12px", borderRadius: 20, border: "1px solid", borderColor: !filterCat ? "#3b82f6" : "#e2e8f0", background: !filterCat ? "#dbeafe" : "#fff", color: "#475569", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+          style={{ padding: "6px 12px", borderRadius: 20, border: "1px solid", borderColor: !filterCat ? "#3b82f6" : "var(--border-color)", background: !filterCat ? "#dbeafe" : "var(--bg-card)", color: "var(--text-main)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
           {t("common.all")}
         </button>
         {CATEGORIES.map((c) => (
           <button key={c.value} onClick={() => setFilterCat(c.value)}
-            style={{ padding: "6px 12px", borderRadius: 20, border: "1px solid", borderColor: filterCat === c.value ? "#3b82f6" : "#e2e8f0", background: filterCat === c.value ? "#dbeafe" : "#fff", color: "#475569", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
+            style={{ padding: "6px 12px", borderRadius: 20, border: "1px solid", borderColor: filterCat === c.value ? "#3b82f6" : "var(--border-color)", background: filterCat === c.value ? "#dbeafe" : "var(--bg-card)", color: "var(--text-main)", cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
             {c.icon} {t(`exp.cat.${c.value}`)}
           </button>
         ))}
       </div>
 
-      {loading && <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>{t("common.loading")}</div>}
+      {loading && <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>{t("common.loading")}</div>}
 
       {!loading && expenses.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>💸</div>
           <div>{t("exp.empty")}</div>
         </div>
@@ -216,7 +216,7 @@ export default function Expenses() {
       {!loading && expenses.length > 0 && (
         <div className="card" style={{ padding: 0, overflow: "hidden" }}>
           {expenses.map((exp) => (
-            <div key={exp.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "12px 16px", borderBottom: "1px solid #f1f5f9", flexWrap: "wrap" }}>
+            <div key={exp.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "12px 16px", borderBottom: "1px solid var(--border-color)", flexWrap: "wrap" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
                 <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fef3c7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
                   {catMeta(exp.category).icon}
@@ -224,13 +224,13 @@ export default function Expenses() {
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: 14 }}>
                     {t(`exp.cat.${exp.category}`)}
-                    {exp.notes && <span style={{ color: "#64748b", fontWeight: 400 }}> — {exp.notes}</span>}
+                    {exp.notes && <span style={{ color: "var(--text-muted)", fontWeight: 400 }}> — {exp.notes}</span>}
                   </div>
-                  <div style={{ fontSize: 12, color: "#94a3b8" }}>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)" }}>
                     {new Date(exp.date).toLocaleDateString()}
                     {exp.attachmentName && (
                       <button onClick={() => apiDownload(`/expenses/${exp.id}/attachment`, exp.attachmentName).catch((e) => toast.error(e.message))}
-                        style={{ border: "none", background: "none", color: "#3b82f6", cursor: "pointer", fontSize: 12, textDecoration: "underline", padding: 0, marginInlineStart: 8 }}>
+                        style={{ border: "none", background: "none", color: "var(--primary-color)", cursor: "pointer", fontSize: 12, textDecoration: "underline", padding: 0, marginInlineStart: 8 }}>
                         📎 {exp.attachmentName}
                       </button>
                     )}
@@ -239,20 +239,20 @@ export default function Expenses() {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
                 <div style={{ textAlign: "end" }}>
-                  <div style={{ fontWeight: 700, color: "#dc2626", fontSize: 15 }}>
+                  <div style={{ fontWeight: 700, color: "var(--danger)", fontSize: 15 }}>
                     −{fmt(exp.amount)} {exp.currency}
                   </div>
                   {exp.currency !== "DZD" && (
-                    <div style={{ fontSize: 11, color: "#94a3b8" }}>≈ {fmt(exp.amount * exp.exchangeRate)} {t("common.currency")}</div>
+                    <div style={{ fontSize: 11, color: "var(--text-muted)" }}>≈ {fmt(exp.amount * exp.exchangeRate)} {t("common.currency")}</div>
                   )}
                 </div>
-                <label style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 12 }} title={t("exp.attach")}>
+                <label style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 12 }} title={t("exp.attach")}>
                   📎
                   <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp" style={{ display: "none" }}
                     onChange={(e) => { handleAttach(exp, e.target.files[0]); e.target.value = ""; }} />
                 </label>
-                <button onClick={() => openEdit(exp)} style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 12 }}>✏️</button>
-                <button onClick={() => handleDelete(exp)} style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#dc2626", cursor: "pointer", fontSize: 12 }}>🗑️</button>
+                <button onClick={() => openEdit(exp)} style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 12 }}>✏️</button>
+                <button onClick={() => handleDelete(exp)} style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #fecaca", background: "rgba(239, 68, 68, 0.1)", color: "var(--danger)", cursor: "pointer", fontSize: 12 }}>🗑️</button>
               </div>
             </div>
           ))}
@@ -264,7 +264,7 @@ export default function Expenses() {
         <div className="modal-overlay">
           <div className="modal-box">
             <h2 style={{ margin: "0 0 6px", fontSize: 18 }}>🎯 {t("budget.title")}</h2>
-            <p style={{ fontSize: 12, color: "#94a3b8", margin: "0 0 16px" }}>{t("budget.hint")}</p>
+            <p style={{ fontSize: 12, color: "var(--text-muted)", margin: "0 0 16px" }}>{t("budget.hint")}</p>
 
             <label className="form-label">{t("budget.month")}</label>
             <input type="month" value={budgetMonth}
@@ -280,7 +280,7 @@ export default function Expenses() {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 20 }}>
               {CATEGORIES.map((c) => (
                 <div key={c.value}>
-                  <div style={{ fontSize: 11, color: "#64748b", marginBottom: 3 }}>{c.icon} {t(`exp.cat.${c.value}`)}</div>
+                  <div style={{ fontSize: 11, color: "var(--text-muted)", marginBottom: 3 }}>{c.icon} {t(`exp.cat.${c.value}`)}</div>
                   <input type="number" min="0" value={budgetForm.perCat[c.value] || ""}
                     onChange={(e) => setBudgetForm((f) => ({ ...f, perCat: { ...f.perCat, [c.value]: e.target.value } }))}
                     placeholder="—" className="form-input" style={{ padding: "7px 10px", fontSize: 13 }} />
@@ -292,7 +292,7 @@ export default function Expenses() {
               <button onClick={saveBudget} disabled={savingBudget} className="btn-primary" style={{ flex: 2, padding: "12px 0", fontSize: 15 }}>
                 {savingBudget ? t("common.saving") : t("common.save")}
               </button>
-              <button onClick={() => setShowBudget(false)} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>
+              <button onClick={() => setShowBudget(false)} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>
                 {t("common.cancel")}
               </button>
             </div>
@@ -342,7 +342,7 @@ export default function Expenses() {
               <button onClick={handleSave} disabled={saving} className="btn-primary" style={{ flex: 2, padding: "12px 0", fontSize: 15 }}>
                 {saving ? t("common.saving") : t("common.save")}
               </button>
-              <button onClick={() => { setShowModal(false); setEditExp(null); }} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>
+              <button onClick={() => { setShowModal(false); setEditExp(null); }} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>
                 {t("common.cancel")}
               </button>
             </div>

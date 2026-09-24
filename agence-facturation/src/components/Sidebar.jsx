@@ -137,7 +137,7 @@ export default function Sidebar() {
               style={{
                 fontSize: 15,
                 fontWeight: 700,
-                color: "#ffffff",
+                color: "var(--bg-card)",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -168,7 +168,7 @@ export default function Sidebar() {
               marginBottom: 3,
               borderRadius: 10,
               textDecoration: "none",
-              color: isActive ? "#ffffff" : "#94a3b8",
+              color: isActive ? "#ffffff" : "var(--text-muted)",
               background: isActive
                 ? "linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(59, 130, 246, 0.12) 100%)"
                 : "transparent",
@@ -198,7 +198,7 @@ export default function Sidebar() {
               justifyContent: "center",
               fontSize: 13,
               fontWeight: 700,
-              color: "#fff",
+              color: "var(--bg-card)",
               flexShrink: 0,
             }}
           >
@@ -209,7 +209,7 @@ export default function Sidebar() {
               style={{
                 fontSize: 13,
                 fontWeight: 600,
-                color: "#fff",
+                color: "var(--bg-card)",
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
@@ -232,7 +232,7 @@ export default function Sidebar() {
               borderRadius: 8,
               border: "1px solid rgba(255,255,255,0.25)",
               background: "rgba(255,255,255,0.1)",
-              color: "#fff",
+              color: "var(--bg-card)",
               cursor: "pointer",
               fontSize: 14,
               lineHeight: 1.4,

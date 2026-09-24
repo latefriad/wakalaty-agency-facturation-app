@@ -36,7 +36,7 @@ export default function Landing() {
       name: t("sub.planFree"),
       price: "0",
       period: t("land.forever"),
-      color: "#64748b",
+      color: "var(--text-muted)",
       popular: false,
       features: ["3 " + t("nav.clients"), "10 " + t("nav.invoices"), "1 " + t("role.EMPLOYEE")],
     },
@@ -90,7 +90,7 @@ export default function Landing() {
         overflowX: "hidden",
         margin: 0,
         padding: 0,
-        background: "#fff",
+        background: "var(--bg-card)",
       }}
     >
       {/* ══ NAVBAR ══ */}
@@ -101,7 +101,7 @@ export default function Landing() {
           zIndex: 1000,
           background: "rgba(255,255,255,0.97)",
           backdropFilter: "blur(12px)",
-          borderBottom: "1px solid #e2e8f0",
+          borderBottom: "1px solid var(--border-color)",
           height: 64,
           display: "flex",
           alignItems: "center",
@@ -130,7 +130,7 @@ export default function Landing() {
             <div style={{ fontSize: 16, fontWeight: 800, color: DARK, lineHeight: 1 }}>
               AgenceApp
             </div>
-            <div style={{ fontSize: 9, color: "#94a3b8", letterSpacing: "0.05em" }}>MARKETING SAAS</div>
+            <div style={{ fontSize: 9, color: "var(--text-muted)", letterSpacing: "0.05em" }}>MARKETING SAAS</div>
           </div>
         </div>
 
@@ -142,7 +142,7 @@ export default function Landing() {
             style={{
               padding: "8px 16px",
               borderRadius: 8,
-              color: "#64748b",
+              color: "var(--text-muted)",
               textDecoration: "none",
               fontSize: 14,
               fontWeight: 500,
@@ -156,8 +156,8 @@ export default function Landing() {
             style={{
               padding: "8px 18px",
               borderRadius: 9,
-              border: "1px solid #e2e8f0",
-              color: "#475569",
+              border: "1px solid var(--border-color)",
+              color: "var(--text-main)",
               textDecoration: "none",
               fontSize: 14,
               fontWeight: 500,
@@ -171,7 +171,7 @@ export default function Landing() {
               padding: "8px 20px",
               borderRadius: 9,
               background: PRIMARY,
-              color: "#fff",
+              color: "var(--bg-card)",
               textDecoration: "none",
               fontSize: 14,
               fontWeight: 600,
@@ -200,7 +200,7 @@ export default function Landing() {
             gap: 8,
             background: "#dbeafe",
             border: "1px solid #93c5fd",
-            color: "#1d4ed8",
+            color: "var(--primary-hover)",
             padding: "6px 16px",
             borderRadius: 20,
             fontSize: 12,
@@ -233,7 +233,7 @@ export default function Landing() {
         <p
           style={{
             fontSize: "clamp(14px,2vw,18px)",
-            color: "#475569",
+            color: "var(--text-main)",
             maxWidth: 540,
             marginLeft: "auto",
             marginRight: "auto",
@@ -264,7 +264,7 @@ export default function Landing() {
               padding: "15px 36px",
               borderRadius: 12,
               background: PRIMARY,
-              color: "#fff",
+              color: "var(--bg-card)",
               textDecoration: "none",
               fontSize: 16,
               fontWeight: 700,
@@ -280,8 +280,8 @@ export default function Landing() {
               display: "inline-block",
               padding: "15px 28px",
               borderRadius: 12,
-              border: "2px solid #e2e8f0",
-              color: "#475569",
+              border: "2px solid var(--border-color)",
+              color: "var(--text-main)",
               textDecoration: "none",
               fontSize: 15,
               fontWeight: 600,
@@ -294,7 +294,7 @@ export default function Landing() {
         </div>
 
         {/* Trust badges */}
-        <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", fontSize: 12, color: "#94a3b8" }}>
+        <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", fontSize: 12, color: "var(--text-muted)" }}>
           {[
             t("land.check1"),
             t("land.check2"),
@@ -333,13 +333,13 @@ export default function Landing() {
       </section>
 
       {/* ══ FEATURES ══ */}
-      <section style={{ padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)", background: "#f8fafc" }}>
+      <section style={{ padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)", background: "var(--bg-app)" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: PRIMARY, letterSpacing: "0.1em", marginBottom: 12 }}>FEATURES</div>
           <h2 style={{ fontSize: "clamp(22px,4vw,38px)", fontWeight: 800, margin: "0 0 14px", color: DARK }}>
             {t("land.featuresTitle")}
           </h2>
-          <p style={{ color: "#64748b", fontSize: 16 }}>{t("land.featuresSub")}</p>
+          <p style={{ color: "var(--text-muted)", fontSize: 16 }}>{t("land.featuresSub")}</p>
         </div>
 
         <div
@@ -353,7 +353,7 @@ export default function Landing() {
           }}
         >
           {FEATURES.map((f) => (
-            <div key={f.title} style={{ background: "#fff", borderRadius: 16, padding: 24, border: "1px solid #e2e8f0" }}>
+            <div key={f.title} style={{ background: "var(--bg-card)", borderRadius: 16, padding: 24, border: "1px solid var(--border-color)" }}>
               <div
                 style={{
                   width: 48,
@@ -370,20 +370,20 @@ export default function Landing() {
                 {f.icon}
               </div>
               <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 8, color: DARK }}>{f.title}</div>
-              <div style={{ fontSize: 13, color: "#64748b", lineHeight: 1.7 }}>{f.desc}</div>
+              <div style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7 }}>{f.desc}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* ══ PRICING ══ */}
-      <section style={{ padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)", background: "#fff" }}>
+      <section style={{ padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)", background: "var(--bg-card)" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <div style={{ fontSize: 12, fontWeight: 600, color: PRIMARY, letterSpacing: "0.1em", marginBottom: 12 }}>PRICING</div>
           <h2 style={{ fontSize: "clamp(22px,4vw,38px)", fontWeight: 800, margin: "0 0 12px", color: DARK }}>
             {t("land.pricingTitle")}
           </h2>
-          <p style={{ color: "#64748b", fontSize: 16 }}>{t("land.pricingSub")}</p>
+          <p style={{ color: "var(--text-muted)", fontSize: 16 }}>{t("land.pricingSub")}</p>
         </div>
 
         <div
@@ -400,7 +400,7 @@ export default function Landing() {
             <div
               key={plan.name}
               style={{
-                background: "#fff",
+                background: "var(--bg-card)",
                 borderRadius: 20,
                 padding: 28,
                 border: plan.popular ? `2px solid ${plan.color}` : "1px solid #e2e8f0",
@@ -416,7 +416,7 @@ export default function Landing() {
                     left: "50%",
                     transform: "translateX(-50%)",
                     background: plan.color,
-                    color: "#fff",
+                    color: "var(--bg-card)",
                     padding: "4px 18px",
                     borderRadius: 20,
                     fontSize: 11,
@@ -432,7 +432,7 @@ export default function Landing() {
 
               <div style={{ marginBottom: 20 }}>
                 <span style={{ fontSize: 34, fontWeight: 900, color: DARK }}>{plan.price}</span>
-                <span style={{ fontSize: 13, color: "#94a3b8", marginRight: 4 }}> {t("common.currency")} / {plan.period}</span>
+                <span style={{ fontSize: 13, color: "var(--text-muted)", marginRight: 4 }}> {t("common.currency")} / {plan.period}</span>
               </div>
 
               <div style={{ marginBottom: 24 }}>
@@ -478,10 +478,10 @@ export default function Landing() {
       </section>
 
       {/* ══ FAQ ══ */}
-      <section style={{ padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)", background: "#f8fafc" }}>
+      <section style={{ padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)", background: "var(--bg-app)" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <h2 style={{ fontSize: "clamp(20px,3vw,34px)", fontWeight: 800, margin: "0 0 12px", color: DARK }}>{t("land.faqTitle")}</h2>
-          <p style={{ color: "#64748b", fontSize: 15 }}>{t("land.faqSub")}</p>
+          <p style={{ color: "var(--text-muted)", fontSize: 15 }}>{t("land.faqSub")}</p>
         </div>
 
         <div style={{ maxWidth: 640, marginLeft: "auto", marginRight: "auto" }}>
@@ -490,9 +490,9 @@ export default function Landing() {
               key={i}
               style={{
                 marginBottom: 12,
-                background: "#fff",
+                background: "var(--bg-card)",
                 borderRadius: 14,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 overflow: "hidden",
               }}
             >
@@ -531,9 +531,9 @@ export default function Landing() {
                   style={{
                     padding: "0 20px 16px",
                     fontSize: 14,
-                    color: "#64748b",
+                    color: "var(--text-muted)",
                     lineHeight: 1.7,
-                    borderTop: "1px solid #f1f5f9",
+                    borderTop: "1px solid var(--border-color)",
                   }}
                 >
                   {faq.a}
@@ -550,7 +550,7 @@ export default function Landing() {
           padding: "clamp(50px,8vw,100px) clamp(16px,5vw,80px)",
           background: `linear-gradient(135deg,${PRIMARY},#7c3aed)`,
           textAlign: "center",
-          color: "#fff",
+          color: "var(--bg-card)",
         }}
       >
         <h2 style={{ fontSize: "clamp(22px,4vw,42px)", fontWeight: 900, margin: "0 0 16px" }}>{t("land.finalTitle")}</h2>
@@ -572,7 +572,7 @@ export default function Landing() {
             display: "inline-block",
             padding: "16px 44px",
             borderRadius: 12,
-            background: "#fff",
+            background: "var(--bg-card)",
             color: PRIMARY,
             textDecoration: "none",
             fontSize: 16,
@@ -599,8 +599,8 @@ export default function Landing() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 20 }}>🏢</span>
-          <span style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>AgenceApp</span>
-          <span style={{ color: "#475569", fontSize: 13 }}>© {new Date().getFullYear()} — {t("land.madeIn")}</span>
+          <span style={{ color: "var(--bg-card)", fontWeight: 700, fontSize: 14 }}>AgenceApp</span>
+          <span style={{ color: "var(--text-main)", fontSize: 13 }}>© {new Date().getFullYear()} — {t("land.madeIn")}</span>
         </div>
         <div style={{ display: "flex", gap: 16 }}>
           {[
@@ -613,7 +613,7 @@ export default function Landing() {
               key={l.to}
               to={l.to}
               style={{
-                color: "#64748b",
+                color: "var(--text-muted)",
                 textDecoration: "none",
                 fontSize: 13,
                 fontWeight: 600,

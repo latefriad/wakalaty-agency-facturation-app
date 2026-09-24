@@ -6,16 +6,16 @@ import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
 
 const STATUS_CONFIG = {
-  PLANNED: { color: "#64748b", bg: "#f1f5f9", labelKey: "testili.statusPlanned", icon: "🗓️" },
-  RUNNING: { color: "#2563eb", bg: "#eff6ff", labelKey: "testili.statusRunning", icon: "▶️" },
+  PLANNED: { color: "var(--text-muted)", bg: "var(--bg-hover)", labelKey: "testili.statusPlanned", icon: "🗓️" },
+  RUNNING: { color: "var(--primary-color)", bg: "#eff6ff", labelKey: "testili.statusRunning", icon: "▶️" },
   COMPLETED: { color: "#7c3aed", bg: "#ede9fe", labelKey: "testili.statusCompleted", icon: "🏁" },
 };
 
 const VERDICT_CONFIG = {
   WINNER: { color: "#16a34a", bg: "#dcfce7", labelKey: "testili.verdictWinner", icon: "🏆" },
-  LOSER: { color: "#dc2626", bg: "#fee2e2", labelKey: "testili.verdictLoser", icon: "❌" },
-  NEEDS_MORE_DATA: { color: "#d97706", bg: "#fef3c7", labelKey: "testili.verdictNeedsMoreData", icon: "⚠️" },
-  PENDING: { color: "#64748b", bg: "#f1f5f9", labelKey: "testili.verdictPending", icon: "⏳" },
+  LOSER: { color: "var(--danger)", bg: "#fee2e2", labelKey: "testili.verdictLoser", icon: "❌" },
+  NEEDS_MORE_DATA: { color: "var(--warning)", bg: "#fef3c7", labelKey: "testili.verdictNeedsMoreData", icon: "⚠️" },
+  PENDING: { color: "var(--text-muted)", bg: "var(--bg-hover)", labelKey: "testili.verdictPending", icon: "⏳" },
 };
 
 export default function Testili() {
@@ -288,11 +288,11 @@ export default function Testili() {
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ fontSize: 28 }}>🧪</span>
-            <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "#0f172a" }}>
+            <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0, color: "var(--text-main)" }}>
               {t("testili.title")}
             </h1>
           </div>
-          <p style={{ color: "#64748b", margin: "6px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "6px 0 0", fontSize: 14 }}>
             {t("testili.subtitle")}
           </p>
         </div>
@@ -302,7 +302,7 @@ export default function Testili() {
           <div
             style={{
               display: "flex",
-              background: "#e2e8f0",
+              background: "var(--border-color)",
               borderRadius: 8,
               padding: 3,
             }}
@@ -318,7 +318,7 @@ export default function Testili() {
                 fontWeight: 600,
                 cursor: "pointer",
                 background: viewMode === "cards" ? "#fff" : "transparent",
-                color: viewMode === "cards" ? "#0f172a" : "#64748b",
+                color: viewMode === "cards" ? "#0f172a" : "var(--text-muted)",
                 boxShadow: viewMode === "cards" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
@@ -335,7 +335,7 @@ export default function Testili() {
                 fontWeight: 600,
                 cursor: "pointer",
                 background: viewMode === "table" ? "#fff" : "transparent",
-                color: viewMode === "table" ? "#0f172a" : "#64748b",
+                color: viewMode === "table" ? "#0f172a" : "var(--text-muted)",
                 boxShadow: viewMode === "table" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
               }}
             >
@@ -351,7 +351,7 @@ export default function Testili() {
               padding: "9px 18px",
               borderRadius: 10,
               background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-              color: "#fff",
+              color: "var(--bg-card)",
               border: "none",
               cursor: "pointer",
               fontWeight: 600,
@@ -379,10 +379,10 @@ export default function Testili() {
         {/* Total Tests */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "20px 22px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 16,
@@ -394,7 +394,7 @@ export default function Testili() {
               height: 50,
               borderRadius: 12,
               background: "#eff6ff",
-              color: "#2563eb",
+              color: "var(--primary-color)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -405,10 +405,10 @@ export default function Testili() {
             🧪
           </div>
           <div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "#1e293b" }}>
+            <div style={{ fontSize: 24, fontWeight: 700, color: "var(--text-main)" }}>
               {summary.totalTests}
             </div>
-            <div style={{ fontSize: 13, color: "#64748b", marginTop: 2 }}>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
               {t("testili.totalTests")}
             </div>
           </div>
@@ -417,10 +417,10 @@ export default function Testili() {
         {/* Winner Rate */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "20px 22px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             alignItems: "center",
             gap: 16,
@@ -446,7 +446,7 @@ export default function Testili() {
             <div style={{ fontSize: 24, fontWeight: 700, color: "#16a34a" }}>
               {summary.winnerRate}%
             </div>
-            <div style={{ fontSize: 13, color: "#64748b", marginTop: 2 }}>
+            <div style={{ fontSize: 13, color: "var(--text-muted)", marginTop: 2 }}>
               {t("testili.winnersCount", { count: summary.winnersCount })}
             </div>
           </div>
@@ -455,10 +455,10 @@ export default function Testili() {
         {/* Budget vs Spent */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: "20px 22px",
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -466,23 +466,23 @@ export default function Testili() {
           }}
         >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-            <span style={{ fontSize: 13, color: "#64748b", fontWeight: 600 }}>
+            <span style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 600 }}>
               {t("testili.totalSpent")} / {t("testili.totalBudget")}
             </span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: "#2563eb" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--primary-color)" }}>
               {summary.totalBudget > 0
                 ? Math.round((summary.totalSpent / summary.totalBudget) * 100)
                 : 0}
               %
             </span>
           </div>
-          <div style={{ fontSize: 17, fontWeight: 700, color: "#1e293b" }}>
+          <div style={{ fontSize: 17, fontWeight: 700, color: "var(--text-main)" }}>
             {fmt(summary.totalSpent)}{" "}
-            <span style={{ fontSize: 13, fontWeight: 400, color: "#64748b" }}>
+            <span style={{ fontSize: 13, fontWeight: 400, color: "var(--text-muted)" }}>
               / {fmt(summary.totalBudget)} {cur}
             </span>
           </div>
-          <div style={{ background: "#f1f5f9", borderRadius: 99, height: 7, overflow: "hidden" }}>
+          <div style={{ background: "var(--bg-hover)", borderRadius: 99, height: 7, overflow: "hidden" }}>
             <div
               style={{
                 width: `${
@@ -491,7 +491,7 @@ export default function Testili() {
                     : 0
                 }%`,
                 height: "100%",
-                background: "#2563eb",
+                background: "var(--primary-color)",
                 borderRadius: 99,
                 transition: "width 0.4s ease",
               }}
@@ -503,10 +503,10 @@ export default function Testili() {
       {/* Filters Toolbar */}
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 14,
           padding: 16,
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
           display: "flex",
           flexWrap: "wrap",
           gap: 12,
@@ -525,7 +525,7 @@ export default function Testili() {
               width: "100%",
               padding: "9px 12px",
               borderRadius: 8,
-              border: "1px solid #cbd5e1",
+              border: "1px solid var(--border-color)",
               fontSize: 13,
               boxSizing: "border-box",
             }}
@@ -539,9 +539,9 @@ export default function Testili() {
           style={{
             padding: "9px 12px",
             borderRadius: 8,
-            border: "1px solid #cbd5e1",
+            border: "1px solid var(--border-color)",
             fontSize: 13,
-            background: "#fff",
+            background: "var(--bg-card)",
             cursor: "pointer",
           }}
         >
@@ -560,9 +560,9 @@ export default function Testili() {
           style={{
             padding: "9px 12px",
             borderRadius: 8,
-            border: "1px solid #cbd5e1",
+            border: "1px solid var(--border-color)",
             fontSize: 13,
-            background: "#fff",
+            background: "var(--bg-card)",
             cursor: "pointer",
           }}
         >
@@ -578,9 +578,9 @@ export default function Testili() {
           style={{
             padding: "9px 12px",
             borderRadius: 8,
-            border: "1px solid #cbd5e1",
+            border: "1px solid var(--border-color)",
             fontSize: 13,
-            background: "#fff",
+            background: "var(--bg-card)",
             cursor: "pointer",
           }}
         >
@@ -597,9 +597,9 @@ export default function Testili() {
           style={{
             padding: "9px 12px",
             borderRadius: 8,
-            border: "1px solid #cbd5e1",
+            border: "1px solid var(--border-color)",
             fontSize: 13,
-            background: "#fff",
+            background: "var(--bg-card)",
             cursor: "pointer",
           }}
         >
@@ -613,21 +613,21 @@ export default function Testili() {
 
       {/* Main Content Area: Cards or Table */}
       {loading ? (
-        <div style={{ textAlign: "center", padding: 80, color: "#64748b" }}>
+        <div style={{ textAlign: "center", padding: 80, color: "var(--text-muted)" }}>
           ⏳ {t("common.loading")}...
         </div>
       ) : tests.length === 0 ? (
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
             padding: 60,
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             textAlign: "center",
           }}
         >
           <div style={{ fontSize: 44, marginBottom: 12 }}>🧪</div>
-          <h3 style={{ margin: 0, fontSize: 16, color: "#1e293b", fontWeight: 700 }}>
+          <h3 style={{ margin: 0, fontSize: 16, color: "var(--text-main)", fontWeight: 700 }}>
             {t("testili.noTests")}
           </h3>
         </div>
@@ -650,10 +650,10 @@ export default function Testili() {
               <div
                 key={test.id}
                 style={{
-                  background: "#fff",
+                  background: "var(--bg-card)",
                   borderRadius: 14,
                   padding: 20,
-                  border: "1px solid #e2e8f0",
+                  border: "1px solid var(--border-color)",
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "space-between",
@@ -679,7 +679,7 @@ export default function Testili() {
                         padding: "3px 8px",
                         borderRadius: 6,
                         background: test.platform === "TIKTOK" ? "#fdf2f8" : "#eff6ff",
-                        color: test.platform === "TIKTOK" ? "#db2777" : "#2563eb",
+                        color: test.platform === "TIKTOK" ? "#db2777" : "var(--primary-color)",
                         border: `1px solid ${
                           test.platform === "TIKTOK" ? "#fbcfe8" : "#bfdbfe"
                         }`,
@@ -724,7 +724,7 @@ export default function Testili() {
                           margin: 0,
                           fontSize: 16,
                           fontWeight: 700,
-                          color: "#0f172a",
+                          color: "var(--text-main)",
                           lineHeight: 1.3,
                         }}
                       >
@@ -737,7 +737,7 @@ export default function Testili() {
                           rel="noreferrer"
                           title="Open URL"
                           style={{
-                            color: "#3b82f6",
+                            color: "var(--primary-color)",
                             textDecoration: "none",
                             fontSize: 13,
                           }}
@@ -747,7 +747,7 @@ export default function Testili() {
                       )}
                     </div>
                     {test.client && (
-                      <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
+                      <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
                         👤 {test.client.name}{" "}
                         {test.client.company ? `(${test.client.company})` : ""}
                       </div>
@@ -782,7 +782,7 @@ export default function Testili() {
                         onClick={() => handleApplySuggestedVerdict(test)}
                         style={{
                           background: "#16a34a",
-                          color: "#fff",
+                          color: "var(--bg-card)",
                           border: "none",
                           padding: "3px 8px",
                           borderRadius: 6,
@@ -806,17 +806,17 @@ export default function Testili() {
                         marginBottom: 4,
                       }}
                     >
-                      <span style={{ color: "#64748b" }}>{t("testili.amountSpent")}:</span>
+                      <span style={{ color: "var(--text-muted)" }}>{t("testili.amountSpent")}:</span>
                       <span style={{ fontWeight: 600 }}>
                         {fmt(test.amountSpent)}{" "}
-                        <span style={{ color: "#94a3b8", fontWeight: 400 }}>
+                        <span style={{ color: "var(--text-muted)", fontWeight: 400 }}>
                           / {fmt(test.testBudget)} {cur}
                         </span>
                       </span>
                     </div>
                     <div
                       style={{
-                        background: "#f1f5f9",
+                        background: "var(--bg-hover)",
                         borderRadius: 99,
                         height: 6,
                         overflow: "hidden",
@@ -832,7 +832,7 @@ export default function Testili() {
                               ? "#ef4444"
                               : test.budgetUsedPercent >= 75
                               ? "#f59e0b"
-                              : "#2563eb",
+                              : "var(--primary-color)",
                         }}
                       />
                     </div>
@@ -844,24 +844,24 @@ export default function Testili() {
                       display: "grid",
                       gridTemplateColumns: "1fr 1fr 1fr",
                       gap: 8,
-                      background: "#f8fafc",
+                      background: "var(--bg-app)",
                       padding: 10,
                       borderRadius: 8,
                       marginBottom: 14,
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: 10, color: "#64748b" }}>CPA (Reel/Cible)</div>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "#0f172a" }}>
+                      <div style={{ fontSize: 10, color: "var(--text-muted)" }}>CPA (Reel/Cible)</div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--text-main)" }}>
                         {test.effectiveCPA != null ? fmt(test.effectiveCPA) : "—"}
                       </div>
-                      <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                      <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
                         obj: {test.targetCPA != null ? fmt(test.targetCPA) : "—"}
                       </div>
                     </div>
 
                     <div>
-                      <div style={{ fontSize: 10, color: "#64748b" }}>ROAS (Reel/Cible)</div>
+                      <div style={{ fontSize: 10, color: "var(--text-muted)" }}>ROAS (Reel/Cible)</div>
                       <div
                         style={{
                           fontSize: 12,
@@ -871,21 +871,21 @@ export default function Testili() {
                             test.targetROAS != null &&
                             test.actualROAS >= test.targetROAS
                               ? "#16a34a"
-                              : "#0f172a",
+                              : "var(--text-main)",
                         }}
                       >
                         {test.actualROAS != null ? `${test.actualROAS}x` : "—"}
                       </div>
-                      <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                      <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
                         obj: {test.targetROAS != null ? `${test.targetROAS}x` : "—"}
                       </div>
                     </div>
 
                     <div>
-                      <div style={{ fontSize: 10, color: "#64748b" }}>
+                      <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
                         {t("testili.orders")}
                       </div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: "#2563eb" }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: "var(--primary-color)" }}>
                         {test.orders || 0}
                       </div>
                     </div>
@@ -896,8 +896,8 @@ export default function Testili() {
                     <div
                       style={{
                         fontSize: 12,
-                        color: "#475569",
-                        background: "#fffbeb",
+                        color: "var(--text-main)",
+                        background: "rgba(245, 158, 11, 0.1)",
                         padding: "8px 10px",
                         borderRadius: 6,
                         borderInlineStart: "3px solid #f59e0b",
@@ -917,7 +917,7 @@ export default function Testili() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     gap: 8,
-                    borderTop: "1px solid #f1f5f9",
+                    borderTop: "1px solid var(--border-color)",
                     paddingTop: 12,
                   }}
                 >
@@ -928,7 +928,7 @@ export default function Testili() {
                     title={t("testili.createAdSpendTooltip")}
                     style={{
                       background: "#eff6ff",
-                      color: "#2563eb",
+                      color: "var(--primary-color)",
                       border: "1px solid #bfdbfe",
                       padding: "5px 10px",
                       borderRadius: 6,
@@ -948,9 +948,9 @@ export default function Testili() {
                       type="button"
                       onClick={() => handleOpenEdit(test)}
                       style={{
-                        background: "#f8fafc",
-                        border: "1px solid #cbd5e1",
-                        color: "#334155",
+                        background: "var(--bg-app)",
+                        border: "1px solid var(--border-color)",
+                        color: "var(--text-main)",
                         padding: "5px 10px",
                         borderRadius: 6,
                         fontSize: 12,
@@ -967,7 +967,7 @@ export default function Testili() {
                         style={{
                           background: "#fee2e2",
                           border: "1px solid #fecaca",
-                          color: "#dc2626",
+                          color: "var(--danger)",
                           padding: "5px 10px",
                           borderRadius: 6,
                           fontSize: 12,
@@ -988,15 +988,15 @@ export default function Testili() {
         /* Table View */
         <div
           style={{
-            background: "#fff",
+            background: "var(--bg-card)",
             borderRadius: 14,
-            border: "1px solid #e2e8f0",
+            border: "1px solid var(--border-color)",
             overflowX: "auto",
           }}
         >
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
-              <tr style={{ background: "#f8fafc", color: "#64748b", fontSize: 12, textAlign: "start" }}>
+              <tr style={{ background: "var(--bg-app)", color: "var(--text-muted)", fontSize: 12, textAlign: "start" }}>
                 <th style={{ padding: "12px 14px", textAlign: "start" }}>{t("testili.productName")}</th>
                 <th style={{ padding: "12px 14px", textAlign: "start" }}>{t("testili.client")}</th>
                 <th style={{ padding: "12px 14px", textAlign: "start" }}>{t("testili.platform")}</th>
@@ -1015,9 +1015,9 @@ export default function Testili() {
                 const vdCfg = VERDICT_CONFIG[test.verdict] || VERDICT_CONFIG.PENDING;
 
                 return (
-                  <tr key={test.id} style={{ borderTop: "1px solid #f1f5f9" }}>
+                  <tr key={test.id} style={{ borderTop: "1px solid var(--border-color)" }}>
                     <td style={{ padding: "12px 14px" }}>
-                      <div style={{ fontWeight: 600, color: "#0f172a" }}>
+                      <div style={{ fontWeight: 600, color: "var(--text-main)" }}>
                         {test.productName}
                       </div>
                       {test.productUrl && (
@@ -1025,13 +1025,13 @@ export default function Testili() {
                           href={test.productUrl}
                           target="_blank"
                           rel="noreferrer"
-                          style={{ fontSize: 11, color: "#3b82f6", textDecoration: "none" }}
+                          style={{ fontSize: 11, color: "var(--primary-color)", textDecoration: "none" }}
                         >
                           {test.productUrl.replace(/^https?:\/\//, "").slice(0, 30)}... ↗
                         </a>
                       )}
                     </td>
-                    <td style={{ padding: "12px 14px", color: "#475569" }}>
+                    <td style={{ padding: "12px 14px", color: "var(--text-main)" }}>
                       {test.client?.name || "—"}
                     </td>
                     <td style={{ padding: "12px 14px" }}>
@@ -1042,7 +1042,7 @@ export default function Testili() {
                           padding: "2px 6px",
                           borderRadius: 6,
                           background: test.platform === "TIKTOK" ? "#fdf2f8" : "#eff6ff",
-                          color: test.platform === "TIKTOK" ? "#db2777" : "#2563eb",
+                          color: test.platform === "TIKTOK" ? "#db2777" : "var(--primary-color)",
                         }}
                       >
                         {test.platform === "TIKTOK" ? "TikTok" : "Meta"}
@@ -1078,7 +1078,7 @@ export default function Testili() {
                     </td>
                     <td style={{ padding: "12px 14px", textAlign: "end", fontWeight: 600 }}>
                       {fmt(test.amountSpent)}{" "}
-                      <span style={{ fontSize: 11, color: "#94a3b8", fontWeight: 400 }}>
+                      <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 400 }}>
                         / {fmt(test.testBudget)} {cur}
                       </span>
                     </td>
@@ -1095,7 +1095,7 @@ export default function Testili() {
                           test.targetROAS != null &&
                           test.actualROAS >= test.targetROAS
                             ? "#16a34a"
-                            : "#0f172a",
+                            : "var(--text-main)",
                       }}
                     >
                       {test.actualROAS != null ? `${test.actualROAS}x` : "—"}
@@ -1111,7 +1111,7 @@ export default function Testili() {
                           title={t("testili.createAdSpend")}
                           style={{
                             background: "#eff6ff",
-                            color: "#2563eb",
+                            color: "var(--primary-color)",
                             border: "none",
                             padding: "4px 8px",
                             borderRadius: 6,
@@ -1125,8 +1125,8 @@ export default function Testili() {
                           type="button"
                           onClick={() => handleOpenEdit(test)}
                           style={{
-                            background: "#f8fafc",
-                            border: "1px solid #cbd5e1",
+                            background: "var(--bg-app)",
+                            border: "1px solid var(--border-color)",
                             padding: "4px 8px",
                             borderRadius: 6,
                             cursor: "pointer",
@@ -1142,7 +1142,7 @@ export default function Testili() {
                             style={{
                               background: "#fee2e2",
                               border: "1px solid #fecaca",
-                              color: "#dc2626",
+                              color: "var(--danger)",
                               padding: "4px 8px",
                               borderRadius: 6,
                               cursor: "pointer",
@@ -1179,7 +1179,7 @@ export default function Testili() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               width: "100%",
               maxWidth: 640,
@@ -1210,7 +1210,7 @@ export default function Testili() {
                   border: "none",
                   fontSize: 18,
                   cursor: "pointer",
-                  color: "#94a3b8",
+                  color: "var(--text-muted)",
                 }}
               >
                 ✕
@@ -1234,7 +1234,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1253,10 +1253,10 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                     }}
                   >
                     <option value="">-- {t("testili.client")} --</option>
@@ -1284,7 +1284,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1302,10 +1302,10 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                     }}
                   >
                     <option value="META">📘 Meta Ads</option>
@@ -1331,7 +1331,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1353,7 +1353,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1374,7 +1374,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1386,17 +1386,17 @@ export default function Testili() {
               {Number(formData.testBudget) > 0 && (
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, marginBottom: 4 }}>
-                    <span style={{ color: "#64748b" }}>Progression du budget de test:</span>
+                    <span style={{ color: "var(--text-muted)" }}>Progression du budget de test:</span>
                     <span style={{ fontWeight: 600 }}>
                       {Math.round((Number(formData.amountSpent || 0) / Number(formData.testBudget)) * 100)}%
                     </span>
                   </div>
-                  <div style={{ background: "#f1f5f9", borderRadius: 99, height: 6, overflow: "hidden" }}>
+                  <div style={{ background: "var(--bg-hover)", borderRadius: 99, height: 6, overflow: "hidden" }}>
                     <div
                       style={{
                         width: `${Math.min(100, (Number(formData.amountSpent || 0) / Number(formData.testBudget)) * 100)}%`,
                         height: "100%",
-                        background: "#2563eb",
+                        background: "var(--primary-color)",
                         borderRadius: 99,
                       }}
                     />
@@ -1421,7 +1421,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "8px 10px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1443,7 +1443,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "8px 10px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1465,7 +1465,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "8px 10px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1487,7 +1487,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "8px 10px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1509,7 +1509,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1528,7 +1528,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
                     }}
@@ -1546,10 +1546,10 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 13,
                       boxSizing: "border-box",
-                      background: "#fff",
+                      background: "var(--bg-card)",
                     }}
                   >
                     <option value="PLANNED">{t("testili.statusPlanned")}</option>
@@ -1567,7 +1567,7 @@ export default function Testili() {
                   </label>
                   {/* Live Suggestion banner */}
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 12, color: "#2563eb", fontWeight: 600 }}>
+                    <span style={{ fontSize: 12, color: "var(--primary-color)", fontWeight: 600 }}>
                       {t("testili.suggestedNotice", {
                         verdict: t(VERDICT_CONFIG[liveSuggestedVerdict]?.labelKey || "testili.verdictPending"),
                       })}
@@ -1581,7 +1581,7 @@ export default function Testili() {
                           borderRadius: 6,
                           border: "1px solid #93c5fd",
                           background: "#eff6ff",
-                          color: "#1d4ed8",
+                          color: "var(--primary-hover)",
                           fontSize: 11,
                           fontWeight: 600,
                           cursor: "pointer",
@@ -1600,10 +1600,10 @@ export default function Testili() {
                     width: "100%",
                     padding: "9px 12px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid var(--border-color)",
                     fontSize: 14,
                     boxSizing: "border-box",
-                    background: "#fff",
+                    background: "var(--bg-card)",
                   }}
                 >
                   <option value="PENDING">{t("testili.verdictPending")}</option>
@@ -1627,7 +1627,7 @@ export default function Testili() {
                     width: "100%",
                     padding: "9px 12px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid var(--border-color)",
                     fontSize: 13,
                     boxSizing: "border-box",
                   }}
@@ -1642,9 +1642,9 @@ export default function Testili() {
                   style={{
                     padding: "10px 18px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#64748b",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-muted)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -1660,7 +1660,7 @@ export default function Testili() {
                     borderRadius: 8,
                     border: "none",
                     background: "linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)",
-                    color: "#fff",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: saving ? "not-allowed" : "pointer",
@@ -1692,7 +1692,7 @@ export default function Testili() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               width: "100%",
               maxWidth: 480,
@@ -1716,13 +1716,13 @@ export default function Testili() {
               <button
                 type="button"
                 onClick={() => setAdSpendModalOpen(false)}
-                style={{ background: "transparent", border: "none", fontSize: 18, cursor: "pointer", color: "#94a3b8" }}
+                style={{ background: "transparent", border: "none", fontSize: 18, cursor: "pointer", color: "var(--text-muted)" }}
               >
                 ✕
               </button>
             </div>
 
-            <p style={{ fontSize: 13, color: "#64748b", margin: "0 0 16px" }}>
+            <p style={{ fontSize: 13, color: "var(--text-muted)", margin: "0 0 16px" }}>
               Transférez les dépenses et résultats de l'analyse <strong>"{adSpendTargetTest.productName}"</strong> vers le module Ad Spend.
             </p>
 
@@ -1740,7 +1740,7 @@ export default function Testili() {
                     width: "100%",
                     padding: "9px 12px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid var(--border-color)",
                     fontSize: 14,
                     boxSizing: "border-box",
                   }}
@@ -1760,8 +1760,8 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #e2e8f0",
-                      background: "#f8fafc",
+                      border: "1px solid var(--border-color)",
+                      background: "var(--bg-app)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1781,7 +1781,7 @@ export default function Testili() {
                       width: "100%",
                       padding: "9px 12px",
                       borderRadius: 8,
-                      border: "1px solid #cbd5e1",
+                      border: "1px solid var(--border-color)",
                       fontSize: 14,
                       boxSizing: "border-box",
                     }}
@@ -1803,7 +1803,7 @@ export default function Testili() {
                     width: "100%",
                     padding: "9px 12px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
+                    border: "1px solid var(--border-color)",
                     fontSize: 14,
                     boxSizing: "border-box",
                   }}
@@ -1817,9 +1817,9 @@ export default function Testili() {
                   style={{
                     padding: "9px 16px",
                     borderRadius: 8,
-                    border: "1px solid #cbd5e1",
-                    background: "#fff",
-                    color: "#64748b",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-muted)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: "pointer",
@@ -1834,8 +1834,8 @@ export default function Testili() {
                     padding: "9px 20px",
                     borderRadius: 8,
                     border: "none",
-                    background: "#2563eb",
-                    color: "#fff",
+                    background: "var(--primary-color)",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 600,
                     cursor: adSpendSaving ? "not-allowed" : "pointer",

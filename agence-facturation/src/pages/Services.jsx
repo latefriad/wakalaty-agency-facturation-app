@@ -167,7 +167,7 @@ export default function Services() {
   const totalChargesSum = services.reduce((s, sv) => s + (sv.totalCharges || 0), 0);
   const totalProfit = services.reduce((s, sv) => s + (sv.netProfit || 0), 0);
 
-  const profitColor = (p) => (p >= 0 ? "#10b981" : "#ef4444");
+  const profitColor = (p) => (p >= 0 ? "#10b981" : "var(--danger)");
 
   return (
     <div style={{ direction: "inherit", fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
@@ -183,7 +183,7 @@ export default function Services() {
       >
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>⚙️ {t("svc.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {services.length} {t("svc.registered")}
           </p>
         </div>
@@ -193,8 +193,8 @@ export default function Services() {
             setShowModal(true);
           }}
           style={{
-            background: "#3b82f6",
-            color: "#fff",
+            background: "var(--primary-color)",
+            color: "var(--bg-card)",
             border: "none",
             borderRadius: 10,
             padding: "10px 20px",
@@ -208,13 +208,13 @@ export default function Services() {
       </div>
 
       {loading && (
-        <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           {t("common.loading")}
         </div>
       )}
 
       {!loading && services.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>⚙️</div>
           <div>{t("svc.empty")}</div>
         </div>
@@ -230,10 +230,10 @@ export default function Services() {
             <div
               key={sv.id}
               style={{
-                background: "#fff",
+                background: "var(--bg-card)",
                 borderRadius: 14,
                 padding: 20,
-                border: "1px solid #e2e8f0",
+                border: "1px solid var(--border-color)",
                 borderTop: `3px solid ${profitColor(profit)}`,
               }}
             >
@@ -243,7 +243,7 @@ export default function Services() {
                     <span style={{ fontSize: 20 }}>{icon}</span>
                     <span style={{ fontWeight: 700, fontSize: 15 }}>{sv.name}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: "#64748b" }}>{sv.type}</div>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{sv.type}</div>
                 </div>
                 <div
                   style={{
@@ -269,7 +269,7 @@ export default function Services() {
                   <span style={{ color: "#92400e" }}>
                     💼 {t("svc.commission")} {sv.freelancerName}
                   </span>
-                  <span style={{ fontWeight: 700, color: "#f59e0b" }}>
+                  <span style={{ fontWeight: 700, color: "var(--warning)" }}>
                     {(sv.commissionAmount || 0).toFixed(2)} {t("common.currency")}
                   </span>
                 </div>
@@ -277,26 +277,26 @@ export default function Services() {
 
               <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-                  <span style={{ color: "#64748b" }}>💰 {t("svc.salePrice")}</span>
-                  <span style={{ fontWeight: 600, color: "#3b82f6" }}>
+                  <span style={{ color: "var(--text-muted)" }}>💰 {t("svc.salePrice")}</span>
+                  <span style={{ fontWeight: 600, color: "var(--primary-color)" }}>
                     {(sv.salePrice || 0).toFixed(2)} {t("common.currency")}
                   </span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-                  <span style={{ color: "#64748b" }}>💸 {t("svc.costs")}</span>
-                  <span style={{ fontWeight: 600, color: "#f59e0b" }}>
+                  <span style={{ color: "var(--text-muted)" }}>💸 {t("svc.costs")}</span>
+                  <span style={{ fontWeight: 600, color: "var(--warning)" }}>
                     {(sv.totalCharges || 0).toFixed(2)} {t("common.currency")}
                   </span>
                 </div>
                 {sv.commissionAmount > 0 && (
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-                    <span style={{ color: "#64748b" }}>💼 {t("svc.freelancerCommission")}</span>
-                    <span style={{ fontWeight: 600, color: "#f59e0b" }}>
+                    <span style={{ color: "var(--text-muted)" }}>💼 {t("svc.freelancerCommission")}</span>
+                    <span style={{ fontWeight: 600, color: "var(--warning)" }}>
                       {(sv.commissionAmount || 0).toFixed(2)} {t("common.currency")}
                     </span>
                   </div>
                 )}
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, borderTop: "1px solid #f1f5f9", paddingTop: 8, marginTop: 4 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, borderTop: "1px solid var(--border-color)", paddingTop: 8, marginTop: 4 }}>
                   <span style={{ fontWeight: 600 }}>📊 {t("svc.netProfit")}</span>
                   <span style={{ fontWeight: 700, color: profitColor(profit) }}>{profit.toFixed(2)} {t("common.currency")}</span>
                 </div>
@@ -308,11 +308,11 @@ export default function Services() {
                   width: "100%",
                   padding: "7px 0",
                   borderRadius: 8,
-                  border: "1px solid #e2e8f0",
-                  background: "#f8fafc",
+                  border: "1px solid var(--border-color)",
+                  background: "var(--bg-app)",
                   cursor: "pointer",
                   fontSize: 12,
-                  color: "#64748b",
+                  color: "var(--text-muted)",
                   marginBottom: 8,
                 }}
               >
@@ -320,7 +320,7 @@ export default function Services() {
               </button>
 
               {selected === sv.id && (
-                <div style={{ background: "#f8fafc", borderRadius: 8, padding: 12, marginBottom: 8 }}>
+                <div style={{ background: "var(--bg-app)", borderRadius: 8, padding: 12, marginBottom: 8 }}>
                   {(sv.charges || []).map((c, i) => (
                     <div
                       key={i}
@@ -332,14 +332,14 @@ export default function Services() {
                         borderBottom: i < (sv.charges || []).length - 1 ? "1px solid #f1f5f9" : "none",
                       }}
                     >
-                      <span style={{ color: "#64748b" }}>• {c.label}</span>
+                      <span style={{ color: "var(--text-muted)" }}>• {c.label}</span>
                       <span style={{ fontWeight: 500 }}>{parseFloat(c.amount || 0).toFixed(2)} {t("common.currency")}</span>
                     </div>
                   ))}
                 </div>
               )}
 
-              {sv.notes && <div style={{ fontSize: 12, color: "#94a3b8", fontStyle: "italic" }}>📝 {sv.notes}</div>}
+              {sv.notes && <div style={{ fontSize: 12, color: "var(--text-muted)", fontStyle: "italic" }}>📝 {sv.notes}</div>}
 
               <button
                 onClick={() => handleDelete(sv.id)}
@@ -350,7 +350,7 @@ export default function Services() {
                   borderRadius: 8,
                   border: "1px solid #fee2e2",
                   background: "#fff5f5",
-                  color: "#ef4444",
+                  color: "var(--danger)",
                   cursor: "pointer",
                   fontSize: 13,
                 }}
@@ -364,7 +364,7 @@ export default function Services() {
 
       {showModal && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }}>
-          <div style={{ background: "#fff", borderRadius: 16, padding: 28, width: "100%", maxWidth: 520, direction: "inherit", maxHeight: "90vh", overflowY: "auto" }}>
+          <div style={{ background: "var(--bg-card)", borderRadius: 16, padding: 28, width: "100%", maxWidth: 520, direction: "inherit", maxHeight: "90vh", overflowY: "auto" }}>
             <h2 style={{ margin: "0 0 20px", fontSize: 18 }}>➕ {t("svc.newService")}</h2>
 
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("svc.nameLabel")}</label>
@@ -372,11 +372,11 @@ export default function Services() {
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
               placeholder={t("svc.namePlaceholder")}
-              style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 14, outline: "none", boxSizing: "border-box" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 14, outline: "none", boxSizing: "border-box" }}
             />
 
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("svc.type")}</label>
-            <select value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 14, outline: "none", boxSizing: "border-box" }}>
+            <select value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 14, outline: "none", boxSizing: "border-box" }}>
               {SERVICE_TYPES.map((t) => (
                 <option key={t.label} value={t.label}>
                   {t.icon} {t.label}
@@ -390,13 +390,13 @@ export default function Services() {
               value={form.salePrice}
               onChange={(e) => setForm((f) => ({ ...f, salePrice: e.target.value }))}
               placeholder="0.00"
-              style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 14, outline: "none", boxSizing: "border-box" }}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 14, outline: "none", boxSizing: "border-box" }}
             />
 
             {/* Freelancer Assignment */}
             {freelancers.length > 0 && (
               <div style={{
-                background: "#fffbeb",
+                background: "rgba(245, 158, 11, 0.1)",
                 border: "1px solid #fde68a",
                 borderRadius: 12, padding: 16, marginBottom: 16
               }}>
@@ -415,7 +415,7 @@ export default function Services() {
                       commissionValue: fl?.commissionRate || "",
                     }));
                   }}
-                  style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 12, outline: "none", boxSizing: "border-box" }}
+                  style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 12, outline: "none", boxSizing: "border-box" }}
                 >
                   <option value="">{t("svc.noFreelancer")}</option>
                   {freelancers.map((fl) => (
@@ -445,7 +445,7 @@ export default function Services() {
                             borderRadius: 8, border: "none",
                             cursor: "pointer", fontSize: 12,
                             fontWeight: 600,
-                            background: form.commissionType === t.val ? "#f59e0b" : "#fff",
+                            background: form.commissionType === t.val ? "#f59e0b" : "var(--bg-card)",
                             color: form.commissionType === t.val ? "#fff" : "#92400e",
                             fontFamily: "'Segoe UI',Tahoma,sans-serif"
                           }}>
@@ -473,12 +473,12 @@ export default function Services() {
                         }));
                       }}
                       placeholder={form.commissionType === "percent" ? t("emp.example20") : t("svc.example5000")}
-                      style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 10, outline: "none", boxSizing: "border-box" }}
+                      style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 10, outline: "none", boxSizing: "border-box" }}
                     />
 
                     {form.commissionValue && (
                       <div style={{
-                        background: "#fff",
+                        background: "var(--bg-card)",
                         borderRadius: 8, padding: "10px 14px",
                         display: "flex", justifyContent: "space-between",
                         fontSize: 13, fontWeight: 600
@@ -486,7 +486,7 @@ export default function Services() {
                         <span style={{ color: "#92400e" }}>
                           💼 {t("svc.commission")} {form.freelancerName}:
                         </span>
-                        <span style={{ color: "#f59e0b" }}>
+                        <span style={{ color: "var(--warning)" }}>
                           {form.commissionAmount.toFixed(2)} {t("common.currency")}
                         </span>
                       </div>
@@ -499,32 +499,32 @@ export default function Services() {
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 8 }}>💸 {t("svc.costsAndExpenses")}</label>
             {form.charges.map((c, i) => (
               <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                <select value={c.label} onChange={(e) => updateCharge(i, "label", e.target.value)} style={{ flex: 1, padding: "9px 10px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none" }}>
+                <select value={c.label} onChange={(e) => updateCharge(i, "label", e.target.value)} style={{ flex: 1, padding: "9px 10px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 13, outline: "none" }}>
                   {CHARGE_TYPES.map((t) => (
                     <option key={t} value={t}>
                       {t}
                     </option>
                   ))}
                 </select>
-                <input type="number" value={c.amount} placeholder={t("svc.amountPlaceholder")} onChange={(e) => updateCharge(i, "amount", e.target.value)} style={{ flex: 1, padding: "9px 10px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none" }} />
+                <input type="number" value={c.amount} placeholder={t("svc.amountPlaceholder")} onChange={(e) => updateCharge(i, "amount", e.target.value)} style={{ flex: 1, padding: "9px 10px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 13, outline: "none" }} />
                 {form.charges.length > 1 && (
-                  <button onClick={() => removeCharge(i)} style={{ background: "#fee2e2", border: "none", borderRadius: 8, color: "#ef4444", cursor: "pointer", padding: "0 12px", fontSize: 16 }}>×</button>
+                  <button onClick={() => removeCharge(i)} style={{ background: "#fee2e2", border: "none", borderRadius: 8, color: "var(--danger)", cursor: "pointer", padding: "0 12px", fontSize: 16 }}>×</button>
                 )}
               </div>
             ))}
 
-            <button onClick={addCharge} style={{ width: "100%", padding: "8px 0", borderRadius: 8, border: "1px dashed #cbd5e1", background: "#f8fafc", cursor: "pointer", fontSize: 13, color: "#64748b", marginBottom: 14 }}>
+            <button onClick={addCharge} style={{ width: "100%", padding: "8px 0", borderRadius: 8, border: "1px dashed var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13, color: "var(--text-muted)", marginBottom: 14 }}>
               + {t("svc.addCost")}
             </button>
 
             <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{t("common.notes")}</label>
-            <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} placeholder={t("svc.notesPlaceholder")} rows={2} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, marginBottom: 16, outline: "none", boxSizing: "border-box", resize: "none" }} />
+            <textarea value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} placeholder={t("svc.notesPlaceholder")} rows={2} style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, marginBottom: 16, outline: "none", boxSizing: "border-box", resize: "none" }} />
 
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={handleSave} disabled={saving} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
+              <button onClick={handleSave} disabled={saving} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "var(--primary-color)", color: "var(--bg-card)", border: "none", cursor: "pointer", fontWeight: 600, fontSize: 14 }}>
                 {saving ? t("common.saving") : t("svc.addBtn")}
               </button>
-              <button onClick={() => { setShowModal(false); setForm(emptyForm); }} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>{t("common.cancel")}</button>
+              <button onClick={() => { setShowModal(false); setForm(emptyForm); }} style={{ flex: 1, padding: "11px 0", borderRadius: 8, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>{t("common.cancel")}</button>
             </div>
           </div>
         </div>

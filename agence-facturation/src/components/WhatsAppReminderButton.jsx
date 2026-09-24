@@ -163,7 +163,7 @@ export default function WhatsAppReminderButton({ invoice }) {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               padding: 24,
               maxWidth: 540,
@@ -188,17 +188,17 @@ export default function WhatsAppReminderButton({ invoice }) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#fff",
+                    color: "var(--bg-card)",
                     fontSize: 20,
                   }}
                 >
                   💬
                 </div>
                 <div>
-                  <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "#0f172a" }}>
+                  <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: "var(--text-main)" }}>
                     {t("inv.whatsappModalTitle")}
                   </h3>
-                  <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                     {clientName} • {invoiceNumber} • {remainingAmount} {currency}
                   </div>
                 </div>
@@ -208,13 +208,13 @@ export default function WhatsAppReminderButton({ invoice }) {
                 onClick={() => setIsOpen(false)}
                 style={{
                   border: "none",
-                  background: "#f1f5f9",
+                  background: "var(--bg-hover)",
                   width: 28,
                   height: 28,
                   borderRadius: "50%",
                   cursor: "pointer",
                   fontSize: 14,
-                  color: "#64748b",
+                  color: "var(--text-muted)",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -228,12 +228,12 @@ export default function WhatsAppReminderButton({ invoice }) {
             {isOverdue && (
               <div
                 style={{
-                  background: "#fef2f2",
+                  background: "rgba(239, 68, 68, 0.1)",
                   border: "1px solid #fecaca",
                   borderRadius: 8,
                   padding: "8px 12px",
                   fontSize: 12,
-                  color: "#dc2626",
+                  color: "var(--danger)",
                   marginBottom: 14,
                   display: "flex",
                   alignItems: "center",
@@ -251,7 +251,7 @@ export default function WhatsAppReminderButton({ invoice }) {
 
             {/* Phone Input */}
             <div style={{ marginBottom: 16 }}>
-              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#334155", marginBottom: 6 }}>
+              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--text-main)", marginBottom: 6 }}>
                 {t("inv.whatsappPhone")}
               </label>
               <div style={{ display: "flex", gap: 8 }}>
@@ -275,12 +275,12 @@ export default function WhatsAppReminderButton({ invoice }) {
                 />
               </div>
               {normalizedPreview && (
-                <div style={{ fontSize: 11, color: "#64748b", marginTop: 4, direction: "ltr" }}>
+                <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4, direction: "ltr" }}>
                   wa.me/<b>+{normalizedPreview}</b>
                 </div>
               )}
               {phoneError && (
-                <div style={{ fontSize: 12, color: "#ef4444", marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: "var(--danger)", marginTop: 4 }}>
                   {phoneError}
                 </div>
               )}
@@ -305,8 +305,8 @@ export default function WhatsAppReminderButton({ invoice }) {
                       fontWeight: 600,
                       cursor: "pointer",
                       border: selectedLang === item.id ? "1px solid #2563eb" : "1px solid #e2e8f0",
-                      background: selectedLang === item.id ? "#eff6ff" : "#f8fafc",
-                      color: selectedLang === item.id ? "#1d4ed8" : "#475569",
+                      background: selectedLang === item.id ? "#eff6ff" : "var(--bg-app)",
+                      color: selectedLang === item.id ? "#1d4ed8" : "var(--text-main)",
                     }}
                   >
                     {item.label}
@@ -317,7 +317,7 @@ export default function WhatsAppReminderButton({ invoice }) {
 
             {/* Message Textarea */}
             <div style={{ marginBottom: 18 }}>
-              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "#334155", marginBottom: 6 }}>
+              <label style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--text-main)", marginBottom: 6 }}>
                 {t("inv.whatsappMessage")}
               </label>
               <textarea
@@ -328,7 +328,7 @@ export default function WhatsAppReminderButton({ invoice }) {
                   width: "100%",
                   padding: "10px 12px",
                   borderRadius: 8,
-                  border: "1px solid #cbd5e1",
+                  border: "1px solid var(--border-color)",
                   fontSize: 13,
                   lineHeight: 1.6,
                   outline: "none",
@@ -348,9 +348,9 @@ export default function WhatsAppReminderButton({ invoice }) {
                 style={{
                   padding: "9px 14px",
                   borderRadius: 8,
-                  border: "1px solid #e2e8f0",
-                  background: "#f8fafc",
-                  color: "#334155",
+                  border: "1px solid var(--border-color)",
+                  background: "var(--bg-app)",
+                  color: "var(--text-main)",
                   fontSize: 13,
                   fontWeight: 600,
                   cursor: "pointer",
@@ -370,9 +370,9 @@ export default function WhatsAppReminderButton({ invoice }) {
                   style={{
                     padding: "9px 14px",
                     borderRadius: 8,
-                    border: "1px solid #e2e8f0",
-                    background: "#fff",
-                    color: "#64748b",
+                    border: "1px solid var(--border-color)",
+                    background: "var(--bg-card)",
+                    color: "var(--text-muted)",
                     fontSize: 13,
                     cursor: "pointer",
                   }}
@@ -387,7 +387,7 @@ export default function WhatsAppReminderButton({ invoice }) {
                     borderRadius: 8,
                     border: "none",
                     background: "#25D366",
-                    color: "#fff",
+                    color: "var(--bg-card)",
                     fontSize: 13,
                     fontWeight: 700,
                     cursor: "pointer",

@@ -46,30 +46,30 @@ export default function InvitationAccept() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f1f5f9", fontFamily: "'Segoe UI',Tahoma,sans-serif", padding: 20 }}>
-      <div className="card" style={{ maxWidth: 420, width: "100%", background: "#fff", borderRadius: 16, padding: 28, boxShadow: "0 10px 30px rgba(2,6,23,0.08)" }}>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-hover)", fontFamily: "'Segoe UI',Tahoma,sans-serif", padding: 20 }}>
+      <div className="card" style={{ maxWidth: 420, width: "100%", background: "var(--bg-card)", borderRadius: 16, padding: 28, boxShadow: "0 10px 30px rgba(2,6,23,0.08)" }}>
         <div style={{ textAlign: "center", marginBottom: 20 }}>
           <div style={{ fontSize: 40 }}>✉️</div>
           <h1 style={{ fontSize: 20, margin: "8px 0 0" }}>{t("invite.title")}</h1>
         </div>
 
-        {loading && <div style={{ textAlign: "center", color: "#64748b", padding: 20 }}>{t("common.loading")}</div>}
+        {loading && <div style={{ textAlign: "center", color: "var(--text-muted)", padding: 20 }}>{t("common.loading")}</div>}
 
         {!loading && error && (
           <div style={{ textAlign: "center", padding: 20 }}>
-            <div style={{ color: "#ef4444", fontWeight: 600, marginBottom: 8 }}>{error}</div>
-            <div style={{ color: "#64748b", fontSize: 13 }}>{t("invite.askNewLink")}</div>
+            <div style={{ color: "var(--danger)", fontWeight: 600, marginBottom: 8 }}>{error}</div>
+            <div style={{ color: "var(--text-muted)", fontSize: 13 }}>{t("invite.askNewLink")}</div>
           </div>
         )}
 
         {!loading && info && (
           <form onSubmit={handleSubmit}>
-            <p style={{ fontSize: 14, color: "#475569", textAlign: "center", margin: "0 0 20px" }}>
+            <p style={{ fontSize: 14, color: "var(--text-main)", textAlign: "center", margin: "0 0 20px" }}>
               <strong>{info.agencyName}</strong> {t("invite.invitesYou")}
             </p>
 
             <label className="form-label">{t("auth.emailLabel")}</label>
-            <input value={info.email} disabled className="form-input" style={{ marginBottom: 14, background: "#f8fafc" }} />
+            <input value={info.email} disabled className="form-input" style={{ marginBottom: 14, background: "var(--bg-app)" }} />
 
             <label className="form-label">{t("invite.choosePassword")}</label>
             <input

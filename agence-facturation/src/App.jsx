@@ -71,12 +71,12 @@ function AppLayout() {
     return (
       <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", direction: "inherit", fontFamily: "'Segoe UI',Tahoma,sans-serif" }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>⚠️</div>
-        <h2 style={{ color: "#ef4444", marginBottom: 8 }}>{t("app.profileLoadError")}</h2>
-        <p style={{ color: "#64748b", marginBottom: 20, fontSize: 14 }}>{t("app.checkAndRetry")}</p>
-        <button onClick={() => { setProfileTimeout(false); window.location.reload(); }} style={{ padding: "10px 24px", borderRadius: 10, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, marginLeft: 10 }}>
+        <h2 style={{ color: "var(--danger)", marginBottom: 8 }}>{t("app.profileLoadError")}</h2>
+        <p style={{ color: "var(--text-muted)", marginBottom: 20, fontSize: 14 }}>{t("app.checkAndRetry")}</p>
+        <button onClick={() => { setProfileTimeout(false); window.location.reload(); }} style={{ padding: "10px 24px", borderRadius: 10, background: "var(--primary-color)", color: "var(--bg-card)", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, marginLeft: 10 }}>
           {t("common.retry")}
         </button>
-        <button onClick={logout} style={{ padding: "10px 24px", borderRadius: 10, background: "#f1f5f9", color: "#334155", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
+        <button onClick={logout} style={{ padding: "10px 24px", borderRadius: 10, background: "var(--bg-hover)", color: "var(--text-main)", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14 }}>
           {t("common.logout")}
         </button>
       </div>

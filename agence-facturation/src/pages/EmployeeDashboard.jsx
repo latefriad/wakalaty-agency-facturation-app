@@ -16,8 +16,8 @@ import {
 
 const STATUS_META = {
   pending: { key: "empDash.pendingStatus", color: "#6b7280", bg: "#f3f4f6", icon: Clock },
-  in_progress: { key: "empDash.inProgressStatus", color: "#3b82f6", bg: "#dbeafe", icon: AlertCircle },
-  completed: { key: "empDash.completedStatus", color: "#10b981", bg: "#d1fae5", icon: CheckCircle },
+  in_progress: { key: "empDash.inProgressStatus", color: "var(--primary-color)", bg: "#dbeafe", icon: AlertCircle },
+  completed: { key: "empDash.completedStatus", color: "var(--success)", bg: "#d1fae5", icon: CheckCircle },
 };
 
 // Le backend parle TODO/INPROGRESS/DONE ; le composant garde son vocabulaire
@@ -26,10 +26,10 @@ const BACKEND_TO_LOCAL = { TODO: "pending", INPROGRESS: "in_progress", DONE: "co
 const LOCAL_TO_BACKEND = { pending: "TODO", in_progress: "INPROGRESS", completed: "DONE" };
 
 const LEAVE_STATUS_META = {
-  PENDING: { key: "leave.pending", color: "#f59e0b", bg: "#fef3c7" },
-  APPROVED: { key: "leave.approved", color: "#10b981", bg: "#d1fae5" },
-  REJECTED: { key: "leave.rejected", color: "#ef4444", bg: "#fee2e2" },
-  CANCELLED: { key: "leave.cancelledStatus", color: "#64748b", bg: "#f1f5f9" },
+  PENDING: { key: "leave.pending", color: "var(--warning)", bg: "#fef3c7" },
+  APPROVED: { key: "leave.approved", color: "var(--success)", bg: "#d1fae5" },
+  REJECTED: { key: "leave.rejected", color: "var(--danger)", bg: "#fee2e2" },
+  CANCELLED: { key: "leave.cancelledStatus", color: "var(--text-muted)", bg: "var(--bg-hover)" },
 };
 
 const LEAVE_TYPES = [
@@ -232,10 +232,10 @@ export default function EmployeeDashboard() {
 
   const getPriorityColor = (p) =>
     ({
-      HIGH: { color: "#ef4444", bg: "#fee2e2", label: t("empDash.urgent") },
-      MEDIUM: { color: "#f59e0b", bg: "#fef3c7", label: t("tasks.medium") },
-      LOW: { color: "#10b981", bg: "#d1fae5", label: t("empDash.normal") },
-    }[p] || { color: "#64748b", bg: "#f1f5f9", label: t("empDash.normal") });
+      HIGH: { color: "var(--danger)", bg: "#fee2e2", label: t("empDash.urgent") },
+      MEDIUM: { color: "var(--warning)", bg: "#fef3c7", label: t("tasks.medium") },
+      LOW: { color: "var(--success)", bg: "#d1fae5", label: t("empDash.normal") },
+    }[p] || { color: "var(--text-muted)", bg: "var(--bg-hover)", label: t("empDash.normal") });
 
   const getTypeLabel = (ty) =>
     ({
@@ -282,7 +282,7 @@ export default function EmployeeDashboard() {
           borderRadius: 16,
           padding: "24px 28px",
           marginBottom: 24,
-          color: "#fff",
+          color: "var(--bg-card)",
         }}
       >
         <div style={{ fontSize: 13, opacity: 0.8, marginBottom: 4 }}>{t("empDash.welcomeYou")}</div>
@@ -307,21 +307,21 @@ export default function EmployeeDashboard() {
                 label: t("empDash.todayTasks"),
                 value: todayTasks.length,
                 icon: <Calendar size={20} />,
-                color: "#3b82f6",
+                color: "var(--primary-color)",
                 bg: "#dbeafe",
               },
               {
                 label: t("empDash.dueCommissions"),
                 value: `${unpaidCommission.toFixed(0)} $${t("common.currency")}`,
                 icon: <TrendingUp size={20} />,
-                color: "#f59e0b",
+                color: "var(--warning)",
                 bg: "#fef3c7",
               },
               {
                 label: t("empDash.totalCommissions"),
                 value: `${totalCommission.toFixed(0)} $${t("common.currency")}`,
                 icon: <DollarSign size={20} />,
-                color: "#10b981",
+                color: "var(--success)",
                 bg: "#d1fae5",
               },
             ]
@@ -330,28 +330,28 @@ export default function EmployeeDashboard() {
                 label: t("empDash.todayTasks"),
                 value: todayTasks.length,
                 icon: <Calendar size={20} />,
-                color: "#f59e0b",
+                color: "var(--warning)",
                 bg: "#fef3c7",
               },
               {
                 label: t("tasks.late"),
                 value: overdueTasks.length,
                 icon: <AlertCircle size={20} />,
-                color: "#ef4444",
+                color: "var(--danger)",
                 bg: "#fee2e2",
               },
               {
                 label: t("empDash.inProgressTasks"),
                 value: pendingTasks.length,
                 icon: <Clock size={20} />,
-                color: "#3b82f6",
+                color: "var(--primary-color)",
                 bg: "#dbeafe",
               },
               {
                 label: t("empDash.doneTasks"),
                 value: doneCount,
                 icon: <CheckCircle size={20} />,
-                color: "#10b981",
+                color: "var(--success)",
                 bg: "#d1fae5",
               },
             ]
@@ -380,7 +380,7 @@ export default function EmployeeDashboard() {
               <div style={{ fontSize: 22, fontWeight: 700, color: s.color }}>
                 {s.value}
               </div>
-              <div style={{ fontSize: 12, color: "#64748b" }}>{s.label}</div>
+              <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{s.label}</div>
             </div>
           </div>
         ))}
@@ -402,11 +402,11 @@ export default function EmployeeDashboard() {
           </h3>
 
           {loading ? (
-            <div style={{ textAlign: "center", padding: 20, color: "#94a3b8" }}>
+            <div style={{ textAlign: "center", padding: 20, color: "var(--text-muted)" }}>
               {t("common.loading")}
             </div>
           ) : myTasks.length === 0 ? (
-            <div style={{ textAlign: "center", padding: 20, color: "#94a3b8" }}>
+            <div style={{ textAlign: "center", padding: 20, color: "var(--text-muted)" }}>
               <CheckCircle size={32} style={{ margin: "0 auto 8px", opacity: 0.5 }} />
               {t("empDash.noTasks")}
             </div>
@@ -426,7 +426,7 @@ export default function EmployeeDashboard() {
                     style={{
                       padding: "12px 14px",
                       borderRadius: 12,
-                      background: task.status === "completed" ? "#f8fafc" : "#fff",
+                      background: task.status === "completed" ? "#f8fafc" : "var(--bg-card)",
                       border: `1px solid ${task.status === "completed" ? "#e2e8f0" : "#dbeafe"}`,
                       borderRight: `4px solid ${task.status === "completed" ? "#10b981" : primary}`,
                     }}
@@ -444,7 +444,7 @@ export default function EmployeeDashboard() {
                         >
                           {task.title}
                         </div>
-                        <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 4 }}>
+                        <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 4 }}>
                           {getTypeLabel(task.type)}
                           {task.dueDate && ` • 📅 ${new Date(task.dueDate).toLocaleDateString()}`}
                           {task.client?.name && ` • 🏢 ${task.client.name}`}
@@ -496,7 +496,7 @@ export default function EmployeeDashboard() {
                                 fontSize: 11,
                                 padding: "4px 10px",
                                 borderRadius: 999,
-                                color: "#ef4444",
+                                color: "var(--danger)",
                                 background: "#fee2e2",
                                 fontWeight: 800,
                                 whiteSpace: "nowrap",
@@ -526,8 +526,8 @@ export default function EmployeeDashboard() {
                             borderRadius: 10,
                             border: "none",
                             cursor: "pointer",
-                            background: "#3b82f6",
-                            color: "#fff",
+                            background: "var(--primary-color)",
+                            color: "var(--bg-card)",
                             fontSize: 12,
                             fontWeight: 900,
                           }}
@@ -543,8 +543,8 @@ export default function EmployeeDashboard() {
                             borderRadius: 10,
                             border: "none",
                             cursor: "pointer",
-                            background: "#10b981",
-                            color: "#fff",
+                            background: "var(--success)",
+                            color: "var(--bg-card)",
                             fontSize: 12,
                             fontWeight: 900,
                           }}
@@ -556,7 +556,7 @@ export default function EmployeeDashboard() {
                         <div
                           style={{
                             fontSize: 12,
-                            color: "#94a3b8",
+                            color: "var(--text-muted)",
                             fontWeight: 700,
                             paddingTop: 8,
                           }}
@@ -595,11 +595,11 @@ export default function EmployeeDashboard() {
                     display: "flex",
                     justifyContent: "space-between",
                     padding: "8px 0",
-                    borderBottom: "1px solid #f1f5f9",
+                    borderBottom: "1px solid var(--border-color)",
                     fontSize: 13,
                   }}
                 >
-                  <span style={{ color: "#64748b" }}>{item.label}</span>
+                  <span style={{ color: "var(--text-muted)" }}>{item.label}</span>
                   <span style={{ fontWeight: 500 }}>{item.value}</span>
                 </div>
               ))}
@@ -633,7 +633,7 @@ export default function EmployeeDashboard() {
                   </div>
                 </div>
               ) : (
-                <div style={{ textAlign: "center", background: "#f1f5f9", borderRadius: 12, padding: "12px 10px", marginBottom: 12, fontSize: 13, color: "#64748b" }}>
+                <div style={{ textAlign: "center", background: "var(--bg-hover)", borderRadius: 12, padding: "12px 10px", marginBottom: 12, fontSize: 13, color: "var(--text-muted)" }}>
                   {t("att.notWorking")}
                 </div>
               )}
@@ -648,11 +648,11 @@ export default function EmployeeDashboard() {
                   { label: t("att.thisWeek"), min: attendance.totals.weekMinutes },
                   { label: t("att.thisMonth"), min: attendance.totals.monthMinutes },
                 ].map((s) => (
-                  <div key={s.label} style={{ background: "#f8fafc", borderRadius: 10, padding: "10px 8px", textAlign: "center" }}>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: "#3b82f6" }}>
+                  <div key={s.label} style={{ background: "var(--bg-app)", borderRadius: 10, padding: "10px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: "var(--primary-color)" }}>
                       {Math.floor(s.min / 60)}h{String(s.min % 60).padStart(2, "0")}
                     </div>
-                    <div style={{ fontSize: 10, color: "#64748b", marginTop: 2 }}>{s.label}</div>
+                    <div style={{ fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -660,7 +660,7 @@ export default function EmployeeDashboard() {
               {attendance.entries.length > 0 && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 5, maxHeight: 150, overflowY: "auto", marginTop: 12 }}>
                   {attendance.entries.slice(0, 6).map((e) => (
-                    <div key={e.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 11, padding: "6px 10px", background: "#f8fafc", borderRadius: 6, color: "#475569" }}>
+                    <div key={e.id} style={{ display: "flex", justifyContent: "space-between", fontSize: 11, padding: "6px 10px", background: "var(--bg-app)", borderRadius: 6, color: "var(--text-main)" }}>
                       <span>{new Date(e.clockIn).toLocaleDateString([], { day: "2-digit", month: "2-digit" })} · {new Date(e.clockIn).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                         {e.clockOut ? ` → ${new Date(e.clockOut).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : ` → …`}
                       </span>
@@ -683,9 +683,9 @@ export default function EmployeeDashboard() {
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
                 {[
-                  { label: t("leave.remaining"), value: leaves.balance.remainingDays, color: "#10b981", bg: "#d1fae5" },
-                  { label: t("leave.used"), value: leaves.balance.usedDays, color: "#f59e0b", bg: "#fef3c7" },
-                  { label: t("leave.allocated"), value: leaves.balance.allocatedDays, color: "#3b82f6", bg: "#dbeafe" },
+                  { label: t("leave.remaining"), value: leaves.balance.remainingDays, color: "var(--success)", bg: "#d1fae5" },
+                  { label: t("leave.used"), value: leaves.balance.usedDays, color: "var(--warning)", bg: "#fef3c7" },
+                  { label: t("leave.allocated"), value: leaves.balance.allocatedDays, color: "var(--primary-color)", bg: "#dbeafe" },
                 ].map((s) => (
                   <div key={s.label} style={{ background: s.bg, borderRadius: 10, padding: "10px 8px", textAlign: "center" }}>
                     <div style={{ fontSize: 16, fontWeight: 800, color: s.color }}>{s.value}</div>
@@ -699,7 +699,7 @@ export default function EmployeeDashboard() {
                   + {t("leave.request")}
                 </button>
               ) : (
-                <form onSubmit={submitLeave} style={{ background: "#f8fafc", borderRadius: 10, padding: 12, marginBottom: 14 }}>
+                <form onSubmit={submitLeave} style={{ background: "var(--bg-app)", borderRadius: 10, padding: 12, marginBottom: 14 }}>
                   <label className="form-label">{t("leave.type")}</label>
                   <select value={leaveForm.type} onChange={(e) => setLeaveForm((f) => ({ ...f, type: e.target.value }))} className="form-input" style={{ marginBottom: 10 }}>
                     {LEAVE_TYPES.map((lt) => (
@@ -721,7 +721,7 @@ export default function EmployeeDashboard() {
                     <button type="submit" disabled={savingLeave} className="btn-primary" style={{ flex: 2, padding: "9px 0", fontSize: 13 }}>
                       {savingLeave ? t("common.saving") : t("leave.submit")}
                     </button>
-                    <button type="button" onClick={() => setShowLeaveForm(false)} style={{ flex: 1, padding: "9px 0", borderRadius: 8, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 13 }}>
+                    <button type="button" onClick={() => setShowLeaveForm(false)} style={{ flex: 1, padding: "9px 0", borderRadius: 8, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 13 }}>
                       {t("common.cancel")}
                     </button>
                   </div>
@@ -729,22 +729,22 @@ export default function EmployeeDashboard() {
               )}
 
               {leaves.requests.length === 0 ? (
-                <div style={{ textAlign: "center", padding: 12, color: "#94a3b8", fontSize: 13 }}>{t("leave.none")}</div>
+                <div style={{ textAlign: "center", padding: 12, color: "var(--text-muted)", fontSize: 13 }}>{t("leave.none")}</div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 220, overflowY: "auto" }}>
                   {leaves.requests.slice(0, 8).map((lr) => {
                     const st = LEAVE_STATUS_META[lr.status] || LEAVE_STATUS_META.PENDING;
                     return (
-                      <div key={lr.id} style={{ padding: "8px 10px", borderRadius: 8, background: "#f8fafc", border: "1px solid #f1f5f9", fontSize: 12 }}>
+                      <div key={lr.id} style={{ padding: "8px 10px", borderRadius: 8, background: "var(--bg-app)", border: "1px solid var(--border-color)", fontSize: 12 }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                           <div>
-                            <div style={{ fontWeight: 600, color: "#1e293b" }}>
+                            <div style={{ fontWeight: 600, color: "var(--text-main)" }}>
                               {t(LEAVE_TYPES.find((x) => x.value === lr.type)?.key || "leave.annual")} — {lr.days} {t("leave.days")}
                             </div>
-                            <div style={{ color: "#94a3b8", fontSize: 10 }}>
+                            <div style={{ color: "var(--text-muted)", fontSize: 10 }}>
                               {new Date(lr.startDate).toLocaleDateString()} → {new Date(lr.endDate).toLocaleDateString()}
                             </div>
-                            {lr.decisionNote && <div style={{ color: "#64748b", fontSize: 10, marginTop: 2 }}>💬 {lr.decisionNote}</div>}
+                            {lr.decisionNote && <div style={{ color: "var(--text-muted)", fontSize: 10, marginTop: 2 }}>💬 {lr.decisionNote}</div>}
                           </div>
                           <div style={{ textAlign: "end" }}>
                             <span style={{ fontSize: 10, fontWeight: 800, padding: "3px 8px", borderRadius: 999, color: st.color, background: st.bg, whiteSpace: "nowrap" }}>
@@ -752,7 +752,7 @@ export default function EmployeeDashboard() {
                             </span>
                             {lr.status === "PENDING" && (
                               <div>
-                                <button onClick={() => cancelLeave(lr.id)} style={{ marginTop: 4, fontSize: 10, border: "none", background: "none", color: "#ef4444", cursor: "pointer", textDecoration: "underline" }}>
+                                <button onClick={() => cancelLeave(lr.id)} style={{ marginTop: 4, fontSize: 10, border: "none", background: "none", color: "var(--danger)", cursor: "pointer", textDecoration: "underline" }}>
                                   {t("common.cancel")}
                                 </button>
                               </div>
@@ -788,7 +788,7 @@ export default function EmployeeDashboard() {
                     <div style={{ fontSize: 28, fontWeight: 700, color: primary }}>
                       {(hr.salary || 0).toLocaleString()} {t("common.currency")}
                     </div>
-                    <div style={{ fontSize: 12, color: "#64748b", marginTop: 4 }}>
+                    <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
                       {t("empDash.monthlySalary")}
                     </div>
                   </div>
@@ -799,11 +799,11 @@ export default function EmployeeDashboard() {
                       justifyContent: "space-between",
                       fontSize: 14,
                       padding: "8px 0",
-                      borderBottom: "1px solid #f1f5f9",
+                      borderBottom: "1px solid var(--border-color)",
                     }}
                   >
-                    <span style={{ color: "#64748b" }}>{t("empDash.paymentStatus")}</span>
-                    <span style={{ color: hr?.isPaid ? "#10b981" : "#f59e0b", fontWeight: 700 }}>
+                    <span style={{ color: "var(--text-muted)" }}>{t("empDash.paymentStatus")}</span>
+                    <span style={{ color: hr?.isPaid ? "#10b981" : "var(--warning)", fontWeight: 700 }}>
                       {hr?.isPaid ? "✅ " + t("emp.paid") : "⏳ " + t("emp.pending")}
                     </span>
                   </div>
@@ -815,16 +815,16 @@ export default function EmployeeDashboard() {
                         justifyContent: "space-between",
                         fontSize: 13,
                         padding: "8px 0",
-                        color: "#64748b",
+                        color: "var(--text-muted)",
                       }}
                     >
                       <span>{t("empDash.paymentDate")}</span>
-                      <span style={{ fontWeight: 500, color: "#1e293b" }}>{hr.paymentDate}</span>
+                      <span style={{ fontWeight: 500, color: "var(--text-main)" }}>{hr.paymentDate}</span>
                     </div>
                   )}
                 </>
               ) : (
-                <div style={{ textAlign: "center", padding: "20px 0", color: "#94a3b8", fontSize: 13 }}>
+                <div style={{ textAlign: "center", padding: "20px 0", color: "var(--text-muted)", fontSize: 13 }}>
                   <DollarSign size={32} style={{ margin: "0 auto 8px", opacity: 0.5 }} />
                   {t("empDash.noSalary")}
                 </div>
@@ -843,9 +843,9 @@ export default function EmployeeDashboard() {
               {/* Stats */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
                 {[
-                  { label: t("empDash.totalShort"), value: totalCommission, color: "#f59e0b", bg: "#fef3c7" },
-                  { label: t("emp.paid"), value: paidCommission, color: "#10b981", bg: "#d1fae5" },
-                  { label: t("empDash.due"), value: unpaidCommission, color: "#3b82f6", bg: "#dbeafe" },
+                  { label: t("empDash.totalShort"), value: totalCommission, color: "var(--warning)", bg: "#fef3c7" },
+                  { label: t("emp.paid"), value: paidCommission, color: "var(--success)", bg: "#d1fae5" },
+                  { label: t("empDash.due"), value: unpaidCommission, color: "var(--primary-color)", bg: "#dbeafe" },
                 ].map((s) => (
                   <div key={s.label} style={{
                     background: s.bg, borderRadius: 10,
@@ -865,7 +865,7 @@ export default function EmployeeDashboard() {
               {/* Rate */}
               {hr?.commissionRate > 0 && (
                 <div style={{
-                  background: "#fffbeb",
+                  background: "rgba(245, 158, 11, 0.1)",
                   border: "1px solid #fde68a",
                   borderRadius: 8, padding: "8px 12px",
                   fontSize: 12, color: "#92400e",
@@ -888,17 +888,17 @@ export default function EmployeeDashboard() {
                 <span style={{ fontSize: 13, fontWeight: 600, color: hr?.isPaid ? "#065f46" : "#92400e" }}>
                   {t("empDash.paymentStatus")}
                 </span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: hr?.isPaid ? "#10b981" : "#f59e0b" }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: hr?.isPaid ? "#10b981" : "var(--warning)" }}>
                   {hr?.isPaid ? t("empDash.commissionsPaid") : t("empDash.awaitingPayment")}
                 </span>
               </div>
 
               {/* Commission History */}
-              <h4 style={{ fontSize: 13, fontWeight: 600, margin: "0 0 10px", color: "#475569" }}>
+              <h4 style={{ fontSize: 13, fontWeight: 600, margin: "0 0 10px", color: "var(--text-main)" }}>
                 {t("empDash.commissionLog")}
               </h4>
               {commissions.length === 0 ? (
-                <div style={{ textAlign: "center", padding: 20, color: "#94a3b8", fontSize: 13 }}>
+                <div style={{ textAlign: "center", padding: 20, color: "var(--text-muted)", fontSize: 13 }}>
                   {t("empDash.noCommissions")}
                 </div>
               ) : (
@@ -909,21 +909,21 @@ export default function EmployeeDashboard() {
                       justifyContent: "space-between",
                       alignItems: "center",
                       padding: "8px 10px", borderRadius: 8,
-                      background: "#f8fafc",
-                      border: "1px solid #f1f5f9",
+                      background: "var(--bg-app)",
+                      border: "1px solid var(--border-color)",
                       fontSize: 12
                     }}>
                       <div>
-                        <div style={{ fontWeight: 600, color: "#1e293b" }}>{c.name}</div>
-                        <div style={{ color: "#94a3b8", fontSize: 10 }}>
+                        <div style={{ fontWeight: 600, color: "var(--text-main)" }}>{c.name}</div>
+                        <div style={{ color: "var(--text-muted)", fontSize: 10 }}>
                           {c.createdAt ? new Date(c.createdAt).toLocaleDateString("ar-DZ") : ""}
                         </div>
                       </div>
                       <div style={{ textAlign: "left" }}>
-                        <div style={{ fontWeight: 800, color: "#f59e0b", fontSize: 14 }}>
+                        <div style={{ fontWeight: 800, color: "var(--warning)", fontSize: 14 }}>
                           +{(c.commissionAmount || 0).toFixed(2)} {t("common.currency")}
                         </div>
-                        <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                        <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
                           {c.commissionType === "percent"
                             ? `${c.commissionValue}%`
                             : t("empDash.fixedAmount")}
@@ -945,10 +945,10 @@ export default function EmployeeDashboard() {
                   <button
                     key={d.id}
                     onClick={() => apiDownload(`/employees/me/documents/${d.id}/download`, d.name).catch((err) => toast.error(err.message))}
-                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, padding: "9px 12px", borderRadius: 8, background: "#f8fafc", border: "1px solid #f1f5f9", cursor: "pointer", fontSize: 13, textAlign: "start", width: "100%" }}
+                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, padding: "9px 12px", borderRadius: 8, background: "var(--bg-app)", border: "1px solid var(--border-color)", cursor: "pointer", fontSize: 13, textAlign: "start", width: "100%" }}
                   >
                     <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>📄 {d.name}</span>
-                    <span style={{ color: "#3b82f6", fontSize: 12, flexShrink: 0 }}>⬇️ {(d.size / 1024).toFixed(0)} Ko</span>
+                    <span style={{ color: "var(--primary-color)", fontSize: 12, flexShrink: 0 }}>⬇️ {(d.size / 1024).toFixed(0)} Ko</span>
                   </button>
                 ))}
               </div>
@@ -963,7 +963,7 @@ export default function EmployeeDashboard() {
             </h3>
 
             {totalTasks === 0 ? (
-              <div style={{ textAlign: "center", padding: 20, color: "#94a3b8", fontSize: 13 }}>
+              <div style={{ textAlign: "center", padding: 20, color: "var(--text-muted)", fontSize: 13 }}>
                 {t("empDash.noPerfData")}
               </div>
             ) : (
@@ -971,16 +971,16 @@ export default function EmployeeDashboard() {
                 {/* Completion Rate Bar */}
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 6 }}>
-                    <span style={{ color: "#475569" }}>{t("empDash.completionRate")}</span>
-                    <span style={{ color: "#10b981", fontWeight: 600 }}>{completionRate}%</span>
+                    <span style={{ color: "var(--text-main)" }}>{t("empDash.completionRate")}</span>
+                    <span style={{ color: "var(--success)", fontWeight: 600 }}>{completionRate}%</span>
                   </div>
-                  <div style={{ background: "#f1f5f9", borderRadius: 99, height: 10 }}>
+                  <div style={{ background: "var(--bg-hover)", borderRadius: 99, height: 10 }}>
                     <div
                       style={{
                         width: `${completionRate}%`,
                         height: 10,
                         borderRadius: 99,
-                        background: completionRate >= 70 ? "#10b981" : completionRate >= 40 ? "#f59e0b" : "#ef4444",
+                        background: completionRate >= 70 ? "#10b981" : completionRate >= 40 ? "#f59e0b" : "var(--danger)",
                         transition: "width 0.5s ease",
                       }}
                     />
@@ -990,17 +990,17 @@ export default function EmployeeDashboard() {
                 {/* Task Status Breakdown */}
                 {[
                   { label: t("empDash.pendingStatus"), count: myTasks.filter((t) => t.status === "pending").length, color: "#6b7280" },
-                  { label: t("empDash.inProgressStatus"), count: myTasks.filter((x) => x.status === "in_progress").length, color: "#3b82f6" },
-                  { label: t("empDash.completedStatus"), count: doneCount, color: "#10b981" },
+                  { label: t("empDash.inProgressStatus"), count: myTasks.filter((x) => x.status === "in_progress").length, color: "var(--primary-color)" },
+                  { label: t("empDash.completedStatus"), count: doneCount, color: "var(--success)" },
                 ].map((bar) => {
                   const pct = totalTasks ? Math.round((bar.count / totalTasks) * 100) : 0;
                   return (
                     <div key={bar.label} style={{ marginBottom: 14 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                        <span style={{ color: "#475569" }}>{bar.label}</span>
+                        <span style={{ color: "var(--text-main)" }}>{bar.label}</span>
                         <span style={{ color: bar.color, fontWeight: 600 }}>{bar.count} ({pct}%)</span>
                       </div>
-                      <div style={{ background: "#f1f5f9", borderRadius: 99, height: 8 }}>
+                      <div style={{ background: "var(--bg-hover)", borderRadius: 99, height: 8 }}>
                         <div
                           style={{
                             width: `${pct}%`,
@@ -1036,11 +1036,11 @@ export default function EmployeeDashboard() {
                     display: "flex",
                     justifyContent: "space-between",
                     padding: "7px 0",
-                    borderBottom: "1px solid #f1f5f9",
+                    borderBottom: "1px solid var(--border-color)",
                     fontSize: 13,
                   }}
                 >
-                  <span style={{ color: "#64748b" }}>{item.label}</span>
+                  <span style={{ color: "var(--text-muted)" }}>{item.label}</span>
                   <span
                     style={{
                       fontWeight: 500,

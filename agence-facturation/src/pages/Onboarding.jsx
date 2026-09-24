@@ -83,7 +83,7 @@ export default function Onboarding() {
     >
       <div
         style={{
-          background: "#fff",
+          background: "var(--bg-card)",
           borderRadius: 24,
           padding: "clamp(24px,5vw,40px)",
           width: "100%",
@@ -98,7 +98,7 @@ export default function Onboarding() {
               display: "flex",
               justifyContent: "space-between",
               fontSize: 13,
-              color: "#64748b",
+              color: "var(--text-muted)",
               marginBottom: 8,
             }}
           >
@@ -107,7 +107,7 @@ export default function Onboarding() {
             </span>
             <span>{progress}%</span>
           </div>
-          <div style={{ background: "#f1f5f9", borderRadius: 99, height: 6 }}>
+          <div style={{ background: "var(--bg-hover)", borderRadius: 99, height: 6 }}>
             <div
               style={{
                 width: `${progress}%`,
@@ -126,7 +126,7 @@ export default function Onboarding() {
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <div style={{ fontSize: 48, marginBottom: 12 }}>🏢</div>
               <h2 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px" }}>{t("ob.welcome")}</h2>
-              <p style={{ color: "#64748b", fontSize: 14 }}>{t("ob.agencyType")}</p>
+              <p style={{ color: "var(--text-muted)", fontSize: 14 }}>{t("ob.agencyType")}</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               {AGENCY_TYPES.map((ty) => (
@@ -136,12 +136,12 @@ export default function Onboarding() {
                   style={{
                     padding: "12px 10px",
                     borderRadius: 10,
-                    border: `2px solid ${data.agencyType === ty ? data.primaryColor : "#e2e8f0"}`,
-                    background: data.agencyType === ty ? `${data.primaryColor}11` : "#fff",
+                    border: `2px solid ${data.agencyType === ty ? data.primaryColor : "var(--border-color)"}`,
+                    background: data.agencyType === ty ? `${data.primaryColor}11` : "var(--bg-card)",
                     cursor: "pointer",
                     fontSize: 13,
                     fontWeight: data.agencyType === ty ? 600 : 400,
-                    color: data.agencyType === ty ? data.primaryColor : "#475569",
+                    color: data.agencyType === ty ? data.primaryColor : "var(--text-main)",
                     transition: "all 0.2s",
                     fontFamily: "'Segoe UI',Tahoma,sans-serif",
                   }}
@@ -159,7 +159,7 @@ export default function Onboarding() {
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <div style={{ fontSize: 48, marginBottom: 12 }}>👥</div>
               <h2 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px" }}>{t("ob.teamSize")}</h2>
-              <p style={{ color: "#64748b", fontSize: 14 }}>{t("ob.teamSizeSub")}</p>
+              <p style={{ color: "var(--text-muted)", fontSize: 14 }}>{t("ob.teamSizeSub")}</p>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
               {TEAM_SIZES.map((s) => (
@@ -169,12 +169,12 @@ export default function Onboarding() {
                   style={{
                     padding: "20px 10px",
                     borderRadius: 12,
-                    border: `2px solid ${data.teamSize === s.value ? data.primaryColor : "#e2e8f0"}`,
-                    background: data.teamSize === s.value ? `${data.primaryColor}11` : "#fff",
+                    border: `2px solid ${data.teamSize === s.value ? data.primaryColor : "var(--border-color)"}`,
+                    background: data.teamSize === s.value ? `${data.primaryColor}11` : "var(--bg-card)",
                     cursor: "pointer",
                     fontSize: 15,
                     fontWeight: 600,
-                    color: data.teamSize === s.value ? data.primaryColor : "#475569",
+                    color: data.teamSize === s.value ? data.primaryColor : "var(--text-main)",
                     fontFamily: "'Segoe UI',Tahoma,sans-serif",
                   }}
                 >
@@ -191,7 +191,7 @@ export default function Onboarding() {
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <div style={{ fontSize: 48, marginBottom: 12 }}>🎯</div>
               <h2 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px" }}>{t("ob.goals")}</h2>
-              <p style={{ color: "#64748b", fontSize: 14 }}>{t("ob.goalsSub")}</p>
+              <p style={{ color: "var(--text-muted)", fontSize: 14 }}>{t("ob.goalsSub")}</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {GOALS.map((g) => (
@@ -201,15 +201,15 @@ export default function Onboarding() {
                   style={{
                     padding: "12px 16px",
                     borderRadius: 10,
-                    border: `2px solid ${data.goals.includes(g) ? data.primaryColor : "#e2e8f0"}`,
-                    background: data.goals.includes(g) ? `${data.primaryColor}11` : "#fff",
+                    border: `2px solid ${data.goals.includes(g) ? data.primaryColor : "var(--border-color)"}`,
+                    background: data.goals.includes(g) ? `${data.primaryColor}11` : "var(--bg-card)",
                     cursor: "pointer",
                     fontSize: 13,
                     textAlign: "right",
                     display: "flex",
                     alignItems: "center",
                     gap: 10,
-                    color: data.goals.includes(g) ? data.primaryColor : "#475569",
+                    color: data.goals.includes(g) ? data.primaryColor : "var(--text-main)",
                     fontWeight: data.goals.includes(g) ? 600 : 400,
                     fontFamily: "'Segoe UI',Tahoma,sans-serif",
                   }}
@@ -228,7 +228,7 @@ export default function Onboarding() {
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <div style={{ fontSize: 48, marginBottom: 12 }}>🎨</div>
               <h2 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px" }}>{t("ob.pickColor")}</h2>
-              <p style={{ color: "#64748b", fontSize: 14 }}>{t("ob.pickColorSub")}</p>
+              <p style={{ color: "var(--text-muted)", fontSize: 14 }}>{t("ob.pickColorSub")}</p>
             </div>
             <div
               style={{
@@ -263,7 +263,7 @@ export default function Onboarding() {
                 background: `linear-gradient(135deg, ${data.primaryColor},${data.primaryColor}99)`,
                 borderRadius: 14,
                 padding: 20,
-                color: "#fff",
+                color: "var(--bg-card)",
                 textAlign: "center",
               }}
             >
@@ -282,7 +282,7 @@ export default function Onboarding() {
                 flex: 1,
                 padding: "12px 0",
                 borderRadius: 10,
-                background: "#f1f5f9",
+                background: "var(--bg-hover)",
                 border: "none",
                 cursor: "pointer",
                 fontSize: 14,
@@ -300,7 +300,7 @@ export default function Onboarding() {
                 padding: "12px 0",
                 borderRadius: 10,
                 background: data.primaryColor,
-                color: "#fff",
+                color: "var(--bg-card)",
                 border: "none",
                 cursor: "pointer",
                 fontSize: 15,
@@ -319,7 +319,7 @@ export default function Onboarding() {
                 padding: "12px 0",
                 borderRadius: 10,
                 background: data.primaryColor,
-                color: "#fff",
+                color: "var(--bg-card)",
                 border: "none",
                 cursor: "pointer",
                 fontSize: 15,
@@ -345,7 +345,7 @@ export default function Onboarding() {
               marginTop: 12,
               background: "none",
               border: "none",
-              color: "#94a3b8",
+              color: "var(--text-muted)",
               cursor: "pointer",
               fontSize: 13,
               padding: "8px 0",

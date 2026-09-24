@@ -204,15 +204,15 @@ export default function Clients() {
       >
         <div>
           <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>{t("clients.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
             {t("clients.registered", { count: totalClients })}
           </p>
         </div>
         <button
           onClick={openAdd}
           style={{
-            background: "#3b82f6",
-            color: "#fff",
+            background: "var(--primary-color)",
+            color: "var(--bg-card)",
             border: "none",
             borderRadius: 10,
             padding: "10px 20px",
@@ -233,19 +233,19 @@ export default function Clients() {
           width: "100%",
           padding: "12px 16px",
           borderRadius: 10,
-          border: "1px solid #e2e8f0",
+          border: "1px solid var(--border-color)",
           fontSize: 14,
           marginBottom: 12,
           outline: "none",
           boxSizing: "border-box",
-          background: "#fff",
+          background: "var(--bg-card)",
         }}
       />
 
       {/* Filtre par tag / segment */}
       {allTags.length > 0 && (
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-          <button onClick={() => { setTagFilter(""); setPage(1); }} style={{ padding: "6px 14px", borderRadius: 20, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, background: tagFilter === "" ? "#3b82f6" : "#f1f5f9", color: tagFilter === "" ? "#fff" : "#64748b" }}>
+          <button onClick={() => { setTagFilter(""); setPage(1); }} style={{ padding: "6px 14px", borderRadius: 20, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 600, background: tagFilter === "" ? "#3b82f6" : "var(--bg-hover)", color: tagFilter === "" ? "#fff" : "var(--text-muted)" }}>
             {t("common.all")}
           </button>
           {allTags.map((tag) => (
@@ -256,10 +256,10 @@ export default function Clients() {
         </div>
       )}
 
-      {loading && <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>{t("common.loading")}</div>}
+      {loading && <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>{t("common.loading")}</div>}
 
       {!loading && filtered.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>👥</div>
           <div>{search ? t("common.noResults") : t("clients.empty")}</div>
         </div>
@@ -276,10 +276,10 @@ export default function Clients() {
           <div
             key={client.id}
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 12,
               padding: 20,
-              border: "1px solid #e2e8f0",
+              border: "1px solid var(--border-color)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
@@ -292,7 +292,7 @@ export default function Clients() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#fff",
+                  color: "var(--bg-card)",
                   fontWeight: 700,
                   fontSize: 16,
                 }}
@@ -301,13 +301,13 @@ export default function Clients() {
               </div>
               <div onClick={() => navigate(`/clients/${client.id}`)} style={{ cursor: "pointer" }}>
                 <div style={{ fontWeight: 600, fontSize: 15 }}>{client.name}</div>
-                <div style={{ color: "#64748b", fontSize: 13 }}>{client.company || "—"}</div>
+                <div style={{ color: "var(--text-muted)", fontSize: 13 }}>{client.company || "—"}</div>
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 12 }}>
-              {client.email && <div style={{ fontSize: 13, color: "#475569" }}>📧 {client.email}</div>}
-              {client.phone && <div style={{ fontSize: 13, color: "#475569" }}>📞 {client.phone}</div>}
-              {client.address && <div style={{ fontSize: 13, color: "#475569" }}>📍 {client.address}</div>}
+              {client.email && <div style={{ fontSize: 13, color: "var(--text-main)" }}>📧 {client.email}</div>}
+              {client.phone && <div style={{ fontSize: 13, color: "var(--text-main)" }}>📞 {client.phone}</div>}
+              {client.address && <div style={{ fontSize: 13, color: "var(--text-main)" }}>📍 {client.address}</div>}
             </div>
             {client.tags && client.tags.length > 0 && (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
@@ -317,17 +317,17 @@ export default function Clients() {
               </div>
             )}
             {client.encours && client.encours.invoiced > 0 && (
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", borderRadius: 8, padding: "8px 12px", marginBottom: 12, fontSize: 13 }}>
-                <span style={{ color: "#64748b" }}>{t("cd.due")}</span>
-                <span style={{ fontWeight: 700, color: client.encours.overdue > 0 ? "#dc2626" : "#0f172a" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-app)", borderRadius: 8, padding: "8px 12px", marginBottom: 12, fontSize: 13 }}>
+                <span style={{ color: "var(--text-muted)" }}>{t("cd.due")}</span>
+                <span style={{ fontWeight: 700, color: client.encours.overdue > 0 ? "#dc2626" : "var(--text-main)" }}>
                   {(client.encours.due || 0).toLocaleString("fr-DZ")} {t("common.currency")}
-                  {client.encours.overdue > 0 && <span style={{ fontSize: 11, marginInlineStart: 6, color: "#dc2626" }}>⚠️</span>}
+                  {client.encours.overdue > 0 && <span style={{ fontSize: 11, marginInlineStart: 6, color: "var(--danger)" }}>⚠️</span>}
                 </span>
               </div>
             )}
             <button
               onClick={() => navigate(`/clients/${client.id}`)}
-              style={{ width: "100%", padding: "8px 0", borderRadius: 8, border: "1px solid #dbeafe", background: "#eff6ff", color: "#3b82f6", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 8 }}
+              style={{ width: "100%", padding: "8px 0", borderRadius: 8, border: "1px solid #dbeafe", background: "#eff6ff", color: "var(--primary-color)", cursor: "pointer", fontSize: 13, fontWeight: 600, marginBottom: 8 }}
             >
               👤 {t("cd.viewSheet")}
             </button>
@@ -338,8 +338,8 @@ export default function Clients() {
                   flex: 1,
                   padding: "8px 0",
                   borderRadius: 8,
-                  border: "1px solid #e2e8f0",
-                  background: "#f8fafc",
+                  border: "1px solid var(--border-color)",
+                  background: "var(--bg-app)",
                   cursor: "pointer",
                   fontSize: 13,
                 }}
@@ -354,7 +354,7 @@ export default function Clients() {
                   borderRadius: 8,
                   border: "1px solid #fee2e2",
                   background: "#fff5f5",
-                  color: "#ef4444",
+                  color: "var(--danger)",
                   cursor: "pointer",
                   fontSize: 13,
                 }}
@@ -383,7 +383,7 @@ export default function Clients() {
         >
           <div
             style={{
-              background: "#fff",
+              background: "var(--bg-card)",
               borderRadius: 16,
               padding: 28,
               width: "100%",
@@ -414,7 +414,7 @@ export default function Clients() {
                     width: "100%",
                     padding: "10px 12px",
                     borderRadius: 8,
-                    border: "1px solid #e2e8f0",
+                    border: "1px solid var(--border-color)",
                     fontSize: 14,
                     outline: "none",
                     boxSizing: "border-box",
@@ -439,7 +439,7 @@ export default function Clients() {
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === ",") { e.preventDefault(); addTag(tagInput); } }}
                 onBlur={() => addTag(tagInput)}
                 placeholder={t("clients.tagsPlaceholder")}
-                style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 14, outline: "none", boxSizing: "border-box" }}
+                style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 14, outline: "none", boxSizing: "border-box" }}
               />
             </div>
 
@@ -452,18 +452,18 @@ export default function Clients() {
                     value={row.key}
                     onChange={(e) => setCfRows((rows) => rows.map((r, idx) => (idx === i ? { ...r, key: e.target.value } : r)))}
                     placeholder={t("clients.cfKey")}
-                    style={{ flex: 1, padding: "8px 10px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", boxSizing: "border-box" }}
+                    style={{ flex: 1, padding: "8px 10px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 13, outline: "none", boxSizing: "border-box" }}
                   />
                   <input
                     value={row.value}
                     onChange={(e) => setCfRows((rows) => rows.map((r, idx) => (idx === i ? { ...r, value: e.target.value } : r)))}
                     placeholder={t("clients.cfValue")}
-                    style={{ flex: 1, padding: "8px 10px", borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13, outline: "none", boxSizing: "border-box" }}
+                    style={{ flex: 1, padding: "8px 10px", borderRadius: 8, border: "1px solid var(--border-color)", fontSize: 13, outline: "none", boxSizing: "border-box" }}
                   />
-                  <button type="button" onClick={() => setCfRows((rows) => rows.filter((_, idx) => idx !== i))} style={{ border: "none", background: "#fee2e2", color: "#ef4444", borderRadius: 8, cursor: "pointer", padding: "0 10px", fontSize: 16 }}>×</button>
+                  <button type="button" onClick={() => setCfRows((rows) => rows.filter((_, idx) => idx !== i))} style={{ border: "none", background: "#fee2e2", color: "var(--danger)", borderRadius: 8, cursor: "pointer", padding: "0 10px", fontSize: 16 }}>×</button>
                 </div>
               ))}
-              <button type="button" onClick={() => setCfRows((rows) => [...rows, { key: "", value: "" }])} style={{ background: "#f1f5f9", border: "1px dashed #cbd5e1", borderRadius: 8, padding: "7px 14px", cursor: "pointer", fontSize: 13, color: "#64748b", width: "100%" }}>
+              <button type="button" onClick={() => setCfRows((rows) => [...rows, { key: "", value: "" }])} style={{ background: "var(--bg-hover)", border: "1px dashed var(--border-color)", borderRadius: 8, padding: "7px 14px", cursor: "pointer", fontSize: 13, color: "var(--text-muted)", width: "100%" }}>
                 + {t("clients.addCustomField")}
               </button>
             </div>
@@ -476,8 +476,8 @@ export default function Clients() {
                   flex: 1,
                   padding: "11px 0",
                   borderRadius: 8,
-                  background: "#3b82f6",
-                  color: "#fff",
+                  background: "var(--primary-color)",
+                  color: "var(--bg-card)",
                   border: "none",
                   cursor: "pointer",
                   fontWeight: 600,
@@ -492,7 +492,7 @@ export default function Clients() {
                   flex: 1,
                   padding: "11px 0",
                   borderRadius: 8,
-                  background: "#f1f5f9",
+                  background: "var(--bg-hover)",
                   border: "none",
                   cursor: "pointer",
                   fontSize: 14,

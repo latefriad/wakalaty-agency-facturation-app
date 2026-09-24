@@ -14,8 +14,8 @@ export default function AppToaster() {
       toastOptions={{
         duration: 2800,
         style: {
-          background: "#ffffff",
-          color: "#0f172a",
+          background: "var(--bg-card)",
+          color: "var(--text-main)",
           border: "1px solid #e6ebf3",
           borderRadius: "16px",
           padding: "16px 20px",
@@ -28,15 +28,15 @@ export default function AppToaster() {
           gap: "12px",
         },
         success: {
-          iconTheme: { primary: "#059669", secondary: "#ffffff" },
+          iconTheme: { primary: "var(--success)", secondary: "var(--bg-card)" },
           style: { borderInlineStart: "5px solid #059669" },
         },
         error: {
-          iconTheme: { primary: "#dc2626", secondary: "#ffffff" },
+          iconTheme: { primary: "var(--danger)", secondary: "var(--bg-card)" },
           style: { borderInlineStart: "5px solid #dc2626" },
         },
         loading: {
-          iconTheme: { primary: "#2563eb", secondary: "#ffffff" },
+          iconTheme: { primary: "var(--primary-color)", secondary: "var(--bg-card)" },
           style: { borderInlineStart: "5px solid #2563eb" },
         },
       }}

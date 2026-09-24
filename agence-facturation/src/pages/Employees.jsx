@@ -272,10 +272,10 @@ export default function Employees() {
       <div className="page-header">
         <div>
           <h1 className="page-title">👥 {t("emp.title")}</h1>
-          <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>{employees.length} {t("emp.registered")}</p>
+          <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>{employees.length} {t("emp.registered")}</p>
         </div>
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={() => setView(view === "grid" ? "tree" : "grid")} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 13 }}>
+          <button onClick={() => setView(view === "grid" ? "tree" : "grid")} style={{ padding: "8px 14px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13 }}>
             {view === "grid" ? "🌳 " + t("emp.orgChart") : "🔲 " + t("emp.gridView")}
           </button>
           {isAdmin && (
@@ -297,9 +297,9 @@ export default function Employees() {
               <div key={e.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, padding: "8px 12px", borderRadius: 8, background: e.clockOut ? "#f8fafc" : "#f0fdf4", border: `1px solid ${e.clockOut ? "#f1f5f9" : "#bbf7d0"}`, fontSize: 13, flexWrap: "wrap" }}>
                 <span>
                   {e.clockOut ? "◽" : "🟢"} <strong>{e.employee?.name}</strong>
-                  {e.employee?.position && <span style={{ color: "#94a3b8", fontSize: 12 }}> · {e.employee.position}</span>}
+                  {e.employee?.position && <span style={{ color: "var(--text-muted)", fontSize: 12 }}> · {e.employee.position}</span>}
                 </span>
-                <span style={{ color: "#64748b", fontSize: 12 }}>
+                <span style={{ color: "var(--text-muted)", fontSize: 12 }}>
                   {new Date(e.clockIn).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   {e.clockOut
                     ? ` → ${new Date(e.clockOut).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} (${Math.floor((e.minutes || 0) / 60)}h${String((e.minutes || 0) % 60).padStart(2, "0")})`
@@ -319,7 +319,7 @@ export default function Employees() {
           </h3>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {pendingLeaves.map((lr) => (
-              <div key={lr.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, background: "#fffbeb", border: "1px solid #fde68a", flexWrap: "wrap" }}>
+              <div key={lr.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 12px", borderRadius: 10, background: "rgba(245, 158, 11, 0.1)", border: "1px solid #fde68a", flexWrap: "wrap" }}>
                 <div style={{ fontSize: 13 }}>
                   <strong>{lr.employee?.name}</strong>
                   {" — "}
@@ -330,10 +330,10 @@ export default function Employees() {
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 8 }}>
-                  <button onClick={() => decideLeave(lr.id, "approve")} style={{ padding: "7px 14px", borderRadius: 8, border: "none", background: "#10b981", color: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
+                  <button onClick={() => decideLeave(lr.id, "approve")} style={{ padding: "7px 14px", borderRadius: 8, border: "none", background: "var(--success)", color: "var(--bg-card)", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                     ✓ {t("leave.approve")}
                   </button>
-                  <button onClick={() => decideLeave(lr.id, "reject")} style={{ padding: "7px 14px", borderRadius: 8, border: "none", background: "#ef4444", color: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
+                  <button onClick={() => decideLeave(lr.id, "reject")} style={{ padding: "7px 14px", borderRadius: 8, border: "none", background: "var(--danger)", color: "var(--bg-card)", cursor: "pointer", fontSize: 12, fontWeight: 700 }}>
                     ✕ {t("leave.reject")}
                   </button>
                 </div>
@@ -345,10 +345,10 @@ export default function Employees() {
 
       <input placeholder={"🔍 " + t("emp.searchPlaceholder")} value={search} onChange={(e) => setSearch(e.target.value)} className="form-input" style={{ marginBottom: 20, maxWidth: 400 }} />
 
-      {loading && <div style={{ textAlign: "center", padding: 60, color: "#64748b" }}>{t("common.loading")}</div>}
+      {loading && <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>{t("common.loading")}</div>}
 
       {!loading && filtered.length === 0 && (
-        <div style={{ textAlign: "center", padding: 60, color: "#94a3b8" }}>
+        <div style={{ textAlign: "center", padding: 60, color: "var(--text-muted)" }}>
           <div style={{ fontSize: 48, marginBottom: 12 }}>👥</div>
           <div>{search ? t("common.noResults") : t("emp.empty")}</div>
         </div>
@@ -365,16 +365,16 @@ export default function Employees() {
             });
             const renderNode = (emp, depth) => (
               <div key={emp.id}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", marginInlineStart: depth * 26, borderInlineStart: depth > 0 ? "2px solid #e2e8f0" : "none", marginBottom: 4, background: "#f8fafc", borderRadius: 8, opacity: emp.status === "OFFBOARDED" ? 0.6 : 1 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: "50%", background: getColor(emp.name), color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 11, flexShrink: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", marginInlineStart: depth * 26, borderInlineStart: depth > 0 ? "2px solid #e2e8f0" : "none", marginBottom: 4, background: "var(--bg-app)", borderRadius: 8, opacity: emp.status === "OFFBOARDED" ? 0.6 : 1 }}>
+                  <div style={{ width: 30, height: 30, borderRadius: "50%", background: getColor(emp.name), color: "var(--bg-card)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 11, flexShrink: 0 }}>
                     {getInitials(emp.name)}
                   </div>
                   <div>
                     <span style={{ fontWeight: 600, fontSize: 13 }}>{emp.name}</span>
-                    {emp.position && <span style={{ color: "#64748b", fontSize: 12 }}> — {emp.position}</span>}
-                    {emp.status === "OFFBOARDED" && <span style={{ color: "#94a3b8", fontSize: 11 }}> · 🚫 {t("emp.offboardedBadge")}</span>}
+                    {emp.position && <span style={{ color: "var(--text-muted)", fontSize: 12 }}> — {emp.position}</span>}
+                    {emp.status === "OFFBOARDED" && <span style={{ color: "var(--text-muted)", fontSize: 11 }}> · 🚫 {t("emp.offboardedBadge")}</span>}
                     {(byManager[emp.id] || []).length > 0 && (
-                      <span style={{ color: "#3b82f6", fontSize: 11 }}> · {(byManager[emp.id] || []).length} 👥</span>
+                      <span style={{ color: "var(--primary-color)", fontSize: 11 }}> · {(byManager[emp.id] || []).length} 👥</span>
                     )}
                   </div>
                 </div>
@@ -390,18 +390,18 @@ export default function Employees() {
         {filtered.map((emp) => (
           <div key={emp.id} className="card" style={{ borderTop: `3px solid ${getColor(emp.name)}`, opacity: emp.status === "OFFBOARDED" ? 0.65 : 1 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-              <div style={{ width: 48, height: 48, borderRadius: "50%", background: getColor(emp.name), color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 16, flexShrink: 0 }}>
+              <div style={{ width: 48, height: 48, borderRadius: "50%", background: getColor(emp.name), color: "var(--bg-card)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: 16, flexShrink: 0 }}>
                 {getInitials(emp.name)}
               </div>
               <div>
                 <div style={{ fontWeight: 700, fontSize: 15 }}>{emp.name}</div>
-                <div style={{ fontSize: 12, color: "#64748b" }}>{emp.email}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{emp.email}</div>
               </div>
             </div>
 
             {emp.status === "OFFBOARDED" && (
               <div style={{ marginBottom: 10 }}>
-                <span style={{ background: "#f1f5f9", color: "#64748b", padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>
+                <span style={{ background: "var(--bg-hover)", color: "var(--text-muted)", padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 700 }}>
                   🚫 {t("emp.offboardedBadge")}
                 </span>
               </div>
@@ -421,13 +421,13 @@ export default function Employees() {
             </div>
 
             {emp.position && (
-              <span style={{ background: "#f1f5f9", padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 600, display: "inline-block", marginBottom: 10 }}>
+              <span style={{ background: "var(--bg-hover)", padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 600, display: "inline-block", marginBottom: 10 }}>
                 {emp.position}
               </span>
             )}
 
             {(emp.contractType || emp.hireDate || emp.manager) && (
-              <div style={{ fontSize: 12, color: "#64748b", marginBottom: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
                 {emp.contractType && <span>📄 {t(`emp.contract.${emp.contractType}`)}</span>}
                 {emp.hireDate && <span>📅 {t("emp.hiredOn")} {new Date(emp.hireDate).toLocaleDateString()}</span>}
                 {emp.manager && <span>👤 {t("emp.manager")}: {emp.manager.name}</span>}
@@ -451,10 +451,10 @@ export default function Employees() {
                   </div>
                 </div>
                 <div style={{ textAlign: "left" }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: emp.isPaid ? "#10b981" : "#f59e0b" }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: emp.isPaid ? "#10b981" : "var(--warning)" }}>
                     {emp.isPaid ? "✅ " + t("emp.paidF") : "⏳ " + t("emp.pending")}
                   </div>
-                  <div style={{ fontSize: 10, color: "#94a3b8" }}>
+                  <div style={{ fontSize: 10, color: "var(--text-muted)" }}>
                     {emp.commissionRate || 0}% {t("emp.commissionRate")}
                   </div>
                 </div>
@@ -470,7 +470,7 @@ export default function Employees() {
                 marginBottom: 10, fontSize: 13
               }}>
                 <span style={{ fontWeight: 600 }}>💰 {parseFloat(emp.salary).toLocaleString()} {t("common.currency")}</span>
-                <span style={{ color: emp.isPaid ? "#10b981" : "#f59e0b", fontWeight: 600, fontSize: 12 }}>
+                <span style={{ color: emp.isPaid ? "#10b981" : "var(--warning)", fontWeight: 600, fontSize: 12 }}>
                   {emp.isPaid ? "✅ " + t("emp.paid") : "⏳ " + t("emp.pending")}
                 </span>
               </div>
@@ -478,10 +478,10 @@ export default function Employees() {
 
             {isAdmin && (
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <button onClick={() => openEdit(emp)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 13 }}>{t("common.edit")}</button>
-                <button onClick={() => openDocs(emp)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #e2e8f0", background: "#f8fafc", cursor: "pointer", fontSize: 13 }}>📎 {t("emp.documents")}</button>
+                <button onClick={() => openEdit(emp)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13 }}>{t("common.edit")}</button>
+                <button onClick={() => openDocs(emp)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-app)", cursor: "pointer", fontSize: 13 }}>📎 {t("emp.documents")}</button>
                 {emp.email && !emp.userId && emp.status !== "OFFBOARDED" && (
-                  <button onClick={() => handleInvite(emp)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #bfdbfe", background: "#eff6ff", color: "#1d4ed8", cursor: "pointer", fontSize: 13 }}>
+                  <button onClick={() => handleInvite(emp)} style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "1px solid #bfdbfe", background: "#eff6ff", color: "var(--primary-hover)", cursor: "pointer", fontSize: 13 }}>
                     ✉️ {t("emp.invite")}
                   </button>
                 )}
@@ -504,28 +504,28 @@ export default function Employees() {
           <div className="modal-box">
             <h2 style={{ margin: "0 0 16px", fontSize: 18 }}>📎 {t("emp.documents")} — {docsEmp.name}</h2>
 
-            <label style={{ display: "block", padding: "14px 0", borderRadius: 10, border: "2px dashed #cbd5e1", textAlign: "center", cursor: "pointer", marginBottom: 16, color: "#64748b", fontSize: 13 }}>
+            <label style={{ display: "block", padding: "14px 0", borderRadius: 10, border: "2px dashed var(--border-color)", textAlign: "center", cursor: "pointer", marginBottom: 16, color: "var(--text-muted)", fontSize: 13 }}>
               {uploading ? t("common.saving") : "⬆️ " + t("emp.uploadDoc")}
               <input type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" style={{ display: "none" }} disabled={uploading}
                 onChange={(e) => { handleUploadDoc(e.target.files[0]); e.target.value = ""; }} />
             </label>
 
             {docs.length === 0 ? (
-              <div style={{ textAlign: "center", color: "#94a3b8", padding: 16, fontSize: 13 }}>{t("emp.noDocs")}</div>
+              <div style={{ textAlign: "center", color: "var(--text-muted)", padding: 16, fontSize: 13 }}>{t("emp.noDocs")}</div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8, maxHeight: 280, overflowY: "auto" }}>
                 {docs.map((d) => (
-                  <div key={d.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 8, background: "#f8fafc", border: "1px solid #f1f5f9" }}>
+                  <div key={d.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 8, background: "var(--bg-app)", border: "1px solid var(--border-color)" }}>
                     <div style={{ minWidth: 0 }}>
                       <div style={{ fontSize: 13, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.name}</div>
-                      <div style={{ fontSize: 11, color: "#94a3b8" }}>{(d.size / 1024).toFixed(0)} Ko · {new Date(d.createdAt).toLocaleDateString()}</div>
+                      <div style={{ fontSize: 11, color: "var(--text-muted)" }}>{(d.size / 1024).toFixed(0)} Ko · {new Date(d.createdAt).toLocaleDateString()}</div>
                     </div>
                     <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                       <button onClick={() => apiDownload(`/employees/${docsEmp.id}/documents/${d.id}/download`, d.name).catch((err) => toast.error(err.message))}
-                        style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #bfdbfe", background: "#eff6ff", color: "#1d4ed8", cursor: "pointer", fontSize: 12 }}>
+                        style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #bfdbfe", background: "#eff6ff", color: "var(--primary-hover)", cursor: "pointer", fontSize: 12 }}>
                         ⬇️
                       </button>
-                      <button onClick={() => handleDeleteDoc(d.id)} style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #fecaca", background: "#fef2f2", color: "#dc2626", cursor: "pointer", fontSize: 12 }}>
+                      <button onClick={() => handleDeleteDoc(d.id)} style={{ padding: "6px 10px", borderRadius: 8, border: "1px solid #fecaca", background: "rgba(239, 68, 68, 0.1)", color: "var(--danger)", cursor: "pointer", fontSize: 12 }}>
                         🗑️
                       </button>
                     </div>
@@ -534,7 +534,7 @@ export default function Employees() {
               </div>
             )}
 
-            <button onClick={() => { setDocsEmp(null); setDocs([]); }} style={{ width: "100%", marginTop: 16, padding: "10px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>
+            <button onClick={() => { setDocsEmp(null); setDocs([]); }} style={{ width: "100%", marginTop: 16, padding: "10px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>
               {t("common.close")}
             </button>
           </div>
@@ -550,7 +550,7 @@ export default function Employees() {
             <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={t("clients.namePlaceholder")} className="form-input" style={{ marginBottom: 14 }} />
 
             <label className="form-label">{t("auth.emailLabel")}</label>
-            <input type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder="employee@agence.com" disabled={!!editEmp} className="form-input" style={{ marginBottom: 14, background: editEmp ? "#f8fafc" : "#fff" }} />
+            <input type="email" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} placeholder="employee@agence.com" disabled={!!editEmp} className="form-input" style={{ marginBottom: 14, background: editEmp ? "#f8fafc" : "var(--bg-card)" }} />
 
             <label className="form-label">{t("common.phone")}</label>
             <input value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} placeholder="+213 555 000 000" className="form-input" style={{ marginBottom: 14 }} />
@@ -595,9 +595,9 @@ export default function Employees() {
                     border: "none", cursor: "pointer",
                     fontSize: 14, fontWeight: 600,
                     background: form.jobType === jt.value
-                      ? (jt.value === "freelancer" ? "#f59e0b" : "#3b82f6")
-                      : "#f1f5f9",
-                    color: form.jobType === jt.value ? "#fff" : "#64748b",
+                      ? (jt.value === "freelancer" ? "#f59e0b" : "var(--primary-color)")
+                      : "var(--bg-hover)",
+                    color: form.jobType === jt.value ? "#fff" : "var(--text-muted)",
                     fontFamily: "'Segoe UI',Tahoma,sans-serif"
                   }}>
                   {jt.icon} {t(jt.key)}
@@ -627,8 +627,8 @@ export default function Employees() {
                         flex: 1, padding: "9px 0", borderRadius: 8,
                         border: "none", cursor: "pointer",
                         fontSize: 13, fontWeight: 500,
-                        background: form.isPaid === opt.val ? "#3b82f6" : "#f1f5f9",
-                        color: form.isPaid === opt.val ? "#fff" : "#64748b",
+                        background: form.isPaid === opt.val ? "#3b82f6" : "var(--bg-hover)",
+                        color: form.isPaid === opt.val ? "#fff" : "var(--text-muted)",
                         fontFamily: "'Segoe UI',Tahoma,sans-serif"
                       }}>
                       {opt.label}
@@ -662,7 +662,7 @@ export default function Employees() {
                   <span style={{
                     position: "absolute", left: 12, top: "50%",
                     transform: "translateY(-50%)",
-                    color: "#94a3b8", fontSize: 16
+                    color: "var(--text-muted)", fontSize: 16
                   }}>%</span>
                 </div>
 
@@ -714,8 +714,8 @@ export default function Employees() {
                             flex: 1, padding: "9px 0", borderRadius: 8,
                             border: "none", cursor: "pointer",
                             fontSize: 13, fontWeight: 500,
-                            background: form.isPaid === opt.val ? "#f59e0b" : "#f1f5f9",
-                            color: form.isPaid === opt.val ? "#fff" : "#64748b",
+                            background: form.isPaid === opt.val ? "#f59e0b" : "var(--bg-hover)",
+                            color: form.isPaid === opt.val ? "#fff" : "var(--text-muted)",
                             fontFamily: "'Segoe UI',Tahoma,sans-serif"
                           }}>
                           {opt.label}
@@ -731,7 +731,7 @@ export default function Employees() {
               <button onClick={handleSave} disabled={saving} className="btn-primary" style={{ flex: 2, padding: "12px 0", fontSize: 15 }}>
                 {saving ? t("common.saving") : editEmp ? t("clients.saveEdits") : t("emp.addBtn")}
               </button>
-              <button onClick={() => { setShowModal(false); setEditEmp(null); setForm(emptyForm); }} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "#f1f5f9", border: "none", cursor: "pointer", fontSize: 14 }}>{t("common.cancel")}</button>
+              <button onClick={() => { setShowModal(false); setEditEmp(null); setForm(emptyForm); }} style={{ flex: 1, padding: "12px 0", borderRadius: 10, background: "var(--bg-hover)", border: "none", cursor: "pointer", fontSize: 14 }}>{t("common.cancel")}</button>
             </div>
           </div>
         </div>

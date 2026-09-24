@@ -30,7 +30,7 @@ export default function Settings() {
         <h1 style={{ fontSize: "clamp(18px,3vw,24px)", fontWeight: 700, margin: 0 }}>
           {t("settings.title")}
         </h1>
-        <p style={{ color: "#64748b", margin: "4px 0 0", fontSize: 14 }}>
+        <p style={{ color: "var(--text-muted)", margin: "4px 0 0", fontSize: 14 }}>
           {t("settings.subtitle")}
         </p>
       </div>
@@ -41,7 +41,7 @@ export default function Settings() {
           display: "flex",
           gap: 6,
           marginBottom: 24,
-          borderBottom: "2px solid #e2e8f0",
+          borderBottom: "2px solid var(--border-color)",
           paddingBottom: 0,
           overflowX: "auto",
         }}
@@ -55,7 +55,7 @@ export default function Settings() {
               borderRadius: "10px 10px 0 0",
               border: "none",
               background: activeTab === tab.id ? "#3b82f6" : "transparent",
-              color: activeTab === tab.id ? "#fff" : "#64748b",
+              color: activeTab === tab.id ? "#fff" : "var(--text-muted)",
               cursor: "pointer",
               fontSize: 14,
               fontWeight: activeTab === tab.id ? 600 : 400,
@@ -134,20 +134,20 @@ function UsersTab() {
   const inputStyle = {
     padding: "10px 12px",
     borderRadius: 9,
-    border: "1.5px solid #e2e8f0",
+    border: "1.5px solid var(--border-color)",
     fontSize: 14,
     outline: "none",
     boxSizing: "border-box",
     fontFamily: "'Segoe UI', Tahoma, sans-serif",
     direction: "inherit",
-    background: "#fff",
+    background: "var(--bg-card)",
     flex: "1 1 160px",
   };
 
   return (
-    <div style={{ background: "#fff", borderRadius: 14, padding: 24, border: "1px solid #e2e8f0" }}>
+    <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 24, border: "1px solid var(--border-color)" }}>
       <h3 style={{ margin: "0 0 6px", fontSize: 16, fontWeight: 600 }}>{t("settings.agencyUsers")}</h3>
-      <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b" }}>
+      <p style={{ margin: "0 0 20px", fontSize: 13, color: "var(--text-muted)" }}>
         {t("settings.usersHint")}
       </p>
 
@@ -165,31 +165,31 @@ function UsersTab() {
           ))}
         </select>
         <button onClick={handleCreate} disabled={saving}
-          style={{ padding: "10px 22px", borderRadius: 9, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
+          style={{ padding: "10px 22px", borderRadius: 9, background: "var(--primary-color)", color: "var(--bg-card)", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14, fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
           {saving ? "..." : t("common.add")}
         </button>
       </div>
 
       {loading ? (
-        <div style={{ color: "#64748b", padding: 20 }}>{t("common.loading")}</div>
+        <div style={{ color: "var(--text-muted)", padding: 20 }}>{t("common.loading")}</div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {users.map((u) => (
             <div key={u.id}
-              style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", borderRadius: 10, border: "1px solid #f1f5f9", background: u.isActive ? "#fff" : "#f8fafc", opacity: u.isActive ? 1 : 0.6, flexWrap: "wrap", gap: 8 }}>
+              style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", borderRadius: 10, border: "1px solid var(--border-color)", background: u.isActive ? "#fff" : "var(--bg-app)", opacity: u.isActive ? 1 : 0.6, flexWrap: "wrap", gap: 8 }}>
               <div>
                 <div style={{ fontWeight: 600, fontSize: 14 }}>
-                  {u.name} {u.id === profile?.id && <span style={{ color: "#94a3b8", fontSize: 12 }}>{t("settings.you")}</span>}
+                  {u.name} {u.id === profile?.id && <span style={{ color: "var(--text-muted)", fontSize: 12 }}>{t("settings.you")}</span>}
                 </div>
-                <div style={{ fontSize: 12, color: "#64748b", direction: "ltr", textAlign: "right" }}>{u.email}</div>
+                <div style={{ fontSize: 12, color: "var(--text-muted)", direction: "ltr", textAlign: "right" }}>{u.email}</div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 20, background: "#eff6ff", color: "#3b82f6" }}>
+                <span style={{ fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 20, background: "#eff6ff", color: "var(--primary-color)" }}>
                   {t(`role.${u.role}`)}
                 </span>
                 {u.id !== profile?.id && (
                   <button onClick={() => toggleActive(u)}
-                    style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 12, color: u.isActive ? "#ef4444" : "#10b981", fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
+                    style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid var(--border-color)", background: "var(--bg-card)", cursor: "pointer", fontSize: 12, color: u.isActive ? "#ef4444" : "var(--success)", fontFamily: "'Segoe UI', Tahoma, sans-serif" }}>
                     {u.isActive ? t("settings.deactivate") : t("settings.activate")}
                   </button>
                 )}
@@ -230,15 +230,15 @@ function ProfileTab() {
     width: "100%",
     padding: "11px 14px",
     borderRadius: 9,
-    border: "1.5px solid #e2e8f0",
+    border: "1.5px solid var(--border-color)",
     fontSize: 14,
     outline: "none",
     boxSizing: "border-box",
     fontFamily: "'Segoe UI', Tahoma, sans-serif",
     direction: "rtl",
     textAlign: "right",
-    color: "#1e293b",
-    background: "#fff",
+    color: "var(--text-main)",
+    background: "var(--bg-card)",
   };
 
   const labelStyle = {
@@ -250,7 +250,7 @@ function ProfileTab() {
   };
 
   return (
-    <div style={{ background: "#fff", borderRadius: 14, padding: 24, border: "1px solid #e2e8f0" }}>
+    <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 24, border: "1px solid var(--border-color)" }}>
       <h3 style={{ margin: "0 0 20px", fontSize: 16, fontWeight: 600 }}>{t("settings.accountInfo")}</h3>
 
       <label style={labelStyle}>{t("settings.fullName")}</label>
@@ -277,8 +277,8 @@ function ProfileTab() {
           style={{
             padding: "11px 28px",
             borderRadius: 10,
-            background: "#3b82f6",
-            color: "#fff",
+            background: "var(--primary-color)",
+            color: "var(--bg-card)",
             border: "none",
             cursor: "pointer",
             fontWeight: 700,
@@ -334,15 +334,15 @@ function PasswordTab() {
     width: "100%",
     padding: "11px 14px",
     borderRadius: 9,
-    border: "1.5px solid #e2e8f0",
+    border: "1.5px solid var(--border-color)",
     fontSize: 14,
     outline: "none",
     boxSizing: "border-box",
     fontFamily: "'Segoe UI', Tahoma, sans-serif",
     direction: "rtl",
     textAlign: "right",
-    color: "#1e293b",
-    background: "#fff",
+    color: "var(--text-main)",
+    background: "var(--bg-card)",
   };
 
   const labelStyle = {
@@ -354,7 +354,7 @@ function PasswordTab() {
   };
 
   return (
-    <div style={{ background: "#fff", borderRadius: 14, padding: 24, border: "1px solid #e2e8f0" }}>
+    <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 24, border: "1px solid var(--border-color)" }}>
       <h3 style={{ margin: "0 0 20px", fontSize: 16, fontWeight: 600 }}>{t("settings.changePassword")}</h3>
 
       <label style={labelStyle}>{t("settings.currentPassword")}</label>
@@ -391,8 +391,8 @@ function PasswordTab() {
           style={{
             padding: "11px 28px",
             borderRadius: 10,
-            background: "#3b82f6",
-            color: "#fff",
+            background: "var(--primary-color)",
+            color: "var(--bg-card)",
             border: "none",
             cursor: "pointer",
             fontWeight: 700,

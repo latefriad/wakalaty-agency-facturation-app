@@ -27,8 +27,8 @@ export default function ExpiryBanner() {
         bottom: 16,
         left: "50%",
         transform: "translateX(-50%)",
-        background: isExpired ? "#ef4444" : "#f59e0b",
-        color: "#fff",
+        background: isExpired ? "#ef4444" : "var(--warning)",
+        color: "var(--bg-card)",
         padding: "12px 24px",
         borderRadius: 12,
         fontSize: 13,
@@ -47,7 +47,7 @@ export default function ExpiryBanner() {
         to="/subscription"
         style={{
           background: "rgba(255,255,255,0.25)",
-          color: "#fff",
+          color: "var(--bg-card)",
           padding: "4px 14px",
           borderRadius: 8,
           textDecoration: "none",

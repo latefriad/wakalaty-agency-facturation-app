@@ -4,10 +4,10 @@ import { useLang } from "../i18n/LanguageContext";
 import toast from "react-hot-toast";
 
 const STATUS_STYLE = {
-  ACTIVE: { color: "#059669", bg: "#d1fae5", icon: "✅" },
+  ACTIVE: { color: "var(--success)", bg: "#d1fae5", icon: "✅" },
   SUSPENDED: { color: "#b45309", bg: "#fef3c7", icon: "⏸️" },
-  REVOKED: { color: "#dc2626", bg: "#fee2e2", icon: "⛔" },
-  EXPIRED: { color: "#dc2626", bg: "#fee2e2", icon: "⚠️" },
+  REVOKED: { color: "var(--danger)", bg: "#fee2e2", icon: "⛔" },
+  EXPIRED: { color: "var(--danger)", bg: "#fee2e2", icon: "⚠️" },
 };
 
 export default function LicenseTab() {
@@ -48,16 +48,16 @@ export default function LicenseTab() {
   };
 
   if (loading) {
-    return <div style={{ background: "#fff", borderRadius: 14, padding: 24, border: "1px solid #e2e8f0", color: "#64748b" }}>{t("common.loading")}</div>;
+    return <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 24, border: "1px solid var(--border-color)", color: "var(--text-muted)" }}>{t("common.loading")}</div>;
   }
 
   const hasLicense = status?.hasLicense;
   const st = hasLicense ? (STATUS_STYLE[status.status] || STATUS_STYLE.EXPIRED) : null;
 
   return (
-    <div style={{ background: "#fff", borderRadius: 14, padding: 24, border: "1px solid #e2e8f0" }}>
+    <div style={{ background: "var(--bg-card)", borderRadius: 14, padding: 24, border: "1px solid var(--border-color)" }}>
       <h3 style={{ margin: "0 0 6px", fontSize: 16, fontWeight: 600 }}>🔑 {t("license.title")}</h3>
-      <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b" }}>{t("license.subtitle")}</p>
+      <p style={{ margin: "0 0 20px", fontSize: 13, color: "var(--text-muted)" }}>{t("license.subtitle")}</p>
 
       {hasLicense && (
         <div style={{ background: st.bg, borderRadius: 12, padding: "16px 20px", marginBottom: 20 }}>
@@ -65,9 +65,9 @@ export default function LicenseTab() {
             <div style={{ fontWeight: 700, color: st.color }}>
               {st.icon} {t(`license.status.${status.status}`)}
             </div>
-            <div style={{ fontFamily: "monospace", fontSize: 13, color: "#64748b" }}>{status.keyPrefix}-••••</div>
+            <div style={{ fontFamily: "monospace", fontSize: 13, color: "var(--text-muted)" }}>{status.keyPrefix}-••••</div>
           </div>
-          <div style={{ fontSize: 13, color: "#475569", marginTop: 8 }}>
+          <div style={{ fontSize: 13, color: "var(--text-main)", marginTop: 8 }}>
             {t("license.plan")}: <b>{status.plan}</b>
             {status.expiresAt && <> · {t("license.expiresOn")} {new Date(status.expiresAt).toLocaleDateString()}</>}
           </div>
@@ -89,17 +89,17 @@ export default function LicenseTab() {
           value={key}
           onChange={(e) => setKey(e.target.value.toUpperCase())}
           placeholder="WKLY-XXXX-XXXX-XXXX-XXXX"
-          style={{ flex: "1 1 260px", padding: "11px 14px", borderRadius: 9, border: "1.5px solid #e2e8f0", fontSize: 15, fontFamily: "monospace", letterSpacing: 1, outline: "none", direction: "ltr", textAlign: "left" }}
+          style={{ flex: "1 1 260px", padding: "11px 14px", borderRadius: 9, border: "1.5px solid var(--border-color)", fontSize: 15, fontFamily: "monospace", letterSpacing: 1, outline: "none", direction: "ltr", textAlign: "left" }}
         />
         <button
           onClick={activate}
           disabled={activating}
-          style={{ padding: "11px 24px", borderRadius: 9, background: "#3b82f6", color: "#fff", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14 }}
+          style={{ padding: "11px 24px", borderRadius: 9, background: "var(--primary-color)", color: "var(--bg-card)", border: "none", cursor: "pointer", fontWeight: 700, fontSize: 14 }}
         >
           {activating ? "…" : t("license.activate")}
         </button>
       </div>
-      <p style={{ fontSize: 12, color: "#94a3b8", marginTop: 10 }}>{t("license.hint")}</p>
+      <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 10 }}>{t("license.hint")}</p>
     </div>
   );
 }

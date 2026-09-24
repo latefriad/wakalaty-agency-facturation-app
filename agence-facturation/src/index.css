@@ -5,22 +5,49 @@
 }
 
 :root {
-  --bg-app: #f8fafc;
-  --bg-card: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-light: #e2e8f0;
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
+  /* CRM Dark Dashboard Concept Theme */
+  --bg-app: #13141C;
+  --bg-card: #1E1F2A;
+  --bg-hover: #292B38;
+  
+  --text-main: #FFFFFF;
+  --text-muted: #94A3B8;
+  
+  --border-color: rgba(255, 255, 255, 0.08);
+  
+  --primary-color: #6366F1; /* Vibrant Indigo/Purple */
+  --primary-hover: #4F46E5;
+  
+  --success: #10B981;
+  --danger: #EF4444;
+  --warning: #F59E0B;
+  
   --sidebar-w: 260px;
 }
 
+/* Light theme overrides if they ever toggle it back - but for now we enforce dark */
+html[data-theme="light"] {
+  /* You can put light mode variables here if needed later */
+}
+
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   background: var(--bg-app);
   color: var(--text-main);
   overflow-x: hidden;
+}
+
+/* Inputs, Selects, Textareas global dark styling */
+input, select, textarea {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  color-scheme: dark; /* forces native datepickers and scrollbars to dark mode */
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
 }
 
 /* Custom modern scrollbar */
@@ -32,9 +59,64 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--bg-hover);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--text-muted);
+}
+
+/* Fix some common elements that might have hardcoded backgrounds */
+button {
+  color: var(--text-main);
+}
+
+/* Override inline table backgrounds in dark mode */
+table {
+  background: transparent !important;
+}
+
+thead tr, th {
+  background: rgba(255, 255, 255, 0.02) !important;
+  color: var(--text-muted) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border-color) !important;
+  transition: background 0.2s;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+td {
+  color: var(--text-main) !important;
+}
+
+/* Modals */
+.modal-box {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Force dark card backgrounds on elements that might have missed the regex */
+.card, [style*="background: #fff"], [style*="background: rgb(255, 255, 255)"], [style*="background: #ffffff"] {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Let's make the text white everywhere by default if it was dark gray */
+[style*="color: #1e293b"], [style*="color: #0f172a"], [style*="color: #334155"], [style*="color: #475569"] {
+  color: var(--text-main) !important;
+}
+
+[style*="color: #64748b"], [style*="color: #94a3b8"] {
+  color: var(--text-muted) !important;
+}
+
+[style*="border-color: #e2e8f0"], [style*="border: 1px solid #e2e8f0"] {
+  border-color: var(--border-color) !important;
 }
