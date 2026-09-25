@@ -87,3 +87,22 @@ exports.remove = async (req, res, next) => {
     next(err);
   }
 };
+const { generateWithAI } = require("./contracts.service");
+
+async function generateAIHandler(req, res, next) {
+  try {
+    const { agencyId } = req;
+    const { prompt, clientId } = req.body;
+    
+    if (!prompt || !clientId) {
+      return res.status(400).json({ success: false, message: "Prompt et Client ID sont requis." });
+    }
+
+    const contract = await generateWithAI(agencyId, { prompt, clientId });
+    res.status(201).json({ success: true, data: contract });
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports.generateAIHandler = generateAIHandler;

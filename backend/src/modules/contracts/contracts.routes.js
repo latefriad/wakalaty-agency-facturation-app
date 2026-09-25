@@ -15,4 +15,6 @@ router.post("/generate", authorize("ADMIN"), contractsController.generate);
 router.put("/:id", authorize("ADMIN"), validate(updateContractSchema), contractsController.update);
 router.delete("/:id", authorize("ADMIN"), contractsController.remove);
 
+router.post("/generate-ai", authorize("ADMIN"), contractsController.generateAIHandler);
+
 module.exports = router;

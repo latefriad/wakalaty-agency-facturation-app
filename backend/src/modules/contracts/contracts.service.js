@@ -90,3 +90,65 @@ async function remove(agencyId, id) {
 }
 
 module.exports = { list, getById, create, update, remove };
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+async function generateWithAI(agencyId, { prompt, clientId }) {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error("Clé API Gemini manquante dans la configuration.");
+  }
+
+  // Vérifier si le client appartient à l'agence
+  await assertOwned("client", clientId, agencyId);
+
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  // On utilise flash car c'est rapide
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  const systemPrompt = `Tu es un assistant juridique expert pour une agence digitale algérienne.
+Le nom de l'utilisateur a fait une requête pour générer un contrat.
+Tu dois répondre STRICTEMENT en JSON valide sans aucun formatage markdown (sans \`\`\`json).
+Le JSON doit contenir les champs suivants :
+- "title": (chaîne) un titre professionnel pour le contrat.
+- "type": (chaîne) DOIT être l'une de ces valeurs exactes : "MARKETING", "ADS", "WEBSITE", "CAHIER". Choisis la plus proche.
+- "value": (nombre) le montant total en dinars algériens (DZD). Si non spécifié, mets 0.
+- "notes": (chaîne) le contenu complet et détaillé du contrat (termes, conditions, durée). Ce texte peut être long, structuré de façon professionnelle.
+
+Requête de l'utilisateur : "${prompt}"`;
+
+  const result = await model.generateContent(systemPrompt);
+  const text = result.response.text();
+  
+  // Nettoyage au cas où Gemini renvoie des backticks markdown
+  const cleanedText = text.replace(/```json/g, "").replace(/```/g, "").trim();
+  
+  let aiData;
+  try {
+    aiData = JSON.parse(cleanedText);
+  } catch (err) {
+    console.error("Erreur parsing JSON Gemini:", text);
+    throw new Error("L'IA n'a pas pu générer un contrat valide. Veuillez reformuler votre demande.");
+  }
+
+  // Création du contrat en BDD
+  const contract = await prisma.contract.create({
+    data: {
+      agencyId,
+      clientId,
+      title: aiData.title || "Contrat généré par IA",
+      type: ["MARKETING", "ADS", "WEBSITE", "CAHIER"].includes(aiData.type) ? aiData.type : "MARKETING",
+      value: Number(aiData.value) || 0,
+      notes: aiData.notes || "",
+      startDate: new Date(),
+    },
+    include: {
+      client: { select: { id: true, name: true } },
+    }
+  });
+
+  // Enregistrer l'événement
+  await logClientEvent(clientId, "CONTRACT_CREATED", `Contrat généré par IA : ${contract.title}`);
+
+  return contract;
+}
+
+module.exports.generateWithAI = generateWithAI;

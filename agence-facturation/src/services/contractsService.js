@@ -28,3 +28,9 @@ export async function generateContractAIContent(data) {
   const res = await api.post("/contracts/generate", data);
   return res.data;
 }
+
+export async function generateContractWithChat(data) {
+  // data: { prompt, clientId }
+  const res = await api.post("/contracts/generate-ai", data);
+  return res.data;
+}

@@ -4,7 +4,7 @@ import { useConfirm } from "../components/ConfirmProvider";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
 import { getClients } from "../services/clientsService";
-import { generateContractAIContent } from "../services/contractsService";
+import { generateContractAIContent, generateContractWithChat } from "../services/contractsService";
 import toast from "react-hot-toast";
 import { Plus, Trash2, FileText, Download, Eye, Search, Filter, X } from "lucide-react";
 import { format } from "date-fns";
@@ -43,6 +43,31 @@ export default function Contracts() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [showAiChat, setShowAiChat] = useState(false);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiClientId, setAiClientId] = useState("");
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const handleAiChatSubmit = async (e) => {
+    e.preventDefault();
+    if (!aiPrompt || !aiClientId) {
+      toast.error(t("Veuillez sélectionner un client et écrire un prompt."));
+      return;
+    }
+    setIsAiLoading(true);
+    try {
+      await generateContractWithChat({ prompt: aiPrompt, clientId: aiClientId });
+      toast.success(t("Contrat généré avec succès !"));
+      setShowAiChat(false);
+      setAiPrompt("");
+      setAiClientId("");
+      loadContracts(1); // refresh list
+    } catch (err) {
+      toast.error(err.message || "Erreur AI");
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
   const [showPreview, setShowPreview] = useState(false);
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState(emptyForm);
@@ -262,16 +287,25 @@ export default function Contracts() {
             {contracts.length} {t("ct.registered")}
           </p>
         </div>
-        <button
-          onClick={() => {
-            setForm(emptyForm);
-            setShowModal(true);
-          }}
-          className="btn-primary"
-        >
-          <Plus size={16} style={{ verticalAlign: "middle", marginLeft: 4 }} />
-          {t("ct.create")}
-        </button>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
+            onClick={() => setShowAiChat(true)}
+            className="btn-primary"
+            style={{ background: "linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)", boxShadow: "0 4px 12px rgba(168, 85, 247, 0.25)" }}
+          >
+            ✨ {dir === "rtl" ? "أنشئ بالذكاء الاصطناعي" : "Générer avec l'IA"}
+          </button>
+          <button
+            onClick={() => {
+              setForm(emptyForm);
+              setShowModal(true);
+            }}
+            className="btn-primary"
+          >
+            <Plus size={16} style={{ verticalAlign: "middle", marginLeft: 4 }} />
+            {t("ct.create")}
+          </button>
+        </div>
       </div>
 
       <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
@@ -666,6 +700,53 @@ export default function Contracts() {
         </div>
       )}
     </div>
+      {showAiChat && (
+        <div className="modal-overlay" onClick={(e) => { if (e.target.className === "modal-overlay") setShowAiChat(false); }}>
+          <div className="modal-box" style={{ maxWidth: 500 }}>
+            <h2 style={{ marginBottom: 20, fontSize: 18, color: "var(--text-main)", fontWeight: 700 }}>
+              ✨ Générer un Contrat avec l'IA
+            </h2>
+            <form onSubmit={handleAiChatSubmit}>
+              <div style={{ marginBottom: 16 }}>
+                <label className="form-label">Client</label>
+                <select
+                  className="form-input"
+                  value={aiClientId}
+                  onChange={(e) => setAiClientId(e.target.value)}
+                  required
+                >
+                  <option value="">Sélectionner un client...</option>
+                  {clients.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label className="form-label">Exigences / Prompt</label>
+                <textarea
+                  className="form-input"
+                  rows={4}
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  placeholder="Ex: Je veux un contrat de création de site web pour 150,000 DA, incluant la maintenance pour 1 an."
+                  required
+                />
+              </div>
+              <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+                <button type="button" className="btn-secondary" onClick={() => setShowAiChat(false)}>Annuler</button>
+                <button 
+                  type="submit" 
+                  className="btn-primary" 
+                  disabled={isAiLoading}
+                  style={{ background: "linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)", boxShadow: "0 4px 12px rgba(168, 85, 247, 0.25)" }}
+                >
+                  {isAiLoading ? "Génération..." : "✨ Générer"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
   );
 }
 
