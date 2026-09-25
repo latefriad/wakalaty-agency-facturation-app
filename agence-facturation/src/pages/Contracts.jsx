@@ -699,7 +699,6 @@ export default function Contracts() {
           </div>
         </div>
       )}
-    </div>
       {showAiChat && (
         <div className="modal-overlay" onClick={(e) => { if (e.target.className === "modal-overlay") setShowAiChat(false); }}>
           <div className="modal-box" style={{ maxWidth: 500 }}>
@@ -747,6 +746,7 @@ export default function Contracts() {
           </div>
         </div>
       )}
+    </div>
   );
 }
 
