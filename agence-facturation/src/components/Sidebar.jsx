@@ -20,7 +20,6 @@ const ADMIN_MENU = [
       { path: "/leads", key: "nav.leads", icon: "🎯" },
       { path: "/clients", key: "nav.clients", icon: "👥" },
       { path: "/client-reports", key: "nav.clientReports", icon: "📑" },
-      { path: "/contracts", key: "nav.contracts", icon: "📄" },
     ]
   },
   {
